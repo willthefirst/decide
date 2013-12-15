@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Soji Options</title>
+	<link href="/css/options.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="wrapper">
+		<h1 class="page-title">Soji Options</h1>
+		<section>
+			<table class="rules-saved">
+				<tbody>
+					<tr>
+						<th>Website</th>
+						<th>Use it for...</th>
+						<th></th>
+					</tr>
+					<tr>
+						<form>
+							<td class="rules-saved__site">
+								<input type="text" placeholder="example.com" required />
+							</td>
+							<td>
+								<input type="number" class="block-num"min="0" max="10"placeholder="2" required />
+								<span>x</span>
+								<input type="number" class="block-time" min="0" max="60" placeholder="30" />
+								<span>minutes per day</span>
+							</td>
+
+							<td>
+								<input type="button" value="Save" class="action-save" />
+							</td>
+						</form>
+					</tr>
+					<tr>
+						<form>
+							<td class="rules-saved__site">
+								<input type="text" value="facebook.com" />
+							</td>
+							<td>
+								<input type="number" class="block-num" value="3" />
+								<span>x</span>
+								<input type="number" class="block-time" value="30" />
+								<span>minutes per day</span>
+
+							</td>
+							<td>
+								<input type="button" value="Remove" class="action-delete" />
+								<input type="button" value="Save" class="action-save" />
+							</td>
+						</form>
+					</tr>
+				</tbody>
+			</table>
+				</div>
+		</section>
+</body>
+</html>

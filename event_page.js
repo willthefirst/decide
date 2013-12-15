@@ -57,9 +57,11 @@ function setup() {
 			registerRules();
 		}
 	});
-
-
 };
 
 // This is triggered when the extension is installed or updated.
 chrome.runtime.onInstalled.addListener(setup);
+
+// Next: prompt and store user input
+// https://gomockingbird.com/mockingbird/#gzb5vxa/sCsPR
+// https://developer.chrome.com/extensions/storage.html

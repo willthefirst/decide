@@ -1,0 +1,182 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 17, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 21, ../scss/options.scss */
+.center-txt {
+  text-align: center;
+}
+
+/* line 47, ../scss/options.scss */
+h1, h2, h3 {
+  font-weight: bold;
+}
+
+/* line 51, ../scss/options.scss */
+h1 {
+  font-size: 34px;
+  line-height: 51px;
+}
+
+/* line 56, ../scss/options.scss */
+h2 {
+  font-size: 30px;
+  line-height: 45px;
+}
+
+/* line 61, ../scss/options.scss */
+h3 {
+  font-size: 24px;
+  line-height: 36px;
+}
+
+/* line 68, ../scss/options.scss */
+body {
+  background-color: #fefefe;
+  font-family: monospace;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+/* line 75, ../scss/options.scss */
+input[type=text],
+input[type=number] {
+  display: inline-block;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #0b0b0b;
+  background-color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
+/* line 85, ../scss/options.scss */
+input[type=text]:focus,
+input[type=number]:focus {
+  outline: none;
+}
+
+/* line 90, ../scss/options.scss */
+input[type=button] {
+  font-size: inherit;
+  font-family: inherit;
+  background-color: inherit;
+  padding: 8px;
+  border: 2px solid #f06347;
+  cursor: pointer;
+}
+/* line 98, ../scss/options.scss */
+input[type=button]:hover {
+  background-color: #f06347;
+  color: #fefefe;
+}
+/* line 103, ../scss/options.scss */
+input[type=button]:focus {
+  outline: 0;
+  background-color: #f02727;
+  border-color: #f02727;
+  color: #fefefe;
+}
+
+/* line 111, ../scss/options.scss */
+.module {
+  border-radius: 3px;
+  padding: 6px 14px;
+  margin-bottom: 16px;
+}
+
+/* line 120, ../scss/options.scss */
+.wrapper {
+  margin: auto;
+  max-width: 940px;
+  padding: 12px;
+}
+
+/* line 126, ../scss/options.scss */
+.page-title {
+  margin-bottom: 16px;
+}
+
+/* line 130, ../scss/options.scss */
+.block-num {
+  width: 40px;
+}
+
+/* line 134, ../scss/options.scss */
+.block-time {
+  width: 50px;
+}
+
+/* line 138, ../scss/options.scss */
+.rules-saved {
+  text-align: left;
+}
+/* line 141, ../scss/options.scss */
+.rules-saved td, .rules-saved th {
+  padding: 4px 16px 4px 0;
+}

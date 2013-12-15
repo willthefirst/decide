@@ -10,9 +10,9 @@
   	"declarativeWebRequest",
    	"<all_urls>"
   ],
-
   "background": {
     "scripts": ["event_page.js"],
     "persistent": false
-  }
+  },
+  "options_page" : "admin/options.html"
 }
