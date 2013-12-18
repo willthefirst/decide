@@ -43,6 +43,15 @@ var registerRules = function() {
 		[redirectRule], callback);
 };
 
+var saveSites = function() {
+
+	chrome.storage.sync.set({'value': 'tester'}, function() {
+	  // Notify that we saved.
+	  alert('Settings saved');
+	});
+
+};
+
 // https://developer.chrome.com/extensions/examples/extensions/catifier/event_page.js
 function setup() {
   // This function is also called when the extension has been updated.  Because
@@ -57,6 +66,8 @@ function setup() {
 			registerRules();
 		}
 	});
+
+  // saveSites();
 };
 
 // This is triggered when the extension is installed or updated.
