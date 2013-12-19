@@ -45,10 +45,7 @@ var registerRules = function() {
 
 var saveSites = function() {
 
-	chrome.storage.sync.set({'value': 'tester'}, function() {
-	  // Notify that we saved.
-	  alert('Settings saved');
-	});
+
 
 };
 

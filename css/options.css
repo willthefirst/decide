@@ -98,7 +98,7 @@ h3 {
 /* line 68, ../scss/options.scss */
 body {
   background-color: #fefefe;
-  font-family: monospace;
+  font-family: sans-serif;
   font-size: 20px;
   line-height: 30px;
 }
@@ -153,7 +153,7 @@ input[type=button]:focus {
 /* line 120, ../scss/options.scss */
 .wrapper {
   margin: auto;
-  max-width: 940px;
+  max-width: 1200px;
   padding: 12px;
 }
 
@@ -163,20 +163,25 @@ input[type=button]:focus {
 }
 
 /* line 130, ../scss/options.scss */
+.domain {
+  width: 193px;
+}
+
+/* line 134, ../scss/options.scss */
 .block-num {
   width: 40px;
 }
 
-/* line 134, ../scss/options.scss */
+/* line 138, ../scss/options.scss */
 .block-time {
   width: 50px;
 }
 
-/* line 138, ../scss/options.scss */
+/* line 142, ../scss/options.scss */
 .rules-saved {
   text-align: left;
 }
-/* line 141, ../scss/options.scss */
+/* line 145, ../scss/options.scss */
 .rules-saved td, .rules-saved th {
   padding: 4px 16px 4px 0;
 }

@@ -67,7 +67,7 @@ h3 {
 
 body {
 	background-color: $white;
-	font-family: monospace;
+	font-family: sans-serif;
 	@include size-4;
 }
 
@@ -119,12 +119,16 @@ input[type=button] {
 
 .wrapper {
 	margin: auto;
-	max-width: 940px;
+	max-width: 1200px;
 	padding: 12px;
 }
 
 .page-title {
 	margin-bottom: $vert-space;
+}
+
+.domain {
+	width: 193px;
 }
 
 .block-num {
