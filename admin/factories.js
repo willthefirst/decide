@@ -4,7 +4,7 @@ decide.factory('redirectRules', function () {
 
 	// Duplicated from event_page.js
 	var config = {
-		redirectUrl: 'http://www.yahoo.com'
+		redirectUrl: chrome.extension.getURL('redirect.html')
 	};
 
 	// Utility variables

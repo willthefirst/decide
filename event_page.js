@@ -1,6 +1,6 @@
 // Configuration
 var config = {
-	redirectUrl: 'http://www.yahoo.com'
+	redirectUrl: chrome.extension.getURL('redirect.html')
 };
 
 // Utility variables
