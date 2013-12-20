@@ -8,16 +8,22 @@ var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectRequest = chrome.declarativeWebRequest.RedirectRequest;
 
 // Register rules
-var registerRules = function() {
+var registerRules = function( domain_list ) {
 
-	var redirectRule = {
-		conditions: [
+	var domain_conditions = [];
+
+	for (var i = 0; i < domain_list.length; i++ ) {
+		domain_conditions.push(
 			new RequestMatcher({
 				url: {
-					hostContains: 'gmail.com'
+					hostContains: domain_list[i]
 				}
 			})
-		],
+		);
+	}
+
+	var redirectRule = {
+		conditions: domain_conditions,
 		actions: [
 			new RedirectRequest({
 				redirectUrl: config.redirectUrl
@@ -43,12 +49,6 @@ var registerRules = function() {
 		[redirectRule], callback);
 };
 
-var saveSites = function() {
-
-
-
-};
-
 // https://developer.chrome.com/extensions/examples/extensions/catifier/event_page.js
 function setup() {
   // This function is also called when the extension has been updated.  Because
@@ -60,16 +60,28 @@ function setup() {
 		if (chrome.runtime.lastError) {
 			alert('Error clearing rules: ' + chrome.runtime.lastError);
 		} else {
-			registerRules();
+			var domain_list = [];
+
+			chrome.storage.sync.get('entries', function( data ) {
+				for ( var i = 0; i < data.entries.length; i++) {
+					domain_list.push(data.entries[i].domain);
+				}
+
+				if (domain_list.length > 0) {
+					registerRules(domain_list);
+				}
+				else {
+					clearRules( function() {
+						console.log('No rules registered.');
+					});
+				}
+			});
 		}
 	});
-
-  // saveSites();
-};
+}
 
 // This is triggered when the extension is installed or updated.
 chrome.runtime.onInstalled.addListener(setup);
 
 // Next: prompt and store user input
 // https://gomockingbird.com/mockingbird/#gzb5vxa/sCsPR
-// https://developer.chrome.com/extensions/storage.html

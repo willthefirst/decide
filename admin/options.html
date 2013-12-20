@@ -6,6 +6,7 @@
 	<link href="/css/options.css" rel="stylesheet" type="text/css">
 	<script src="angular.min.js"></script>
 	<script src="controllers.js"></script>
+	<script src="factories.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -26,11 +27,10 @@
 					<input type="number" ng-model="entry.duration" class="block-time" min="0" max="60" value="{{ entry.duration }}"  />-minute blocks,
 					<input type="number" ng-model="entry.periods" class="block-num"min="0" max="10" value=" {{ entry.periods }}" required />
 					<span>times per day.</span>
-					<input type="button" ng-click="deleteEntry(entry)" value="Remove" class="action-delete" />
+					<input type="button" ng-click="removeEntry(entry)" value="Remove" class="action-delete" />
 					<input type="button" ng-click="updateEntry(entry)" value="Update" class="action-save" />
 				</li>
 			</ul>
-			{{ entries }}
 		</form>
 	</div>
 </body>
