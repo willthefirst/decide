@@ -10,10 +10,12 @@
 <body>
 	<h2>Redirected</h2>
 	<form ng-controller="Allow">
-		<button>
-			I want to use {{ redirectedDomain.url }} efficiently.
+		<button ng-click="usePeriod()">
+			I want to use {{ redirectedDomain.domain }} efficiently.
 		</button>
-		<p>You have {{ redirectedDomain.periodsLeft }} {{ redirectedDomain.periodLength }}-minute blocks remaining today.</p>
+		<p>
+			You have {{ redirectedDomain.periodsLeft }} {{ redirectedDomain.periodLength }}-minute blocks remaining today.
+		</p>
 	</form>
 </body>
 </html>

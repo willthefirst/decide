@@ -17,8 +17,11 @@ decide.controller('NewEntry', function ( $scope, redirectRules, storage ) {
 	});
 
 	$scope.saveNewEntry = function( entry ) {
-		// TODO convert this to the new factory method.
-		console.log(entries);
+
+		// Add additional props for a new entry
+		entry.periodsLeft = entry.periods;
+		entry.periodBeingUsed = false;
+
 		entries.push(entry);
 		storage.update(entries, function() {
 			redirectRules.refreshFromLocal();

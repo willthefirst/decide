@@ -15,7 +15,7 @@
 			<span>I will only focus on</span>
 			<input type="text" ng-model="newEntry.domain" placeholder="example.com" class="domain" required />
 			for
-			<input type="number" ng-model="newEntry.duration" class="block-time" min="0" max="60" placeholder="30" />-minute blocks,
+			<input type="number" ng-model="newEntry.periodLength" class="block-time" min="0" max="60" placeholder="30" />-minute blocks,
 			<input type="number" ng-model="newEntry.periods" class="block-num"min="0" max="10"placeholder="2" required />
 			<span>times per day.</span>
 			<input type="button" value="Save" class="action-save" ng-click="saveNewEntry(newEntry)" />

@@ -8,11 +8,31 @@ redirect.controller('Allow', function ( $scope, storage ) {
 	// TODO: make this set to query in URL.
 	var queryUrl = "google.com"
 
-	storage.domain_info( queryUrl, function(domain_props) {
-		console.log(domain_props);
-		redirectedDomain.url = domain_props.domain;
-		redirectedDomain.periodLength = domain_props.duration;
-		redirectedDomain.periodsLeft = domain_props.periods;
+	storage.getDomainInfo( queryUrl, function(domain_props) {
+		redirectedDomain.domain = domain_props.domain;
+		redirectedDomain.periodLength = domain_props.periodLength;
+		redirectedDomain.periodsLeft = domain_props.periodsLeft;
 		$scope.$apply();
 	})
+
+	$scope.usePeriod = function() {
+
+		// Lift redirect rule on this domain.
+		storage.updateDomainInfo(
+			redirectedDomain.domain,
+			{
+				periodBeingUsed : true,
+			},
+			function() {
+				storage.getDomainInfo( queryUrl, function(domain_props) {
+					console.log('callback:', domain_props);
+				}
+			);
+		});
+
+		// Set timeLeftInPeriod.
+
+
+
+	}
 });

@@ -34,11 +34,9 @@ decide.factory('redirectRules', function () {
 		}
 
 		var callback = function() {
-			console.log('herenow');
 			if (chrome.runtime.lastError) {
 				console.error('Error adding rules: ' + chrome.runtime.lastError);
 			} else {
-				console.info('Rules successfully updated');
 				chrome.declarativeWebRequest.onRequest.getRules(null,
 					function(rules) {
 						console.info('Now the following rules are registered: ' +
@@ -59,7 +57,6 @@ decide.factory('redirectRules', function () {
 				if (chrome.runtime.lastError) {
 					alert('Error clearing rules: ' + chrome.runtime.lastError);
 				} else {
-					console.log('Rules cleared here');
 					var domain_list = [];
 					chrome.storage.sync.get('entries', function( data ) {
 
