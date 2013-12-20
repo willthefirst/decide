@@ -13,12 +13,17 @@ decide.factory('redirectRules', function () {
 
 	// Register rules
 	var registerRules = function( domain_list ) {
-
 		var rules = [];
 
 		for (var i = 0; i < domain_list.length; i++ ) {
 			var redirectRule = {
-				conditions: domain_list[i],
+				conditions: [
+					new RequestMatcher({
+						url: {
+								hostContains: domain_list[i]
+						}
+					})
+				],
 				actions: [
 					new RedirectRequest({
 						redirectUrl: ( config.redirectUrl + '?' + domain_list[i] )
@@ -28,9 +33,8 @@ decide.factory('redirectRules', function () {
 			rules.push(redirectRule);
 		}
 
-		console.log(rules);
-
 		var callback = function() {
+			console.log('herenow');
 			if (chrome.runtime.lastError) {
 				console.error('Error adding rules: ' + chrome.runtime.lastError);
 			} else {
@@ -55,11 +59,11 @@ decide.factory('redirectRules', function () {
 				if (chrome.runtime.lastError) {
 					alert('Error clearing rules: ' + chrome.runtime.lastError);
 				} else {
+					console.log('Rules cleared here');
 					var domain_list = [];
-
 					chrome.storage.sync.get('entries', function( data ) {
-						console.log(data.entries.length);
-						for ( var i = 0; i < data.entries.length; i++) {
+
+ 						for ( var i = 0; i < data.entries.length; i++) {
 							domain_list.push(data.entries[i].domain);
 						}
 

@@ -14,7 +14,13 @@ var registerRules = function( domain_list ) {
 
 	for (var i = 0; i < domain_list.length; i++ ) {
 		var redirectRule = {
-			conditions: domain_list[i],
+			conditions: [
+				new RequestMatcher({
+					url: {
+						hostContains: domain_list[i]
+					}
+				})
+			],
 			actions: [
 				new RedirectRequest({
 					redirectUrl: ( config.redirectUrl + '?' + domain_list[i] )
@@ -23,8 +29,6 @@ var registerRules = function( domain_list ) {
 		};
 		rules.push(redirectRule);
 	}
-
-	console.log(rules);
 
 	var callback = function() {
 		if (chrome.runtime.lastError) {
@@ -56,7 +60,6 @@ function setup() {
 			alert('Error clearing rules: ' + chrome.runtime.lastError);
 		} else {
 			var domain_list = [];
-
 			chrome.storage.sync.get('entries', function( data ) {
 				for ( var i = 0; i < data.entries.length; i++) {
 					domain_list.push(data.entries[i].domain);
