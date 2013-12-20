@@ -54,61 +54,57 @@ decide.factory('redirectRules', function () {
 	};
 
 	var clearRules = function( callback ) {
+
+	}
+
+	var refreshFromLocal = function() {
 		chrome.declarativeWebRequest.onRequest.removeRules(
 			null,
 			function() {
 				if (chrome.runtime.lastError) {
 					alert('Error clearing rules: ' + chrome.runtime.lastError);
 				} else {
-					callback();
+					var domain_list = [];
+
+					chrome.storage.sync.get('entries', function( data ) {
+						for ( var i = 0; i < data.entries.length; i++) {
+							domain_list.push(data.entries[i].domain);
+						}
+
+						console.log('z domain_list=', domain_list);
+						if (domain_list.length > 0) {
+							registerRules(domain_list);
+						}
+						else {
+							clearRules( function() {
+								console.log('No rules registered.');
+							});
+						}
+					});
 				}
 			}
 		);
-	}
-
-	var refreshFromLocal = function() {
-
-		clearRules( function() {
-			var domain_list = [];
-
-			chrome.storage.sync.get('entries', function( data ) {
-				for ( var i = 0; i < data.entries.length; i++) {
-					domain_list.push(data.entries[i].domain);
-				}
-
-				if (domain_list.length > 0) {
-					registerRules(domain_list);
-				}
-				else {
-					clearRules( function() {
-						console.log('No rules registered.');
-					});
-				}
-			});
-		});
 	};
 
 	return {
 		'refreshFromLocal' : refreshFromLocal
 	};
-}).factory( 'storage' , function() {
-	var STORAGE_ID = 'entries';
 
-	var getStorage = function( callback ) {
-		chrome.storage.sync.get( STORAGE_ID, function( data ) {
-			callback(data);
-		});
-	};
+}).factory( 'storage' , function() {
 
 	return {
-		get: getStorage( function(data) {
-			console.log(data);
-			return data;
-		}),
-		update: function( array ) {
+		get: function( callback ) {
+			chrome.storage.sync.get( 'entries', function( data ) {
+				callback(data);
+			});
+		},
+		update: function( array, callback ) {
 			// Update entries in local storage
-			chrome.storage.sync.set( { STORAGE_ID: array } , function() {
-				return;
+			chrome.storage.sync.set( { 'entries': array } , function() {
+				chrome.storage.sync.get( 'entries', function( data ) {
+					console.log(data);
+				});
+				callback();
 			});
 		}
 	};

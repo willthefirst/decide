@@ -20,7 +20,7 @@
 			<span>times per day.</span>
 			<input type="button" value="Save" class="action-save" ng-click="saveNewEntry(newEntry)" />
 			<ul class="saved-entries">
-				<li ng-repeat="entry in entries">
+				<li ng-repeat="entry in entries track by $index">
 					<span>I will only focus on</span>
 					<input type="text" ng-model="entry.domain" value="{{ entry.domain }}" class="domain" required />
 					for
