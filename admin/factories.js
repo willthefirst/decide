@@ -4,8 +4,8 @@ decide.factory('redirectRules', function () {
 
 	// Duplicated from event_page.js
 	var config = {
-		redirectUrl: chrome.extension.getURL('redirect.html')
-	};
+		redirectUrl: chrome.extension.getURL('redirect/index.html')
+		};
 
 	// Utility variables
 	var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
@@ -14,26 +14,21 @@ decide.factory('redirectRules', function () {
 	// Register rules
 	var registerRules = function( domain_list ) {
 
-		var domain_conditions = [];
+		var rules = [];
 
 		for (var i = 0; i < domain_list.length; i++ ) {
-			domain_conditions.push(
-				new RequestMatcher({
-					url: {
-						hostContains: domain_list[i]
-					}
-				})
-			);
+			var redirectRule = {
+				conditions: domain_list[i],
+				actions: [
+					new RedirectRequest({
+						redirectUrl: ( config.redirectUrl + '?' + domain_list[i] )
+					})
+				]
+			};
+			rules.push(redirectRule);
 		}
 
-		var redirectRule = {
-			conditions: domain_conditions,
-			actions: [
-				new RedirectRequest({
-					redirectUrl: config.redirectUrl
-				})
-			]
-		};
+		console.log(rules);
 
 		var callback = function() {
 			if (chrome.runtime.lastError) {
@@ -50,12 +45,8 @@ decide.factory('redirectRules', function () {
 		};
 
 		chrome.declarativeWebRequest.onRequest.addRules(
-			[redirectRule], callback);
+			rules, callback);
 	};
-
-	var clearRules = function( callback ) {
-
-	}
 
 	var refreshFromLocal = function() {
 		chrome.declarativeWebRequest.onRequest.removeRules(
@@ -67,18 +58,25 @@ decide.factory('redirectRules', function () {
 					var domain_list = [];
 
 					chrome.storage.sync.get('entries', function( data ) {
+						console.log(data.entries.length);
 						for ( var i = 0; i < data.entries.length; i++) {
 							domain_list.push(data.entries[i].domain);
 						}
 
-						console.log('z domain_list=', domain_list);
 						if (domain_list.length > 0) {
 							registerRules(domain_list);
 						}
 						else {
-							clearRules( function() {
-								console.log('No rules registered.');
-							});
+							chrome.declarativeWebRequest.onRequest.removeRules(
+								null,
+								function() {
+									if (chrome.runtime.lastError) {
+										alert('Error clearing rules: ' + chrome.runtime.lastError);
+									} else {
+										console.log('No rules registered.');
+									}
+								}
+							);
 						}
 					});
 				}
@@ -101,9 +99,6 @@ decide.factory('redirectRules', function () {
 		update: function( array, callback ) {
 			// Update entries in local storage
 			chrome.storage.sync.set( { 'entries': array } , function() {
-				chrome.storage.sync.get( 'entries', function( data ) {
-					console.log(data);
-				});
 				callback();
 			});
 		}

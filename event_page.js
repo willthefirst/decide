@@ -1,6 +1,6 @@
 // Configuration
 var config = {
-	redirectUrl: chrome.extension.getURL('redirect.html')
+	redirectUrl: chrome.extension.getURL('redirect/index.html')
 };
 
 // Utility variables
@@ -10,32 +10,27 @@ var RedirectRequest = chrome.declarativeWebRequest.RedirectRequest;
 // Register rules
 var registerRules = function( domain_list ) {
 
-	var domain_conditions = [];
+	var rules = [];
 
 	for (var i = 0; i < domain_list.length; i++ ) {
-		domain_conditions.push(
-			new RequestMatcher({
-				url: {
-					hostContains: domain_list[i]
-				}
-			})
-		);
+		var redirectRule = {
+			conditions: domain_list[i],
+			actions: [
+				new RedirectRequest({
+					redirectUrl: ( config.redirectUrl + '?' + domain_list[i] )
+				})
+			]
+		};
+		rules.push(redirectRule);
 	}
 
-	var redirectRule = {
-		conditions: domain_conditions,
-		actions: [
-			new RedirectRequest({
-				redirectUrl: config.redirectUrl
-			})
-		]
-	};
+	console.log(rules);
 
 	var callback = function() {
 		if (chrome.runtime.lastError) {
 			console.error('Error adding rules: ' + chrome.runtime.lastError);
 		} else {
-			console.info('Rules successfully installed');
+			console.info('Rules successfully updated');
 			chrome.declarativeWebRequest.onRequest.getRules(null,
 				function(rules) {
 					console.info('Now the following rules are registered: ' +
@@ -46,7 +41,7 @@ var registerRules = function( domain_list ) {
 	};
 
 	chrome.declarativeWebRequest.onRequest.addRules(
-		[redirectRule], callback);
+		rules, callback);
 };
 
 // https://developer.chrome.com/extensions/examples/extensions/catifier/event_page.js
@@ -71,9 +66,16 @@ function setup() {
 					registerRules(domain_list);
 				}
 				else {
-					clearRules( function() {
-						console.log('No rules registered.');
-					});
+					chrome.declarativeWebRequest.onRequest.removeRules(
+						null,
+						function() {
+							if (chrome.runtime.lastError) {
+								alert('Error clearing rules: ' + chrome.runtime.lastError);
+							} else {
+								console.log('Rules cleared.');
+							}
+						}
+					);
 				}
 			});
 		}
