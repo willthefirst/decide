@@ -26,7 +26,7 @@ decide.factory('redirectRules', function () {
 				],
 				actions: [
 					new RedirectRequest({
-						redirectUrl: ( config.redirectUrl + '?' + domain_list[i] )
+						redirectUrl: ( config.redirectUrl + '?' + 'domain=' + domain_list[i] )
 					})
 				]
 			};
