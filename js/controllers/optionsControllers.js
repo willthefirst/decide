@@ -1,8 +1,7 @@
 'use strict';
 
-var decide = angular.module('decide', []);
-
-decide.controller('NewEntry', function ( $scope, redirectRules, storage ) {
+angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
+.controller('NewEntry', function ( $scope, redirectRules, storage ) {
 
 	var entries;
 

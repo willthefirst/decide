@@ -1,6 +1,7 @@
 'use strict';
 
-redirect.factory('storage', function() {
+angular.module('focusMeNow.factories', [])
+.factory('storage', function() {
 
 	// Gets object or index for specified domain (domain) from all entries (localData)
 	// NEXT:something must be buggy here, affecting both the callback and the wierdness in updateDomainInfo
@@ -46,32 +47,30 @@ redirect.factory('storage', function() {
 
 			var local_data;
 
-				getAllLocalInfo(function(data) {
+			getAllLocalInfo(function(data) {
 
-					// Note: there is a very strange bug when console.log(data), at least in the chrome web inspector.
-					// console.log(data) -> data.entries[0].periodBeingUsed is true. (this is wrong)
-					// console.log(data.entries[0].periodBeingUsed) -> data.entries[0].periodBeingUsed is false. (this is right)
+				// Note: there is a very strange bug when console.log(data), at least in the chrome web inspector.
+				// console.log(data) -> data.entries[0].periodBeingUsed is true. (this is wrong)
+				// console.log(data.entries[0].periodBeingUsed) -> data.entries[0].periodBeingUsed is false. (this is right)
 
-					// Create the new entry
-					var new_entry = localDomainInfo( redirectedDomain, data, 'object' );
-					var i = 0;
-					for (i in propsToUpdate) {
-						new_entry[i] = propsToUpdate[i];
-					};
+				// Create the new entry
+				var new_entry = localDomainInfo( redirectedDomain, data, 'object' );
+				var i = 0;
+				for (i in propsToUpdate) {
+					new_entry[i] = propsToUpdate[i];
+				};
 
-					// Find the index of correct entry and update
-					var new_entry_index = localDomainInfo( redirectedDomain, data, 'index' );
-					data.entries[new_entry_index] = new_entry;
+				// Find the index of correct entry and update
+				var new_entry_index = localDomainInfo( redirectedDomain, data, 'index' );
+				data.entries[new_entry_index] = new_entry;
 
-					// Update the whole entries object in local storage.
+				// Update the whole entries object in local storage.
 
-					chrome.storage.sync.set( { 'entries' : data.entries }, function() {
-						callback();
-					});
-
+				chrome.storage.sync.set( { 'entries' : data.entries }, function() {
+					callback();
 				});
-			// });
 
+			});
 		}
 	};
 });

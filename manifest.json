@@ -15,5 +15,5 @@
     "scripts": ["event_page.js"],
     "persistent": false
   },
-  "options_page" : "admin/options.html"
+  "options_page" : "views/options.html"
 }

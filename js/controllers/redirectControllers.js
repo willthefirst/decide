@@ -1,10 +1,7 @@
 'use strict';
 
-var redirect = angular.module('redirect', []).config(['$locationProvider', function($locationProvider) {
-     $locationProvider.html5Mode(true);
-}]);
-
-redirect.controller('Allow', function ( $scope, $location, storage ) {
+angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
+.controller('Allow', function ( $scope, $location, storage ) {
 	var redirectedDomain = $scope.redirectedDomain = {};
 
 	// TODO: make this set to query in URL.

@@ -1,11 +1,12 @@
 'use strict';
 
-decide.factory('redirectRules', function () {
+angular.module('focusMeNow.factories', [])
+.factory('redirectRules', function () {
 
 	// Duplicated from event_page.js
 	var config = {
-		redirectUrl: chrome.extension.getURL('redirect/index.html')
-		};
+		redirectUrl: chrome.extension.getURL('views/redirect.html')
+	};
 
 	// Utility variables
 	var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
