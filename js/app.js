@@ -12,6 +12,6 @@ var focusMeNow = angular.module('focusMeNow', [
 
 // Duplicate to event_page.js
 var config = {
-	debug: true,
+	debug: false,
 	redirectUrl: chrome.extension.getURL('views/redirect.html')
 };

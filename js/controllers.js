@@ -82,6 +82,9 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 			// If periods remain
 			else {
 
+				// Set alarm for end of period
+				alarms.set ( redirectedDomain.domain, domain_props.periodLength );
+
 				// Lift redirect rule on this domain.
 				storage.updateDomainInfo(
 					domain_props.domain,
@@ -91,13 +94,10 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 					},
 					function() {
 						redirectRules.refreshFromLocal();
+						// Redirect to specified page, MUST happen at end of this function
+						letPass($location.search().original);
 					}
 				);
-
-				// Set alarm for end of period
-				alarms.set ( redirectedDomain.domain, domain_props.periodLength );
-
-				// Redirect to specified page, MUST happen at end of this function
 			}
 
 		} );
