@@ -4,7 +4,7 @@ angular.module('focusMeNow.factories', [])
 .factory( 'storage' , function() {
 
 	// Gets object or index for specified domain (domain) from all entries (localData)
-	// NEXT:something must be buggy here, affecting both the callback and the wierdness in updateDomainInfo
+	// NEXT: something must be buggy here, affecting both the callback and the wierdness in updateDomainInfo
 	var localDomainInfo = function( domain, localData, returnType ) {
 		if (!localData.entries) {
 			console.error('Nothing in local storage.');
@@ -55,8 +55,6 @@ angular.module('focusMeNow.factories', [])
 
 		updateDomainInfo: function( redirectedDomain, propsToUpdate, callback ) {
 
-			var local_data;
-
 			getAllLocalInfo(function(data) {
 
 				// Note: there is a very strange bug when console.log(data), at least in the chrome web inspector.
@@ -95,27 +93,34 @@ angular.module('focusMeNow.factories', [])
 	var RedirectRequest = chrome.declarativeWebRequest.RedirectRequest;
 
 	// Register rules
-	var registerRules = function( domain_list ) {
+	var registerRules = function( data ) {
 		var rules = [];
-
-		for (var i = 0; i < domain_list.length; i++ ) {
-			var redirectRule = {
-				conditions: [
-					new RequestMatcher({
-						url: {
-								hostContains: domain_list[i]
-						}
-					})
-				],
-				actions: [
-					new RedirectRequest({
-						redirectUrl: ( config.redirectUrl + '?' + 'domain=' + domain_list[i] )
-					})
-				]
-			};
-			rules.push(redirectRule);
+		var entries = data.entries;
+		for ( var i = 0; i < entries.length; i++) {
+			// If period is in use, skip
+			if (entries[i].periodBeingUsed) {
+				console.log('Period being used, skipping.');
+			}
+			else {
+				var redirectRule = {
+					conditions: [
+						new RequestMatcher({
+							url: {
+									hostContains: entries[i].domain
+							}
+						})
+					],
+					actions: [
+						new RedirectRequest({
+							redirectUrl: ( config.redirectUrl + '?' + 'domain=' + entries[i].domain )
+						})
+					]
+				};
+				rules.push(redirectRule);
+			}
 		}
 
+		// Callback after rules are accepted
 		var callback = function() {
 			if (chrome.runtime.lastError) {
 				console.error('Error adding rules: ' + chrome.runtime.lastError);
@@ -140,15 +145,9 @@ angular.module('focusMeNow.factories', [])
 				if (chrome.runtime.lastError) {
 					alert('Error clearing rules: ' + chrome.runtime.lastError);
 				} else {
-					var domain_list = [];
 					chrome.storage.sync.get('entries', function( data ) {
-
-						for ( var i = 0; i < data.entries.length; i++) {
-							domain_list.push(data.entries[i].domain);
-						}
-
-						if (domain_list.length > 0) {
-							registerRules(domain_list);
+						if (data.entries.length > 0) {
+							registerRules(data);
 						}
 						else {
 							chrome.declarativeWebRequest.onRequest.removeRules(
@@ -172,4 +171,25 @@ angular.module('focusMeNow.factories', [])
 		'refreshFromLocal' : refreshFromLocal
 	};
 
-});;
+}).factory('alarms', function() {
+
+	return {
+		set: function( domain , periodLength ) {
+			chrome.alarms.create(domain, {
+				delayInMinutes: periodLength
+			});
+			chrome.alarms.get(domain, function(alarm){
+				if (!alarm) {
+					console.error('Alarm failed to set.')
+				}
+				else {
+					var rings = new Date(alarm.scheduledTime);
+					console.log(domain, 'period started, ends on', rings );
+
+
+				}
+
+			});
+		}
+	};
+});

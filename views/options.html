@@ -12,12 +12,12 @@
 <body>
 	<div class="wrapper">
 		<h1 class="page-title">Soji Options</h1>
-		<form ng-controller="NewEntry">
+		<form ng-controller="Options">
 			<span>I will only focus on</span>
 			<input type="text" ng-model="newEntry.domain" placeholder="example.com" class="domain" required />
 			for
 			<input type="number" ng-model="newEntry.periodLength" class="block-time" min="0" max="60" placeholder="30" />-minute blocks,
-			<input type="number" ng-model="newEntry.periods" class="block-num"min="0" max="10"placeholder="2" required />
+			<input type="number" ng-model="newEntry.periods" class="block-num" min="0" max="99" placeholder="2" required />
 			<span>times per day.</span>
 			<input type="button" value="Save" class="action-save" ng-click="saveNewEntry(newEntry)" />
 			<ul class="saved-entries">
@@ -25,8 +25,8 @@
 					<span>I will only focus on</span>
 					<input type="text" ng-model="entry.domain" value="{{ entry.domain }}" class="domain" required />
 					for
-					<input type="number" ng-model="entry.duration" class="block-time" min="0" max="60" value="{{ entry.duration }}"  />-minute blocks,
-					<input type="number" ng-model="entry.periods" class="block-num"min="0" max="10" value=" {{ entry.periods }}" required />
+					<input type="number" ng-model="entry.periodLength" class="block-time" min="0" max="60" value="{{ entry.periodLength }}"  />-minute blocks,
+					<input type="number" ng-model="entry.periods" class="block-num" min="0" max="99" value=" {{ entry.periods }}" required />
 					<span>times per day.</span>
 					<input type="button" ng-click="removeEntry(entry)" value="Remove" class="action-delete" />
 					<input type="button" ng-click="updateEntry(entry)" value="Update" class="action-save" />

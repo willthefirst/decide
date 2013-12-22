@@ -9,7 +9,8 @@
   "permissions": [
     "storage",
   	"declarativeWebRequest",
-   	"<all_urls>"
+   	"<all_urls>",
+    "alarms"
   ],
   "background": {
     "scripts": ["event_page.js"],

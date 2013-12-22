@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
-.controller('NewEntry', function ( $scope, redirectRules, storage ) {
+.controller('Options', function ( $scope, redirectRules, storage ) {
 	var entries;
 
 	storage.get(function(data) {
@@ -19,7 +19,6 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 		// Add additional props for a new entry
 		entry.periodsLeft = entry.periods;
 		entry.periodBeingUsed = false;
-
 		entries.push(entry);
 		storage.update(entries, function() {
 			redirectRules.refreshFromLocal();
@@ -39,7 +38,7 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 		});
 	};
 
-}).controller('Allow', function ( $scope, $location, storage ) {
+}).controller('Allow', function ( $scope, $location, storage, redirectRules, alarms ) {
 	var redirectedDomain = $scope.redirectedDomain = {};
 
 	// TODO: make this set to query in URL.
@@ -66,32 +65,31 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 
 	$scope.usePeriod = function() {
 
-		// Compute current time and expiration time for period
-		var start_time = new Date();
-		var end_time = new Date();
+		storage.getDomainInfo( redirectedDomain.domain, function(domain_props) {
+			// If there are no periods left
+			if (domain_props.periodsLeft < 1) {
+				alert('You have no periods left today for', domain_props.domain);
+			}
+			// If periods remain
+			else {
 
-		start_time = start_time.getTime();
-		end_time = start_time + ( redirectedDomain.periodLength * 60 * 1000 );
+				// Lift redirect rule on this domain.
+				storage.updateDomainInfo(
+					domain_props.domain,
+					{
+						periodBeingUsed : true,
+						periodsLeft: (domain_props.periodsLeft - 1),
+					},
+					function() {
+						redirectRules.refreshFromLocal();
+					}
+				);
 
-		// Lift redirect rule on this domain.
-		storage.updateDomainInfo(
-			redirectedDomain.domain,
-			{
-				periodBeingUsed : true,
-				timeStart : start_time,
-				timeEnd : end_time
-			},
-			function() {
-				storage.getDomainInfo( queryUrl, function(domain_props) {
-					console.log('callback:', domain_props);
-				}
-			);
-		});
+				// Set alarm for end of period
+				alarms.set ( redirectedDomain.domain, domain_props.periodLength );
 
-		// Set timeLeftInPeriod.
+			}
 
-
-
-	}
+		} );
+	};
 });
-;
