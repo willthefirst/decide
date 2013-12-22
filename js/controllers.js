@@ -4,7 +4,7 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 .controller('Options', function ( $scope, redirectRules, storage ) {
 	var entries;
 
-	storage.get(function(data) {
+	storage.getAllLocalInfo(function(data) {
 		if (!data.entries) {
 			entries = $scope.entries = [];
 		}
@@ -16,26 +16,28 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 
 	$scope.saveNewEntry = function( entry ) {
 
-		// Check for valid form
+		// Clean domain input to match xxx.com (remove http://, https//, etc.)
+		entry.domain = (entry.domain).replace(/^(?:(http:\/\/www.)|(https:\/\/www.)|(http:\/\/)|(https:\/\/)|(www.))/g, '');
 
 		// Add additional props for a new entry
 		entry.periodsLeft = entry.periods;
 		entry.periodBeingUsed = false;
 		entries.push(entry);
-		storage.update(entries, function() {
+		storage.updateAllLocalInfo(entries, function() {
 			redirectRules.refreshFromLocal();
 		});
 		$scope.newEntry = '';
 	};
 
 	$scope.updateEntry = function( entry ) {
-		storage.update(entries);
-		redirectRules.refreshFromLocal();
+		storage.updateDomainInfo(entry.domain, entry, function(){
+			redirectRules.refreshFromLocal();
+		});
 	};
 
 	$scope.removeEntry = function( entry ) {
 		entries.splice(entries.indexOf(entry), 1);
-		storage.update(entries, function() {
+		storage.updateAllLocalInfo(entries, function() {
 			redirectRules.refreshFromLocal();
 		});
 	};

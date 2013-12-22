@@ -35,25 +35,25 @@ angular.module('focusMeNow.factories', [])
 	};
 
 	return {
-		get: function( callback ) {
-			chrome.storage.sync.get( 'entries', function( data ) {
-				callback(data);
-			});
-		},
-		update: function( array, callback ) {
+		// Returns local info for all entries.
+		getAllLocalInfo: getAllLocalInfo,
+
+		// Updates all local info with fresh array
+		updateAllLocalInfo: function( array, callback ) {
 			// Update entries in local storage
 			chrome.storage.sync.set( { 'entries': array } , function() {
 				callback();
 			});
 		},
-		// Return object in local storage for redirected domain.
-		getDomainInfo: function( redirectedDomain, callback ) {
-			chrome.storage.sync.get( 'entries', function( data ) {
-				callback(localDomainInfo(redirectedDomain, data, 'object'));
+
+		// Returns local info for specified domain.
+		getDomainInfo: function( domain, callback ) {
+			getAllLocalInfo( function(data) {
+				callback(localDomainInfo(domain, data, 'object'));
 			});
 		},
 
-		updateDomainInfo: function( redirectedDomain, propsToUpdate, callback ) {
+		updateDomainInfo: function( domain, propsToUpdate, callback ) {
 
 			getAllLocalInfo(function(data) {
 
@@ -62,18 +62,17 @@ angular.module('focusMeNow.factories', [])
 				// console.log(data.entries[0].periodBeingUsed) -> data.entries[0].periodBeingUsed is false. (this is right)
 
 				// Create the new entry
-				var new_entry = localDomainInfo( redirectedDomain, data, 'object' );
+				var new_entry = localDomainInfo( domain, data, 'object' );
 				var i = 0;
 				for (i in propsToUpdate) {
 					new_entry[i] = propsToUpdate[i];
 				};
 
 				// Find the index of correct entry and update
-				var new_entry_index = localDomainInfo( redirectedDomain, data, 'index' );
+				var new_entry_index = localDomainInfo( domain, data, 'index' );
 				data.entries[new_entry_index] = new_entry;
 
 				// Update the whole entries object in local storage.
-
 				chrome.storage.sync.set( { 'entries' : data.entries }, function() {
 					callback();
 				});
@@ -82,11 +81,6 @@ angular.module('focusMeNow.factories', [])
 		}
 	};
 }).factory('redirectRules', function () {
-
-	// Duplicated from event_page.js
-	var config = {
-		redirectUrl: chrome.extension.getURL('views/redirect.html')
-	};
 
 	// Utility variables
 	var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
@@ -127,8 +121,9 @@ angular.module('focusMeNow.factories', [])
 			} else {
 				chrome.declarativeWebRequest.onRequest.getRules(null,
 					function(rules) {
-						console.info('Now the following rules are registered: ' +
-							JSON.stringify(rules, null, 2));
+						if (config.debug) {
+							console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+						}
 					}
 				);
 			}
@@ -156,7 +151,9 @@ angular.module('focusMeNow.factories', [])
 									if (chrome.runtime.lastError) {
 										alert('Error clearing rules: ' + chrome.runtime.lastError);
 									} else {
-										console.log('No rules registered.');
+										if (config.debug) {
+											console.log('No rules registered.');
+										}
 									}
 								}
 							);

@@ -1,21 +1,35 @@
 'use strict';
 
-angular.module('focusMeNow.directives', [])
-.directive('validateDomain', function() {
+angular.module('focusMeNow.directives', ['focusMeNow.factories'])
+.directive('validateDomain', function(storage) {
     return {
         restrict: 'A',
         require: 'ngModel',
         link: function (scope, element, attr, ctrl) {
         	var regex = new RegExp(/^(?:(http:\/\/)|(https:\/\/)|())([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]+\.[a-zA-Z]{2,6}?$/i);
         	ctrl.$parsers.unshift(function(value) {
-                // test and set the validity after update.
-                var valid = regex.test(value);
-                // set ng-invalid-domain/ng-valid-domain on current element.
-                ctrl.$setValidity('domain', valid);
+                var is_proper_format;
+                var is_not_registered = true;
 
-                // if it's valid, return the value to the model,
-                // otherwise return undefined.
-                return valid ? value : undefined;
+                // Check format of string
+                is_proper_format = regex.test(value);
+                // Set ng-domain-valid|invalid on current element.
+                ctrl.$setValidity('domain', is_proper_format);
+
+                // Check if domain is already registered
+                storage.getDomainInfo(value, function( object ) {
+                    if(object) {
+                        is_not_registered = false;
+                    }
+                    // Set ng-not-registered-valid|invalid on current element.
+                    ctrl.$setValidity('not-registered', is_not_registered);
+
+                });
+
+
+
+                // If valid, return the value to the model, otherwise return undefined.
+                return (is_proper_format && is_not_registered) ? value : undefined;
             });
         }
     };

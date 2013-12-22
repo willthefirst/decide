@@ -26,7 +26,7 @@
 				<li ng-repeat="entry in entries track by $index">
 					<form>
 						<span>I will only focus on</span>
-						<input type="text" ng-model="entry.domain" value="{{ entry.domain }}" class="domain" required />
+						<span ng-model="entry.domain">{{ entry.domain }}</span>
 						for
 						<input type="number" ng-model="entry.periodLength" class="block-time" min="0" max="60" value="{{ entry.periodLength }}"  />-minute blocks,
 						<input type="number" ng-model="entry.periods" class="block-num" min="0" max="99" value=" {{ entry.periods }}" required />

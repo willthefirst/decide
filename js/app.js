@@ -9,3 +9,9 @@ var focusMeNow = angular.module('focusMeNow', [
      	$locationProvider.html5Mode(true);
 	}
 ]);
+
+// Duplicate to event_page.js
+var config = {
+	debug: false,
+	redirectUrl: chrome.extension.getURL('views/redirect.html')
+};
