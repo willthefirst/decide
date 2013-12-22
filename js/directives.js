@@ -24,10 +24,7 @@ angular.module('focusMeNow.directives', ['focusMeNow.factories'])
                     }
                     // Set ng-not-registered-valid|invalid on current element.
                     ctrl.$setValidity('not-registered', is_not_registered);
-
                 });
-
-
 
                 // If valid, return the value to the model, otherwise return undefined.
                 return (is_proper_format && is_not_registered) ? value : undefined;

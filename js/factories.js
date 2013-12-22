@@ -87,7 +87,8 @@ angular.module('focusMeNow.factories', [])
 
 	// Utility variables
 	var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
-	var RedirectRequest = chrome.declarativeWebRequest.RedirectRequest;
+	var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
+	// var RedirectRequest = chrome.declarativeWebRequest.RedirectRequest;
 
 	// Register rules
 	var registerRules = function( data ) {
@@ -105,13 +106,14 @@ angular.module('focusMeNow.factories', [])
 					conditions: [
 						new RequestMatcher({
 							url: {
-									hostContains: entries[i].domain
+								hostContains: entries[i].domain
 							}
 						})
 					],
 					actions: [
-						new RedirectRequest({
-							redirectUrl: ( config.redirectUrl + '?' + 'domain=' + entries[i].domain )
+						new RedirectByRegEx({
+							from: '(.*)',
+							to: ([config.redirectUrl] + '?' + 'domain=' + entries[i].domain + '&original=' + '$1')
 						})
 					]
 				};
@@ -122,7 +124,8 @@ angular.module('focusMeNow.factories', [])
 		// Callback after rules are accepted
 		var callback = function() {
 			if (chrome.runtime.lastError) {
-				console.error('Error adding rules: ' + chrome.runtime.lastError);
+				console.log('Error adding rules: ');
+				console.dir(chrome.runtime.lastError.message);
 			} else {
 				chrome.declarativeWebRequest.onRequest.getRules(null,
 					function(rules) {
@@ -134,8 +137,7 @@ angular.module('focusMeNow.factories', [])
 			}
 		};
 
-		chrome.declarativeWebRequest.onRequest.addRules(
-			rules, callback);
+		chrome.declarativeWebRequest.onRequest.addRules(rules, callback);
 	};
 
 	var refreshFromLocal = function() {

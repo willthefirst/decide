@@ -70,6 +70,10 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 
 	$scope.usePeriod = function() {
 
+		var letPass = function( url ) {
+			window.location = url;
+		};
+
 		storage.getDomainInfo( redirectedDomain.domain, function(domain_props) {
 			// If there are no periods left
 			if (domain_props.periodsLeft < 1) {
@@ -93,6 +97,7 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 				// Set alarm for end of period
 				alarms.set ( redirectedDomain.domain, domain_props.periodLength );
 
+				// Redirect to specified page, MUST happen at end of this function
 			}
 
 		} );
