@@ -7,6 +7,7 @@
 	<script src="../js/app.js"></script>
 	<script src="../js/factories.js"></script>
 	<script src="../js/controllers.js"></script>
+	<script src="../js/directives.js"></script>
 	<link href="../css/options.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -14,7 +15,8 @@
 		<h1 class="page-title">Soji Options</h1>
 		<form name="saveNew">
 			<span>I will only focus on</span>
-			<input type='url' ng-model="newEntry.domain" placeholder="http://www.example.com" class="domain" required />
+			<input type="text" ng-model="newEntry.domain" placeholder="example.com" class="domain" required validate-domain />
+			<span class="error" ng-show="saveNew.$error.required">Required!</span>
 			for
 			<input type="number" ng-model="newEntry.periodLength" class="block-time" min="0" max="60" placeholder="30" required/>-minute blocks,
 			<input type="number" ng-model="newEntry.periods" class="block-num"min="0" max="10" placeholder="2" required />

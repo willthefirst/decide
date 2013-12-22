@@ -113,10 +113,22 @@ button {
 	}
 }
 
+%invalid-form {
+	color: #be4141;
+	border-color: #be4141;
+
+
+	&:focus {
+		color: inherit;
+		border-color: #e9322d;
+	}
+}
+
 input:focus:required:invalid:focus,
 textarea:focus:required:invalid:focus,
-select:focus:required:invalid:focus {
-	border-color: #e9322d;
+select:focus:required:invalid:focus,
+input[class*='ng-invalid-'] {
+	@extend %invalid-form;
 }
 
 .module {

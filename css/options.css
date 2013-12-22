@@ -151,47 +151,57 @@ button:focus {
   color: #fefefe;
 }
 
-/* line 118, ../scss/options.scss */
-input:focus:required:invalid:focus,
-textarea:focus:required:invalid:focus,
-select:focus:required:invalid:focus {
+/* line 116, ../scss/options.scss */
+input:focus:required:invalid,
+textarea:focus:required:invalid,
+select:focus:required:invalid,
+input[class*='ng-invalid-'] {
+  color: #be4141;
+  border-color: #be4141;
+}
+/* line 121, ../scss/options.scss */
+input:focus:required:invalid,
+textarea:focus:required:invalid,
+select:focus:required:invalid,
+input[class*='ng-invalid-']:focus {
+  color: inherit;
   border-color: #e9322d;
 }
 
-/* line 122, ../scss/options.scss */
+/* line 134, ../scss/options.scss */
 .module {
   border-radius: 3px;
   padding: 6px 14px;
   margin-bottom: 16px;
 }
 
-/* line 131, ../scss/options.scss */
+/* line 143, ../scss/options.scss */
 .wrapper {
   margin: auto;
   max-width: 1200px;
   padding: 12px;
 }
 
-/* line 137, ../scss/options.scss */
+/* line 149, ../scss/options.scss */
 .page-title {
   margin-bottom: 16px;
 }
 
-/* line 141, ../scss/options.scss */
+/* line 153, ../scss/options.scss */
 .block-num {
   width: 40px;
 }
 
-/* line 145, ../scss/options.scss */
+/* line 157, ../scss/options.scss */
 .block-time {
   width: 50px;
 }
 
-/* line 149, ../scss/options.scss */
+/* line 161, ../scss/options.scss */
 .rules-saved {
   text-align: left;
 }
-/* line 152, ../scss/options.scss */
+/* line 164, ../scss/options.scss */
 .rules-saved td, .rules-saved th {
   padding: 4px 16px 4px 0;
 }
