@@ -6,16 +6,11 @@ angular.module('focusMeNow.directives', [])
         restrict: 'A',
         require: 'ngModel',
         link: function (scope, element, attr, ctrl) {
-        	var input = element[0];
-        	console.log(input);
-        	console.log(ctrl);
-
-        	var regex = new RegExp(/^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/);
-
+        	var regex = new RegExp(/^(?:(http:\/\/)|(https:\/\/)|())([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]+\.[a-zA-Z]{2,6}?$/i);
         	ctrl.$parsers.unshift(function(value) {
                 // test and set the validity after update.
                 var valid = regex.test(value);
-                console.log(valid);
+                // set ng-invalid-domain/ng-valid-domain on current element.
                 ctrl.$setValidity('domain', valid);
 
                 // if it's valid, return the value to the model,
