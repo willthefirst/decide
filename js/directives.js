@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('focusMeNow.directives', ['focusMeNow.factories'])
-.directive('validateDomain', function(storage) {
+.directive('validateDomain', function( storage , utilities ) {
     return {
         restrict: 'A',
         require: 'ngModel',
@@ -17,7 +17,8 @@ angular.module('focusMeNow.directives', ['focusMeNow.factories'])
                 ctrl.$setValidity('domain', is_proper_format);
 
                 // Check if domain is already registered
-                storage.getDomainInfo(value, function( object ) {
+                var cleaned_value = utilities.cleanDomainString(value);
+                storage.getDomainInfo(cleaned_value, function( object ) {
                     if(object) {
                         is_not_registered = false;
                     }

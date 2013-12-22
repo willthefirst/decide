@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
-.controller('Options', function ( $scope, redirectRules, storage ) {
+.controller('Options', function ( $scope, redirectRules, storage, utilities ) {
 	var entries;
 
 	storage.getAllLocalInfo(function(data) {
@@ -16,8 +16,7 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 
 	$scope.saveNewEntry = function( entry ) {
 
-		// Clean domain input to match xxx.com (remove http://, https//, etc.)
-		entry.domain = (entry.domain).replace(/^(?:(http:\/\/www.)|(https:\/\/www.)|(http:\/\/)|(https:\/\/)|(www.))/g, '');
+		utilities.cleanDomainString(entry.domain);
 
 		// Add additional props for a new entry
 		entry.periodsLeft = entry.periods;
