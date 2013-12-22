@@ -72,6 +72,7 @@ body {
 }
 
 input[type=text],
+input[type=url],
 input[type=number] {
 	display: inline-block;
 	border-top: none;
@@ -85,9 +86,13 @@ input[type=number] {
 	&:focus {
 		outline: none;
 	}
+
+	&.ng-valid {
+		border-color: green;
+	}
 }
 
-input[type=button] {
+button {
 	font-size: inherit;
 	font-family: inherit;
 	background-color: inherit;
@@ -108,6 +113,12 @@ input[type=button] {
 	}
 }
 
+input:focus:required:invalid:focus,
+textarea:focus:required:invalid:focus,
+select:focus:required:invalid:focus {
+	border-color: #e9322d;
+}
+
 .module {
 	border-radius: 3px;
 	padding: 6px 14px;
@@ -125,10 +136,6 @@ input[type=button] {
 
 .page-title {
 	margin-bottom: $vert-space;
-}
-
-.domain {
-	width: 193px;
 }
 
 .block-num {

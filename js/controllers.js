@@ -16,6 +16,8 @@ angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
 
 	$scope.saveNewEntry = function( entry ) {
 
+		// Check for valid form
+
 		// Add additional props for a new entry
 		entry.periodsLeft = entry.periods;
 		entry.periodBeingUsed = false;

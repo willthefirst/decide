@@ -103,8 +103,9 @@ body {
   line-height: 30px;
 }
 
-/* line 75, ../scss/options.scss */
+/* line 76, ../scss/options.scss */
 input[type=text],
+input[type=url],
 input[type=number] {
   display: inline-block;
   border-top: none;
@@ -115,14 +116,21 @@ input[type=number] {
   font-size: inherit;
   font-family: inherit;
 }
-/* line 85, ../scss/options.scss */
+/* line 86, ../scss/options.scss */
 input[type=text]:focus,
+input[type=url]:focus,
 input[type=number]:focus {
   outline: none;
 }
-
 /* line 90, ../scss/options.scss */
-input[type=button] {
+input[type=text].ng-valid,
+input[type=url].ng-valid,
+input[type=number].ng-valid {
+  border-color: green;
+}
+
+/* line 95, ../scss/options.scss */
+button {
   font-size: inherit;
   font-family: inherit;
   background-color: inherit;
@@ -130,58 +138,60 @@ input[type=button] {
   border: 2px solid #f06347;
   cursor: pointer;
 }
-/* line 98, ../scss/options.scss */
-input[type=button]:hover {
+/* line 103, ../scss/options.scss */
+button:hover {
   background-color: #f06347;
   color: #fefefe;
 }
-/* line 103, ../scss/options.scss */
-input[type=button]:focus {
+/* line 108, ../scss/options.scss */
+button:focus {
   outline: 0;
   background-color: #f02727;
   border-color: #f02727;
   color: #fefefe;
 }
 
-/* line 111, ../scss/options.scss */
+/* line 118, ../scss/options.scss */
+input:focus:required:invalid:focus,
+textarea:focus:required:invalid:focus,
+select:focus:required:invalid:focus {
+  border-color: #e9322d;
+}
+
+/* line 122, ../scss/options.scss */
 .module {
   border-radius: 3px;
   padding: 6px 14px;
   margin-bottom: 16px;
 }
 
-/* line 120, ../scss/options.scss */
+/* line 131, ../scss/options.scss */
 .wrapper {
   margin: auto;
   max-width: 1200px;
   padding: 12px;
 }
 
-/* line 126, ../scss/options.scss */
+/* line 137, ../scss/options.scss */
 .page-title {
   margin-bottom: 16px;
 }
 
-/* line 130, ../scss/options.scss */
-.domain {
-  width: 193px;
-}
-
-/* line 134, ../scss/options.scss */
+/* line 141, ../scss/options.scss */
 .block-num {
   width: 40px;
 }
 
-/* line 138, ../scss/options.scss */
+/* line 145, ../scss/options.scss */
 .block-time {
   width: 50px;
 }
 
-/* line 142, ../scss/options.scss */
+/* line 149, ../scss/options.scss */
 .rules-saved {
   text-align: left;
 }
-/* line 145, ../scss/options.scss */
+/* line 152, ../scss/options.scss */
 .rules-saved td, .rules-saved th {
   padding: 4px 16px 4px 0;
 }

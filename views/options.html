@@ -10,26 +10,29 @@
 	<link href="../css/options.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper" ng-controller="Options">
 		<h1 class="page-title">Soji Options</h1>
-		<form ng-controller="Options">
+		<form name="saveNew">
 			<span>I will only focus on</span>
-			<input type="text" ng-model="newEntry.domain" placeholder="example.com" class="domain" required />
+			<input type='url' ng-model="newEntry.domain" placeholder="http://www.example.com" class="domain" required />
 			for
-			<input type="number" ng-model="newEntry.periodLength" class="block-time" min="0" max="60" placeholder="30" />-minute blocks,
-			<input type="number" ng-model="newEntry.periods" class="block-num" min="0" max="99" placeholder="2" required />
+			<input type="number" ng-model="newEntry.periodLength" class="block-time" min="0" max="60" placeholder="30" required/>-minute blocks,
+			<input type="number" ng-model="newEntry.periods" class="block-num"min="0" max="10" placeholder="2" required />
 			<span>times per day.</span>
-			<input type="button" value="Save" class="action-save" ng-click="saveNewEntry(newEntry)" />
+			<button class="action-save" ng-disabled="!saveNew.$valid" ng-click="saveNewEntry(newEntry)">Save</button>
+		</form>
 			<ul class="saved-entries">
 				<li ng-repeat="entry in entries track by $index">
-					<span>I will only focus on</span>
-					<input type="text" ng-model="entry.domain" value="{{ entry.domain }}" class="domain" required />
-					for
-					<input type="number" ng-model="entry.periodLength" class="block-time" min="0" max="60" value="{{ entry.periodLength }}"  />-minute blocks,
-					<input type="number" ng-model="entry.periods" class="block-num" min="0" max="99" value=" {{ entry.periods }}" required />
-					<span>times per day.</span>
-					<input type="button" ng-click="removeEntry(entry)" value="Remove" class="action-delete" />
-					<input type="button" ng-click="updateEntry(entry)" value="Update" class="action-save" />
+					<form>
+						<span>I will only focus on</span>
+						<input type="text" ng-model="entry.domain" value="{{ entry.domain }}" class="domain" required />
+						for
+						<input type="number" ng-model="entry.periodLength" class="block-time" min="0" max="60" value="{{ entry.periodLength }}"  />-minute blocks,
+						<input type="number" ng-model="entry.periods" class="block-num" min="0" max="99" value=" {{ entry.periods }}" required />
+						<span>times per day.</span>
+						<button ng-click="removeEntry(entry)" class="action-delete">Remove</input>
+						<button ng-click="updateEntry(entry)" class="action-save">Update</input>
+					</form>
 				</li>
 			</ul>
 		</form>
