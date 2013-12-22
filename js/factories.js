@@ -24,7 +24,10 @@ angular.module('focusMeNow.factories', [])
 			}
 		}
 		if (!found) {
-			console.error('Entry not found!');
+			if (config.debug) {
+				console.error('Entry not found!');
+			}
+			return false;
 		}
 	};
 
@@ -93,7 +96,9 @@ angular.module('focusMeNow.factories', [])
 		for ( var i = 0; i < entries.length; i++) {
 			// If period is in use, skip
 			if (entries[i].periodBeingUsed) {
-				console.log('Period being used, skipping.');
+				if (config.debug) {
+					console.log('Period being used, skipping.');
+				}
 			}
 			else {
 				var redirectRule = {
@@ -181,9 +186,9 @@ angular.module('focusMeNow.factories', [])
 				}
 				else {
 					var rings = new Date(alarm.scheduledTime);
-					console.log(domain, 'period started, ends on', rings );
-
-
+					if (config.debug) {
+						console.log(domain, 'period started, ends on', rings );
+					}
 				}
 
 			});

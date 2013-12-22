@@ -80,7 +80,10 @@ function localDomainInfo( domain, localData, returnType ) {
 		}
 	}
 	if (!found) {
-		console.error('Entry not found!');
+		if (config.debug) {
+			console.error('Entry not found!');
+		}
+		return false;
 	}
 };
 
@@ -125,7 +128,9 @@ function registerRules ( data ) {
 	for ( var i = 0; i < entries.length; i++) {
 		// If period is in use, skip
 		if (entries[i].periodBeingUsed) {
-			console.log('Period being used, skipping.');
+			if (config.debug) {
+				console.log('Period being used, skipping.');
+			}
 		}
 		else {
 			var redirectRule = {
