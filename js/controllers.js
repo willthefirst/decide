@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('focusMeNow.controllers', ['focusMeNow.factories'])
+angular.module('sensei.controllers', ['sensei.factories'])
 .controller('Options', function ( $scope, redirectRules, storage, utilities ) {
 	var entries;
 

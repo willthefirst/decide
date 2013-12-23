@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('focusMeNow.factories', [])
+angular.module('sensei.factories', [])
 .factory( 'storage' , function() {
 
 	// Gets object or index for specified domain (domain) from all entries (localData)

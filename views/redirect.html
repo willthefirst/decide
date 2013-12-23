@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-csp ng-app="focusMeNow">
+<html lang="en" ng-csp ng-app="sensei">
 <head>
 	<meta charset="UTF-8">
 	<title>Redirected</title>
@@ -8,16 +8,16 @@
 	<script src="../js/factories.js"></script>
 	<script src="../js/controllers.js"></script>
 	<script src="../js/directives.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
+	<link href="../css/redirect.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<h2>Redirected</h2>
-	<form ng-controller="Allow">
-		<button ng-click="usePeriod()">
-			I want to use {{ redirectedDomain.domain }} efficiently.
-		</button>
-		<p>
-			You have {{ redirectedDomain.periodsLeft }} {{ redirectedDomain.periodLength }}-minute blocks remaining today.
-		</p>
-	</form>
+	<div class="wrapper"  ng-controller="Allow">
+		<form name="allow" class="allow">
+			<p class="helper allow-type">Type "I want to use {{ redirectedDomain.domain }} efficiently." to access site.</p>
+			<input ng-model="allowSentence" type="text" class="allow-sentence" autofocus validate-allow-sentence  required />
+			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid">start period</button>
+		</form>
+	</div>
 </body>
 </html>

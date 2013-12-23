@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('focusMeNow.directives', ['focusMeNow.factories'])
+angular.module('sensei.directives', ['sensei.factories'])
 .directive('validateDomain', function( storage , utilities ) {
     return {
         restrict: 'A',
@@ -28,6 +28,26 @@ angular.module('focusMeNow.directives', ['focusMeNow.factories'])
 
                 // If valid, return the value to the model, otherwise return undefined.
                 return (is_proper_format && is_not_registered) ? value : undefined;
+            });
+        }
+    };
+}).directive('validateAllowSentence', function( storage ) {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, element, attr, ctrl) {
+            ctrl.$parsers.unshift(function(value) {
+                var is_correct_sentence = (value === "I want to use " + scope.redirectedDomain.domain + " efficiently.");
+                ctrl.$setValidity('allow-sentence', is_correct_sentence);
+
+                // If valid, return the value to the model, and initiate usePeriod, otherwise return undefined.
+                if (is_correct_sentence) {
+                    scope.usePeriod();
+                    return value;
+                }
+                else {
+                    return undefined;
+                }
             });
         }
     };

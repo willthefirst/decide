@@ -1,0 +1,151 @@
+@import "compass/reset";
+@import "compass/css3/transition";
+
+// Variables
+
+// Colors
+$gray: #6c8ea0;
+$gray-ll: #aac3d0;
+
+
+$blue-ll: #6C8EA0;
+$blue-l: #3d9ad1;
+$blue: #0969a2;
+$blue-d: #0063B1;
+
+$black: #0b0b0b;
+
+$white: #fefefe;
+
+$green: #53ff44;
+
+
+$vert-space: 16px;
+
+// Sitewide
+
+$c-background: $blue-ll;
+$text-primary: $white;
+$text-secondary: $gray-ll;
+
+
+// Utility
+
+.center-txt {
+	text-align: center;
+}
+
+// Fonts
+
+@mixin size-1 {
+	font-size: 34px;
+	line-height: 51px;
+}
+
+@mixin size-2 {
+	font-size: 30px;
+	line-height: 45px;
+}
+
+@mixin size-3 {
+	font-size: 24px;
+	line-height: 36px;
+}
+
+@mixin size-4 {
+	font-size: 20px;
+	line-height: 30px;
+}
+
+%bold {
+	font-weight: bold;
+}
+
+h1 {
+	@extend %bold;
+	@include size-1;
+}
+
+h2 {
+	@extend %bold;
+	@include size-2;
+}
+
+h3 {
+	@extend %bold;
+	@include size-3;
+}
+
+// Base
+
+body {
+	background-color: $c-background;
+	font-family: 'Actor', sans-serif;
+	color: $text-primary;
+	@include size-4;
+}
+
+input[type=text],
+input[type=url],
+input[type=number] {
+
+
+
+	// display: inline-block;
+	// border-top: none;
+	// border-left: none;
+	// border-right: none;
+	// border-bottom: 1px solid $black;
+	// background-color: inherit;
+	// font-size: inherit;
+	// font-family: inherit;
+
+	// &:focus {
+	// 	outline: none;
+	// }
+
+	// &.ng-valid {
+	// 	border-color: green;
+	// }
+}
+
+button {
+	font-size: inherit;
+	font-family: inherit;
+	background-color: inherit;
+	padding: 8px;
+	cursor: pointer;
+
+	&:hover {
+		color: $white;
+	}
+
+	&:focus {
+		outline: 0;
+		color: $white;
+	}
+}
+
+%invalid-form {
+	color: #be4141;
+	border-color: #be4141;
+
+
+	&:focus {
+		color: inherit;
+		border-color: #e9322d;
+	}
+}
+
+input:focus:required:invalid:focus,
+textarea:focus:required:invalid:focus,
+select:focus:required:invalid:focus,
+input[class*='ng-invalid-'] {
+	// @extend %invalid-form;
+}
+
+// Elements
+
+.helper {
+	color: $text-secondary;
+}

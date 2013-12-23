@@ -123,26 +123,97 @@ button:focus {
   color: #aac3d0;
 }
 
-/* line 3, ../scss/options.scss */
-.page-title {
-  margin-bottom: 16px;
+/* line 3, ../scss/redirect.scss */
+.wrapper {
+  margin: auto;
+  max-width: 1200px;
+  padding: 12px;
+  text-align: center;
 }
 
-/* line 7, ../scss/options.scss */
-.block-num {
-  width: 40px;
+/* line 10, ../scss/redirect.scss */
+.allow {
+  margin: 100px auto 0;
+  width: 80%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-/* line 11, ../scss/options.scss */
-.block-time {
-  width: 50px;
+/* line 18, ../scss/redirect.scss */
+.allow-type {
+  margin-bottom: 32px;
 }
 
-/* line 15, ../scss/options.scss */
-.rules-saved {
-  text-align: left;
+/* line 22, ../scss/redirect.scss */
+.allow-sentence {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: inherit;
+  border: none;
+  display: block;
+  font-size: 34px;
+  line-height: 51px;
+  color: #fefefe;
+  font-family: inherit;
+  text-align: center;
+  padding: 0;
+  margin: 0 0 32px 0;
+  border-radius: 2px;
 }
-/* line 18, ../scss/options.scss */
-.rules-saved td, .rules-saved th {
-  padding: 4px 16px 4px 0;
+/* line 38, ../scss/redirect.scss */
+.allow-sentence:focus {
+  outline: none;
+}
+/* line 42, ../scss/redirect.scss */
+.allow-sentence.ng-valid-allow-sentence {
+  color: #53ff44;
+}
+
+/* line 49, ../scss/redirect.scss */
+.allow-button:before, .allow-button:after {
+  -webkit-transition: -webkit-transform 0.1s ease-out;
+  -moz-transition: -webkit-transform 0.1s ease-out;
+  -o-transition: -webkit-transform 0.1s ease-out;
+  transition: -webkit-transform 0.1s ease-out;
+  display: inline-block;
+  padding: 0 2px;
+}
+
+/* line 56, ../scss/redirect.scss */
+.allow-button {
+  display: block;
+  border: none;
+  margin: auto;
+  color: inherit;
+  position: relative;
+  padding: 8px 10px;
+}
+/* line 64, ../scss/redirect.scss */
+.allow-button:disabled {
+  display: none;
+}
+/* line 68, ../scss/redirect.scss */
+.allow-button:before {
+  content: '[';
+  -webkit-transform: translate3d(-10px, 0, 0);
+}
+/* line 74, ../scss/redirect.scss */
+.allow-button:after {
+  content: ']';
+  -webkit-transform: translate3d(10px, 0, 0);
+}
+/* line 80, ../scss/redirect.scss */
+.allow-button:hover, .allow-button:focus {
+  text-decoration: underline;
+}
+/* line 84, ../scss/redirect.scss */
+.allow-button:hover:before, .allow-button:focus:before {
+  -webkit-transform: translate3d(0px, 0, 0);
+}
+/* line 88, ../scss/redirect.scss */
+.allow-button:hover:after, .allow-button:focus:after {
+  -webkit-transform: translate3d(0px, 0, 0);
 }
