@@ -63,35 +63,35 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-/* line 34, ../scss/_base.scss */
+/* line 35, ../scss/_base.scss */
 .center-txt {
   text-align: center;
 }
 
-/* line 60, ../scss/_base.scss */
+/* line 61, ../scss/_base.scss */
 h1, h2, h3 {
   font-weight: bold;
 }
 
-/* line 64, ../scss/_base.scss */
+/* line 65, ../scss/_base.scss */
 h1 {
   font-size: 34px;
   line-height: 51px;
 }
 
-/* line 69, ../scss/_base.scss */
+/* line 70, ../scss/_base.scss */
 h2 {
   font-size: 30px;
   line-height: 45px;
 }
 
-/* line 74, ../scss/_base.scss */
+/* line 75, ../scss/_base.scss */
 h3 {
   font-size: 24px;
   line-height: 36px;
 }
 
-/* line 81, ../scss/_base.scss */
+/* line 82, ../scss/_base.scss */
 body {
   background-color: #6c8ea0;
   font-family: 'Actor', sans-serif;
@@ -100,7 +100,7 @@ body {
   line-height: 30px;
 }
 
-/* line 112, ../scss/_base.scss */
+/* line 113, ../scss/_base.scss */
 button {
   font-size: inherit;
   font-family: inherit;
@@ -108,17 +108,17 @@ button {
   padding: 8px;
   cursor: pointer;
 }
-/* line 119, ../scss/_base.scss */
+/* line 120, ../scss/_base.scss */
 button:hover {
   color: #fefefe;
 }
-/* line 123, ../scss/_base.scss */
+/* line 124, ../scss/_base.scss */
 button:focus {
   outline: 0;
   color: #fefefe;
 }
 
-/* line 149, ../scss/_base.scss */
+/* line 150, ../scss/_base.scss */
 .helper {
   color: #aac3d0;
 }
