@@ -20,20 +20,11 @@
 }
 
 .allow-sentence {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
 	width: 100%;
-	background-color: inherit;
-	border: none;
-	display: block;
 	@include size-1;
 	color: $white;
-	font-family: inherit;
 	text-align: center;
-	padding: 0;
 	margin: 0 0 $vert-space*2 0;
-	border-radius: 2px;
 
 	&:focus {
 		outline: none;
@@ -41,52 +32,5 @@
 
 	&.ng-valid-allow-sentence {
 		color: $green;
-	}
-}
-
-$button-hor-pad: 10px;
-
-%brackets {
-	@include single-transition(-webkit-transform, 0.1s, ease-out);
-	display: inline-block;
-	padding: 0 2px;
-}
-
-
-.allow-button {
-	display: block;
-	border: none;
-	margin: auto;
-	color: inherit;
-	position: relative;
-	padding: 8px $button-hor-pad;
-
-	&:disabled {
-		display: none;
-	}
-
-	&:before {
-		@extend %brackets;
-		content: '[';
-		-webkit-transform: translate3d(-$button-hor-pad, 0, 0);
-	}
-
-	&:after {
-		@extend %brackets;
-		content: ']';
-		-webkit-transform: translate3d($button-hor-pad, 0, 0);
-	}
-
-	&:hover, &:focus {
-
-		text-decoration: underline;
-
-		&:before {
-			-webkit-transform: translate3d(0px, 0, 0);
-		}
-
-		&:after {
-			-webkit-transform: translate3d(0px, 0, 0);
-		}
 	}
 }

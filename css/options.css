@@ -63,35 +63,35 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-/* line 35, ../scss/_base.scss */
+/* line 34, ../scss/_base.scss */
 .center-txt {
   text-align: center;
 }
 
-/* line 61, ../scss/_base.scss */
+/* line 60, ../scss/_base.scss */
 h1, h2, h3 {
   font-weight: bold;
 }
 
-/* line 65, ../scss/_base.scss */
+/* line 64, ../scss/_base.scss */
 h1 {
   font-size: 34px;
   line-height: 51px;
 }
 
-/* line 70, ../scss/_base.scss */
+/* line 69, ../scss/_base.scss */
 h2 {
   font-size: 30px;
   line-height: 45px;
 }
 
-/* line 75, ../scss/_base.scss */
+/* line 74, ../scss/_base.scss */
 h3 {
   font-size: 24px;
   line-height: 36px;
 }
 
-/* line 82, ../scss/_base.scss */
+/* line 81, ../scss/_base.scss */
 body {
   background-color: #6c8ea0;
   font-family: 'Actor', sans-serif;
@@ -100,49 +100,177 @@ body {
   line-height: 30px;
 }
 
-/* line 113, ../scss/_base.scss */
+/* line 90, ../scss/_base.scss */
+input[type=text],
+input[type=url],
+input[type=number] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: inherit;
+  border: none;
+  font-family: inherit;
+  padding: 0;
+  display: inline-block;
+}
+/* line 100, ../scss/_base.scss */
+input[type=text]:focus,
+input[type=url]:focus,
+input[type=number]:focus {
+  outline: none;
+}
+/* line 104, ../scss/_base.scss */
+input[type=text].ng-valid,
+input[type=url].ng-valid,
+input[type=number].ng-valid {
+  color: #5fff99;
+}
+
+/* 	Transitions  -------------------------------------------- */
+/* 	Buttons  -------------------------------------------- */
+/* line 119, ../scss/_base.scss */
+button:before, button:after {
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+  display: inline-block;
+  padding: 0 2px;
+  margin-top: -5px;
+  vertical-align: top;
+  font-size: 1.3em;
+}
+
+/* line 128, ../scss/_base.scss */
 button {
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+  display: inline-block;
   font-size: inherit;
   font-family: inherit;
   background-color: inherit;
-  padding: 8px;
   cursor: pointer;
+  border: none;
+  margin: auto;
+  color: inherit;
+  position: relative;
+  padding: 0px 10px;
+  text-transform: lowercase;
 }
-/* line 120, ../scss/_base.scss */
-button:hover {
-  color: #fefefe;
+/* line 142, ../scss/_base.scss */
+button:disabled {
+  display: none;
 }
-/* line 124, ../scss/_base.scss */
-button:focus {
+/* line 146, ../scss/_base.scss */
+button:before {
+  content: '[';
+  -webkit-transform: translate3d(-10px, 0, 0);
+}
+/* line 152, ../scss/_base.scss */
+button:after {
+  content: ']';
+  -webkit-transform: translate3d(10px, 0, 0);
+}
+/* line 158, ../scss/_base.scss */
+button:hover, button:focus {
   outline: 0;
-  color: #fefefe;
+  text-decoration: underline;
+}
+/* line 162, ../scss/_base.scss */
+button:hover:before, button:focus:before {
+  -webkit-transform: translate3d(0px, 0, 0);
+}
+/* line 166, ../scss/_base.scss */
+button:hover:after, button:focus:after {
+  -webkit-transform: translate3d(0px, 0, 0);
 }
 
-/* line 150, ../scss/_base.scss */
-.helper {
+/* line 192, ../scss/_base.scss */
+.helper, .focus-prompt {
+  color: #aac3d0;
+}
+
+/* 	Utilities
+	------------------------------------------------------- */
+/* line 199, ../scss/_base.scss */
+.align-middle {
+  text-align: middle;
+}
+
+/* line 203, ../scss/_base.scss */
+.txt-secondary {
   color: #aac3d0;
 }
 
 /* line 3, ../scss/options.scss */
-.page-title {
+.wrapper {
+  margin: auto;
+  max-width: 1200px;
+  padding: 12px;
+  text-align: left;
+}
+
+/* line 10, ../scss/options.scss */
+.focus-prompt {
+  text-align: left;
+  margin: 32px 0;
+}
+
+/* line 16, ../scss/options.scss */
+.options-add {
   margin-bottom: 16px;
 }
 
-/* line 7, ../scss/options.scss */
-.block-num {
+/* line 20, ../scss/options.scss */
+input[class*='opt-field'] {
+  font-size: inherit;
+  color: inherit;
+  text-align: center;
+}
+
+/* line 26, ../scss/options.scss */
+.opt-field--domain, .saved-domain {
+  width: 300px;
+}
+
+/* line 30, ../scss/options.scss */
+.opt-field--periods {
   width: 40px;
 }
 
-/* line 11, ../scss/options.scss */
-.block-time {
-  width: 50px;
+/* line 34, ../scss/options.scss */
+.opt-field--period-length {
+  width: 43px;
 }
 
-/* line 15, ../scss/options.scss */
+/* line 38, ../scss/options.scss */
+.options-saved {
+  margin-bottom: 16px;
+}
+
+/* line 42, ../scss/options.scss */
 .rules-saved {
   text-align: left;
 }
-/* line 18, ../scss/options.scss */
+/* line 45, ../scss/options.scss */
 .rules-saved td, .rules-saved th {
   padding: 4px 16px 4px 0;
+}
+
+/* line 50, ../scss/options.scss */
+.saved-domain {
+  display: inline-block;
+  text-align: center;
+}
+
+/* line 56, ../scss/options.scss */
+.action-delete, .action-save {
+  margin-left: 8px;
+  color: #aac3d0;
+}
+/* line 60, ../scss/options.scss */
+.action-delete:hover, .action-delete:focus, .action-save:hover, .action-save:focus {
+  color: #fefefe;
 }

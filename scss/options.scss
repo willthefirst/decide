@@ -1,15 +1,42 @@
 @import 'base';
 
-.page-title {
+.wrapper {
+	margin: auto;
+	max-width: 1200px;
+	padding: 12px;
+	text-align: left;
+}
+
+.focus-prompt {
+	@extend .helper;
+	text-align: left;
+	margin: $vert-space*2 0;
+}
+
+.options-add {
 	margin-bottom: $vert-space;
 }
 
-.block-num {
+input[class*='opt-field'] {
+	font-size: inherit;
+	color: inherit;
+	text-align: center;
+}
+
+.opt-field--domain {
+	width: 300px;
+}
+
+.opt-field--periods {
 	width: 40px;
 }
 
-.block-time {
-	width: 50px;
+.opt-field--period-length {
+	width: 43px;
+}
+
+.options-saved {
+	margin-bottom: $vert-space;
 }
 
 .rules-saved {
@@ -17,5 +44,20 @@
 
 	td, th {
 		padding: 4px 16px 4px 0;
+	}
+}
+
+.saved-domain {
+	@extend .opt-field--domain;
+	display: inline-block;
+	text-align: center;
+}
+
+.action-delete, .action-save {
+	margin-left: 8px;
+	color: $text-secondary;
+
+	&:hover,&:focus {
+		color: $text-primary;
 	}
 }
