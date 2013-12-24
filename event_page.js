@@ -7,49 +7,80 @@ var config = {
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectRequest = chrome.declarativeWebRequest.RedirectRequest;
 
-// Listens for alarms, clears them when done.
 var listenForAlarms = function() {
-	console.log('listening for alarms...');
 	chrome.alarms.onAlarm.addListener(function(alarm){
 
-		// Notify that period is over
-		console.log('Ring ring!:', alarm.name, 'period has ended.');
-		alert('Ring ring!');
-
-		// Close any open tabs matching the domain to the redirect page.
-		chrome.tabs.query({
-			url: '*://*.' + alarm.name + '/*'
-		}, function(array) {
-			if (array.length === 0) {
-				console.log('No open tabs of domain', alarm.name);
-			}
-			else {
-				var tabs_to_close = [];
-				for (var i = 0; i < array.length; i++) {
-					tabs_to_close.push(array[i].id);
+		// If alarm is the daily refresh alarm, clear periodsLeft for all domains
+		if(alarm.name === "daily_refresh") {
+			getAllLocalInfo(function(data) {
+				console.log(data);
+				for (var i = 0; i < data.entries.length; i++) {
+					console.log(data.entries[i].periods);
+					updateDomainInfo( data.entries[i].domain, { periodsLeft : data.entries[i].periods }, function() {
+						refreshFromLocal();
+						getAllLocalInfo(function(data) {
+							console.log(data);
+						});
+					});
 				}
-				chrome.tabs.remove(tabs_to_close);
-			}
-		});
+			});
+		}
 
-		// Update local storage
-		updateDomainInfo(alarm.name, {
-			periodBeingUsed: false
-		}, function() {
-			refreshFromLocal();
-		});
+		// Else,end period and clear the alarm
+		else {
+			// Notify that period is over
+			console.log('Ring ring!:', alarm.name, 'period has ended.');
+			alert('A period has ended.');
 
-		// Remove alarm
-		chrome.alarms.clear(alarm.name);
+			// Close any open tabs matching the domain to the redirect page.
+			chrome.tabs.query({
+				url: '*://*.' + alarm.name + '/*'
+			}, function(array) {
+				if (array.length === 0) {
+					console.log('No open tabs of domain', alarm.name);
+				}
+				else {
+					var tabs_to_close = [];
+					for (var i = 0; i < array.length; i++) {
+						tabs_to_close.push(array[i].id);
+					}
+					chrome.tabs.remove(tabs_to_close);
+				}
+			});
+
+			// Update local storage
+			updateDomainInfo(alarm.name, {
+				periodBeingUsed: false
+			}, function() {
+				refreshFromLocal();
+			});
+
+			// Remove alarm
+			chrome.alarms.clear(alarm.name);
+		}
+	});
+};
+
+// Fill up all periodsLeft every day at midnight
+var setDailyRefresh = function() {
+	var midnight = new Date();
+	midnight.setHours(0,0,0,0);
+	midnight = midnight.getTime();
+	console.log('alarm!');
+
+	chrome.alarms.create('daily_refresh', {
+		periodInMinutes: 1
+		// when: midnight
 	});
 };
 
 // https://developer.chrome.com/extensions/examples/extensions/catifier/event_page.js
+// This function is also called when the extension has been updated.  Because
+// registered rules are persisted beyond browser restarts, we remove
+// previously registered rules before registering new ones.
 function setup() {
-	listenForAlarms();
-	// This function is also called when the extension has been updated.  Because
-	// registered rules are persisted beyond browser restarts, we remove
-	// previously registered rules before registering new ones.
+	setDailyRefresh();
+	// listenForAlarms();
 	refreshFromLocal();
 };
 
