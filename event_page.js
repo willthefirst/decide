@@ -12,12 +12,17 @@ var listenForAlarms = function() {
 
 		// If alarm is the daily refresh alarm, clear periodsLeft for all domains
 		if(alarm.name === "daily_refresh") {
+			chrome.alarms.clearAll();
+
 			getAllLocalInfo(function(data) {
 				var entries = data.entries;
 				for (var i = 0; i < data.entries.length; i++) {
 					data.entries[i].periodsLeft = data.entries[i].periods;
+					data.entries[i].periodBeingUsed = false;
 				}
-				chrome.storage.sync.set( { 'entries': entries } , function() {});
+				chrome.storage.sync.set( { 'entries': entries } , function() {
+					refreshFromLocal();
+				});
 			});
 
 			// reset alarm
@@ -27,8 +32,6 @@ var listenForAlarms = function() {
 		// Else,end period and clear the alarm
 		else {
 			// Notify that period is over
-			console.log('Ring ring!:', alarm.name, 'period has ended.');
-			alert('A period has ended.');
 
 			// Close any open tabs matching the domain to the redirect page.
 			chrome.tabs.query({
@@ -67,6 +70,7 @@ function setDailyRefresh() {
 
 	chrome.alarms.create('daily_refresh', {
 		when: midnight
+		// periodInMinutes: 1 // for quick debugging of alarms
 	});
 };
 
@@ -75,6 +79,7 @@ function setDailyRefresh() {
 // registered rules are persisted beyond browser restarts, we remove
 // previously registered rules before registering new ones.
 function setup() {
+	chrome.alarms.clearAll();
 	setDailyRefresh();
 	listenForAlarms();
 	refreshFromLocal();
@@ -82,7 +87,6 @@ function setup() {
 
 // This is triggered when the extension is installed or updated.
 chrome.runtime.onInstalled.addListener(setup);
-
 
 // DUPLICATES FROM FACTORIES.JS
 
@@ -185,8 +189,7 @@ function registerRules ( data ) {
 		} else {
 			chrome.declarativeWebRequest.onRequest.getRules(null,
 				function(rules) {
-					// console.info('Now the following rules are registered: ' +
-					// 	JSON.stringify(rules, null, 2));
+					console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
 				}
 			);
 		}

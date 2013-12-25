@@ -5,7 +5,6 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	var entries;
 
 	storage.getAllLocalInfo(function(data) {
-		console.log(data);
 		if (!data.entries) {
 			entries = $scope.entries = [];
 		}
@@ -72,7 +71,11 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		}
 	});
 
+	var fire_once_per_page = 0;
+
 	$scope.usePeriod = function() {
+		fire_once_per_page++;
+		if(fire_once_per_page > 1) {return};
 
 		var letPass = function( url ) {
 			window.location = url;

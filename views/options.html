@@ -28,6 +28,7 @@
 			<ul class="saved-entries">
 				<li class="options-saved" ng-repeat="entry in entries track by $index">
 					<form>
+						<span>{{entry.periodsLeft}}/{{entry.periods}}</span>
 						<span ng-model="entry.domain" class="saved-domain">{{ entry.domain }}</span>
 						<span>for</span>
 						<input type="number" ng-model="entry.periodLength" class="opt-field--period-length" min="0" max="60" value="{{ entry.periodLength }}"  /><span>-minute periods,</span>
