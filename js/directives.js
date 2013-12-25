@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sensei.directives', ['sensei.factories'])
-.directive('validateDomain', function( storage , utilities ) {
+.directive('validateDomain', [ 'storage' , 'utilities', function( storage , utilities ) {
     return {
         restrict: 'A',
         require: 'ngModel',
@@ -31,7 +31,7 @@ angular.module('sensei.directives', ['sensei.factories'])
             });
         }
     };
-}).directive('validateAllowSentence', function( storage ) {
+}]).directive('validateAllowSentence', ['storage', function( storage ) {
     return {
         restrict: 'A',
         require: 'ngModel',
@@ -51,4 +51,4 @@ angular.module('sensei.directives', ['sensei.factories'])
             });
         }
     };
-});
+}]);

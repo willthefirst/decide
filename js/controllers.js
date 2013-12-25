@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sensei.controllers', ['sensei.factories'])
-.controller('Options', function ( $scope, redirectRules, storage, utilities ) {
+.controller('Options', ['$scope', 'redirectRules', 'storage', 'utilities', function ( $scope, redirectRules, storage, utilities ) {
 	var entries;
 
 	storage.getAllLocalInfo(function(data) {
@@ -41,7 +41,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		});
 	};
 
-}).controller('Allow', function ( $scope, $location, storage, redirectRules, alarms ) {
+}]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', function ( $scope, $location, storage, redirectRules, alarms ) {
 	var redirectedDomain = $scope.redirectedDomain = {};
 
 	// TODO: make this set to query in URL.
@@ -102,4 +102,4 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 		} );
 	};
-});
+}]);
