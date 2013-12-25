@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sensei.controllers', ['sensei.factories']).value('version', '0.1')
+angular.module('sensei.controllers', ['sensei.factories'])
 .controller('Options', ['$scope', 'redirectRules', 'storage', 'utilities', function ( $scope, redirectRules, storage, utilities ) {
 	var entries;
 
