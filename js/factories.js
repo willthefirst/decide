@@ -35,7 +35,7 @@ angular.module('sensei.factories', [])
 
 	var getAllLocalInfo = function( callback ) {
 		chrome.storage.sync.get( 'entries', function( data ) {
-				callback(data);
+			callback(data);
 		});
 	};
 

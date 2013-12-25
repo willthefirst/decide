@@ -5,6 +5,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	var entries;
 
 	storage.getAllLocalInfo(function(data) {
+		console.log(data);
 		if (!data.entries) {
 			entries = $scope.entries = [];
 		}
@@ -37,6 +38,9 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	$scope.removeEntry = function( entry ) {
 		entries.splice(entries.indexOf(entry), 1);
 		storage.updateAllLocalInfo(entries, function() {
+			storage.getAllLocalInfo(function(a) {
+				console.log(a);
+			});
 			redirectRules.refreshFromLocal();
 		});
 	};
