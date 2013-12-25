@@ -1,2 +1,3 @@
 /node_modules
-app/js/build
+extension/js/build
+extension/.sass-cache

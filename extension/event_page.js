@@ -1,6 +1,6 @@
 // Configuration
 var config = {
-	redirectUrl: chrome.extension.getURL('app/views/redirect.html')
+	redirectUrl: chrome.extension.getURL('views/redirect.html')
 };
 
 // Utility variables
@@ -173,8 +173,9 @@ function registerRules ( data ) {
 					})
 				],
 				actions: [
-					new RedirectRequest({
-						redirectUrl: ( config.redirectUrl + '?' + 'domain=' + entries[i].domain )
+					new RedirectByRegEx({
+						from: '(.*)',
+						to: ([config.redirectUrl] + '?' + 'domain=' + entries[i].domain + '&original=' + '$1')
 					})
 				]
 			};
