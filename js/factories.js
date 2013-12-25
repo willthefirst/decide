@@ -198,9 +198,11 @@ angular.module('sensei.factories', [])
 	};
 }).factory('utilities', function() {
 	return {
-
 		// Clean domain input to match xxx.com (remove http://, https//, etc.)
 		cleanDomainString : function( string ) {
+			if (!string) {
+				return;
+			}
 			var cleaned = (string).replace(/^(?:(http:\/\/www.)|(https:\/\/www.)|(http:\/\/)|(https:\/\/)|(www.))/g, '');
 			return cleaned;
 		}

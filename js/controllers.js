@@ -16,7 +16,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 	$scope.saveNewEntry = function( entry ) {
 
-		utilities.cleanDomainString(entry.domain);
+		entry.domain = utilities.cleanDomainString(entry.domain);
 
 		// Add additional props for a new entry
 		entry.periodsLeft = entry.periods;
@@ -37,9 +37,6 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	$scope.removeEntry = function( entry ) {
 		entries.splice(entries.indexOf(entry), 1);
 		storage.updateAllLocalInfo(entries, function() {
-			storage.getAllLocalInfo(function(a) {
-				console.log(a);
-			});
 			redirectRules.refreshFromLocal();
 		});
 	};
