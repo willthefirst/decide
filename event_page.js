@@ -1,6 +1,6 @@
 // Configuration
 var config = {
-	redirectUrl: chrome.extension.getURL('views/redirect.html')
+	redirectUrl: chrome.extension.getURL('app/views/redirect.html')
 };
 
 // Utility variables

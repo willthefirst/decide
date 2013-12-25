@@ -10,21 +10,21 @@ module.exports = function(grunt) {
         concat: {
             dist: {
                 src: [
-                    'js/angular.min.js',
-                    'js/app.js',
-                    'js/factories.js',
-                    'js/controllers.js',
-                    'js/directives.js'
+                    'app/js/angular.min.js',
+                    'app/js/app.js',
+                    'app/js/factories.js',
+                    'app/js/controllers.js',
+                    'app/js/directives.js'
                 ],
-                dest: 'js/build/prod-common.js'
+                dest: 'app/js/build/prod-common.js'
             }
         },
 
         // Minify JS files
         uglify: {
             build: {
-                src: 'js/build/prod-common.js',
-                dest: 'js/build/prod-common.min.js'
+                src: 'app/js/build/prod-common.js',
+                dest: 'app/js/build/prod-common.min.js'
             }
         },
 
@@ -32,15 +32,23 @@ module.exports = function(grunt) {
         compass: {
             dist: {
                   options: {
-                    config: 'config.rb'
+                    config: 'app/config.rb'
                 }
             }
+        },
+
+        // Testing
+
+        karma: {
+          unit: {
+            configFile: 'tests/karma.conf.js'
+          }
         },
 
         // Watch files and run tasks when they change
         watch: {
             scripts: {
-                files: ['js/*.js'],
+                files: ['app/js/*.js'],
                 tasks: ['concat', 'uglify'],
                 options: {
                     spawn: false,
@@ -48,7 +56,7 @@ module.exports = function(grunt) {
             },
 
             css: {
-                files: ['scss/*'],
+                files: ['app/scss/*'],
                 tasks: ['compass'],
                 options: {
                     spawn: false,
@@ -61,10 +69,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-    grunt.registerTask('default', ['concat', 'compass', 'watch']);
+    grunt.registerTask('default', ['concat', 'compass',  'watch']);
     // grunt.registerTask('prod', ['concat', 'uglify', 'compass', 'watch']);
 
 };
