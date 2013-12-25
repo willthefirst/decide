@@ -1,90 +1,245 @@
-/*
-Syntax error: Undefined variable: "$etxt-secondary".
-        on line 204 of /Users/willthefirst/Sites/decide/scss/_base.scss
-        from line 1 of /Users/willthefirst/Sites/decide/scss/redirect.scss
+/* line 17, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
 
-Backtrace:
-/Users/willthefirst/Sites/decide/scss/_base.scss:204
-/Users/willthefirst/Sites/decide/scss/redirect.scss:1
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/script/variable.rb:49:in `_perform'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/script/node.rb:40:in `perform'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:298:in `visit_prop'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:53:in `map'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:320:in `visit_rule'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:227:in `block in visit_import'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:227:in `map'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:227:in `visit_import'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:53:in `map'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:128:in `visit_root'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/visitors/perform.rb:7:in `visit'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/tree/root_node.rb:20:in `render'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/engine.rb:315:in `_render'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/sass-3.2.8/lib/sass/engine.rb:262:in `render'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:140:in `block (2 levels) in compile'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:139:in `block in compile'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/logger.rb:45:in `red'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:138:in `compile'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:118:in `compile_if_required'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:103:in `block (2 levels) in run'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `each'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `block in run'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/compiler.rb:100:in `run'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/commands/watch_project.rb:147:in `recompile'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/path.rb:73:in `call'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/path.rb:73:in `run_callback'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/path.rb:55:in `callback_action'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/path.rb:35:in `update'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/state/directory.rb:39:in `block in modified'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/state/directory.rb:37:in `each'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/state/directory.rb:37:in `modified'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/state/directory.rb:18:in `refresh'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/backends/rbfsevent.rb:30:in `block in temporary_multipath_handler'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/backends/rbfsevent.rb:27:in `each'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/backends/rbfsevent.rb:27:in `temporary_multipath_handler'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/backends/rbfsevent.rb:17:in `block (2 levels) in run'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/backends/rbfsevent.rb:16:in `each'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/backends/rbfsevent.rb:16:in `block in run'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/rb-fsevent-0.9.3/lib/rb-fsevent/fsevent.rb:43:in `call'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/rb-fsevent-0.9.3/lib/rb-fsevent/fsevent.rb:43:in `run'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/backends/rbfsevent.rb:20:in `run'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm/monitor.rb:26:in `run'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/fssm-0.2.10/lib/fssm.rb:70:in `monitor'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/commands/watch_project.rb:87:in `perform'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/commands/base.rb:18:in `execute'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/commands/project_base.rb:19:in `execute'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:15:in `run!'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/bin/compass:30:in `block in <top (required)>'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/bin/compass:44:in `call'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/bin/compass:44:in `<top (required)>'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/bin/compass:23:in `load'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/bin/compass:23:in `<main>'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/bin/ruby_noexec_wrapper:14:in `eval'
-/Users/willthefirst/.rvm/gems/ruby-1.9.3-p194@cf/bin/ruby_noexec_wrapper:14:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$etxt-secondary\".\A         on line 204 of /Users/willthefirst/Sites/decide/scss/_base.scss\A         from line 1 of /Users/willthefirst/Sites/decide/scss/redirect.scss"; }
+/* line 22, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../.rvm/gems/ruby-1.9.3-p194@cf/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 34, ../scss/_base.scss */
+.center-txt {
+  text-align: center;
+}
+
+/* line 60, ../scss/_base.scss */
+h1, h2, h3 {
+  font-weight: bold;
+}
+
+/* line 64, ../scss/_base.scss */
+h1 {
+  font-size: 34px;
+  line-height: 51px;
+}
+
+/* line 69, ../scss/_base.scss */
+h2 {
+  font-size: 30px;
+  line-height: 45px;
+}
+
+/* line 74, ../scss/_base.scss */
+h3 {
+  font-size: 24px;
+  line-height: 36px;
+}
+
+/* line 81, ../scss/_base.scss */
+body {
+  background-color: #6c8ea0;
+  font-family: 'Actor', sans-serif;
+  color: #fefefe;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+/* line 90, ../scss/_base.scss */
+input[type=text],
+input[type=url],
+input[type=number] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: inherit;
+  border: none;
+  font-family: inherit;
+  padding: 0;
+  display: inline-block;
+}
+/* line 100, ../scss/_base.scss */
+input[type=text]:focus,
+input[type=url]:focus,
+input[type=number]:focus {
+  outline: none;
+}
+/* line 104, ../scss/_base.scss */
+input[type=text].ng-valid,
+input[type=url].ng-valid,
+input[type=number].ng-valid {
+  color: #5fff99;
+}
+
+/* 	Transitions  -------------------------------------------- */
+/* 	Buttons  -------------------------------------------- */
+/* line 119, ../scss/_base.scss */
+button:before, button:after {
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+  display: inline-block;
+  padding: 0 2px;
+  margin-top: -5px;
+  vertical-align: top;
+  font-size: 1.3em;
+}
+
+/* line 128, ../scss/_base.scss */
+button {
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+  display: inline-block;
+  font-size: inherit;
+  font-family: inherit;
+  background-color: inherit;
+  cursor: pointer;
+  border: none;
+  margin: auto;
+  color: inherit;
+  position: relative;
+  padding: 0px 10px;
+  text-transform: lowercase;
+}
+/* line 142, ../scss/_base.scss */
+button:disabled {
+  display: none;
+}
+/* line 146, ../scss/_base.scss */
+button:before {
+  content: '[';
+  -webkit-transform: translate3d(-10px, 0, 0);
+}
+/* line 152, ../scss/_base.scss */
+button:after {
+  content: ']';
+  -webkit-transform: translate3d(10px, 0, 0);
+}
+/* line 158, ../scss/_base.scss */
+button:hover, button:focus {
+  outline: 0;
+  text-decoration: underline;
+}
+/* line 162, ../scss/_base.scss */
+button:hover:before, button:focus:before {
+  -webkit-transform: translate3d(0px, 0, 0);
+}
+/* line 166, ../scss/_base.scss */
+button:hover:after, button:focus:after {
+  -webkit-transform: translate3d(0px, 0, 0);
+}
+
+/* line 192, ../scss/_base.scss */
+.helper {
+  color: #aac3d0;
+}
+
+/* 	Utilities
+	------------------------------------------------------- */
+/* line 199, ../scss/_base.scss */
+.align-middle {
+  text-align: middle;
+}
+
+/* line 203, ../scss/_base.scss */
+.txt-secondary {
+  color: #aac3d0;
+}
+
+/* line 3, ../scss/redirect.scss */
+.wrapper {
+  margin: auto;
+  max-width: 1200px;
+  padding: 12px;
+  text-align: center;
+}
+
+/* line 10, ../scss/redirect.scss */
+.allow {
+  margin: 100px auto 0;
+  width: 80%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 18, ../scss/redirect.scss */
+.allow-type {
+  margin-bottom: 32px;
+}
+
+/* line 22, ../scss/redirect.scss */
+.allow-sentence {
+  width: 100%;
+  font-size: 34px;
+  line-height: 51px;
+  color: #fefefe;
+  text-align: center;
+  margin: 0 0 32px 0;
+}
+/* line 29, ../scss/redirect.scss */
+.allow-sentence:focus {
+  outline: none;
+}
+/* line 33, ../scss/redirect.scss */
+.allow-sentence.ng-valid-allow-sentence {
+  color: #5fff99;
+}

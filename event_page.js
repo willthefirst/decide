@@ -13,17 +13,15 @@ var listenForAlarms = function() {
 		// If alarm is the daily refresh alarm, clear periodsLeft for all domains
 		if(alarm.name === "daily_refresh") {
 			getAllLocalInfo(function(data) {
-				console.log(data);
+				var entries = data.entries;
 				for (var i = 0; i < data.entries.length; i++) {
-					console.log(data.entries[i].periods);
-					updateDomainInfo( data.entries[i].domain, { periodsLeft : data.entries[i].periods }, function() {
-						refreshFromLocal();
-						getAllLocalInfo(function(data) {
-							console.log(data);
-						});
-					});
+					data.entries[i].periodsLeft = data.entries[i].periods;
 				}
+				chrome.storage.sync.set( { 'entries': entries } , function() {});
 			});
+
+			// reset alarm
+			setDailyRefresh();
 		}
 
 		// Else,end period and clear the alarm
@@ -62,15 +60,13 @@ var listenForAlarms = function() {
 };
 
 // Fill up all periodsLeft every day at midnight
-var setDailyRefresh = function() {
+function setDailyRefresh() {
 	var midnight = new Date();
 	midnight.setHours(0,0,0,0);
 	midnight = midnight.getTime();
-	console.log('alarm!');
 
 	chrome.alarms.create('daily_refresh', {
-		periodInMinutes: 1
-		// when: midnight
+		when: midnight
 	});
 };
 
@@ -80,7 +76,7 @@ var setDailyRefresh = function() {
 // previously registered rules before registering new ones.
 function setup() {
 	setDailyRefresh();
-	// listenForAlarms();
+	listenForAlarms();
 	refreshFromLocal();
 };
 
@@ -189,8 +185,8 @@ function registerRules ( data ) {
 		} else {
 			chrome.declarativeWebRequest.onRequest.getRules(null,
 				function(rules) {
-					console.info('Now the following rules are registered: ' +
-						JSON.stringify(rules, null, 2));
+					// console.info('Now the following rules are registered: ' +
+					// 	JSON.stringify(rules, null, 2));
 				}
 			);
 		}

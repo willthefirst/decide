@@ -7,33 +7,35 @@ angular.module('sensei.factories', [])
 	// NEXT: something must be buggy here, affecting both the callback and the wierdness in updateDomainInfo
 	var localDomainInfo = function( domain, localData, returnType ) {
 		if (!localData.entries) {
-			console.error('Nothing in local storage.');
+			return;
 		}
-		var found = false;
-		for (var i = 0; i < localData.entries.length; i++) {
-			if (localData.entries[i].domain === domain) {
-				found = true;
-				switch (returnType) {
-					case 'object':
-						return localData.entries[i];
-					break
-					case 'index':
-						return i;
-					break
+		else {
+			var found = false;
+			for (var i = 0; i < localData.entries.length; i++) {
+				if (localData.entries[i].domain === domain) {
+					found = true;
+					switch (returnType) {
+						case 'object':
+							return localData.entries[i];
+						break
+						case 'index':
+							return i;
+						break
+					}
 				}
 			}
-		}
-		if (!found) {
-			if (config.debug) {
-				console.error('Entry not found!');
+			if (!found) {
+				if (config.debug) {
+					console.error('Entry not found!');
+				}
+				return false;
 			}
-			return false;
-		}
-	};
+		};
+	}
 
 	var getAllLocalInfo = function( callback ) {
 		chrome.storage.sync.get( 'entries', function( data ) {
-			callback(data);
+				callback(data);
 		});
 	};
 
@@ -43,8 +45,11 @@ angular.module('sensei.factories', [])
 
 		// Updates all local info with fresh array
 		updateAllLocalInfo: function( array, callback ) {
+			var obj = {}
+			obj.entries = array;
+			console.log('here',obj);
 			// Update entries in local storage
-			chrome.storage.sync.set( { 'entries': array } , function() {
+			chrome.storage.sync.set( obj , function() {
 				callback();
 			});
 		},
