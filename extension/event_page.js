@@ -7,24 +7,26 @@ var config = {
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 
+var resetAllPeriods = function() {
+	getAllLocalInfo(function(data) {
+		var entries = data.entries;
+		for (var i = 0; i < data.entries.length; i++) {
+			data.entries[i].periodsLeft = data.entries[i].periods;
+			data.entries[i].periodBeingUsed = false;
+		}
+		chrome.storage.sync.set( { 'entries': entries } , function() {
+			refreshFromLocal();
+		});
+	});
+};
+
 var listenForAlarms = function() {
 	chrome.alarms.onAlarm.addListener(function(alarm){
 
 		// If alarm is the daily refresh alarm, clear periodsLeft for all domains
 		if(alarm.name === "daily_refresh") {
 			chrome.alarms.clearAll();
-
-			getAllLocalInfo(function(data) {
-				var entries = data.entries;
-				for (var i = 0; i < data.entries.length; i++) {
-					data.entries[i].periodsLeft = data.entries[i].periods;
-					data.entries[i].periodBeingUsed = false;
-				}
-				chrome.storage.sync.set( { 'entries': entries } , function() {
-					refreshFromLocal();
-				});
-			});
-
+			resetAllPeriods();
 			// reset alarm
 			setDailyRefresh();
 		}
@@ -38,7 +40,7 @@ var listenForAlarms = function() {
 				url: '*://*.' + alarm.name + '/*'
 			}, function(array) {
 				if (array.length === 0) {
-					console.log('No open tabs of domain', alarm.name);
+					// No open tabs
 				}
 				else {
 					var tabs_to_close = [];
@@ -69,8 +71,8 @@ function setDailyRefresh() {
 	midnight = midnight.getTime();
 
 	chrome.alarms.create('daily_refresh', {
-		// when: midnight
-		periodInMinutes: 1 // for quick debugging of alarms
+		when: midnight
+		// periodInMinutes: 1 // for quick debugging of alarms
 	});
 };
 
@@ -79,10 +81,14 @@ function setDailyRefresh() {
 // registered rules are persisted beyond browser restarts, we remove
 // previously registered rules before registering new ones.
 function setup() {
+
+	// Clear old alarms and period counters
 	chrome.alarms.clearAll();
+	resetAllPeriods();
+
+	// Set up new listeners.
 	setDailyRefresh();
 	listenForAlarms();
-	refreshFromLocal();
 };
 
 // This is triggered when the extension is installed or updated.
@@ -195,11 +201,11 @@ function registerRules ( data ) {
 		if (chrome.runtime.lastError) {
 			console.error('Error adding rules: ' + chrome.runtime.lastError);
 		} else {
-			chrome.declarativeWebRequest.onRequest.getRules(null,
-				function(rules) {
-					console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
-				}
-			);
+			// chrome.declarativeWebRequest.onRequest.getRules(null,
+			// 	function(rules) {
+			// 		console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+			// 	}
+			// );
 		}
 	};
 

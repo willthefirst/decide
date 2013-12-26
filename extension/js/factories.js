@@ -53,6 +53,7 @@ angular.module('sensei.factories', [])
 			// Update entries in local storage
 			chrome.storage.sync.set( { 'entries': array } , function() {
 				chrome.storage.sync.get('entries', function(data) {
+					console.log(data);
 				});
 				callback();
 			});
