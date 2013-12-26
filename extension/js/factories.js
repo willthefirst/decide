@@ -1,5 +1,17 @@
 'use strict';
 
+var getAllLocalInfo = function( callback ) {
+	chrome.storage.sync.get( 'entries', function( data ) {
+		// If no entries in local, return empty array.
+		if(!data.entries) {
+			callback({entries:[]});
+		}
+		else {
+			callback(data);
+		}
+	});
+};
+
 angular.module('sensei.factories', [])
 .factory( 'storage' , function() {
 
@@ -7,34 +19,29 @@ angular.module('sensei.factories', [])
 	// NEXT: something must be buggy here, affecting both the callback and the wierdness in updateDomainInfo
 	var localDomainInfo = function( domain, localData, returnType ) {
 		if (!localData.entries) {
-			console.error('Nothing in local storage.');
-		}
-		var found = false;
-		for (var i = 0; i < localData.entries.length; i++) {
-			if (localData.entries[i].domain === domain) {
-				found = true;
-				switch (returnType) {
-					case 'object':
-						return localData.entries[i];
-					break
-					case 'index':
-						return i;
-					break
+			return;
+		} else {
+			var found = false;
+			for (var i = 0; i < localData.entries.length; i++) {
+				if (localData.entries[i].domain === domain) {
+					found = true;
+					switch (returnType) {
+						case 'object':
+							return localData.entries[i];
+						break
+						case 'index':
+							return i;
+						break
+					}
 				}
 			}
-		}
-		if (!found) {
-			if (config.debug) {
-				console.error('Entry not found!');
+			if (!found) {
+				if (config.debug) {
+					console.error('Entry not found!');
+				}
+				return false;
 			}
-			return false;
 		}
-	};
-
-	var getAllLocalInfo = function( callback ) {
-		chrome.storage.sync.get( 'entries', function( data ) {
-			callback(data);
-		});
 	};
 
 	return {
@@ -45,6 +52,8 @@ angular.module('sensei.factories', [])
 		updateAllLocalInfo: function( array, callback ) {
 			// Update entries in local storage
 			chrome.storage.sync.set( { 'entries': array } , function() {
+				chrome.storage.sync.get('entries', function(data) {
+				});
 				callback();
 			});
 		},
@@ -88,7 +97,6 @@ angular.module('sensei.factories', [])
 	// Utility variables
 	var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 	var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
-	// var RedirectRequest = chrome.declarativeWebRequest.RedirectRequest;
 
 	// Register rules
 	var registerRules = function( data ) {
@@ -147,24 +155,8 @@ angular.module('sensei.factories', [])
 				if (chrome.runtime.lastError) {
 					alert('Error clearing rules: ' + chrome.runtime.lastError);
 				} else {
-					chrome.storage.sync.get('entries', function( data ) {
-						if (data.entries.length > 0) {
-							registerRules(data);
-						}
-						else {
-							chrome.declarativeWebRequest.onRequest.removeRules(
-								null,
-								function() {
-									if (chrome.runtime.lastError) {
-										alert('Error clearing rules: ' + chrome.runtime.lastError);
-									} else {
-										if (config.debug) {
-											console.log('No rules registered.');
-										}
-									}
-								}
-							);
-						}
+					getAllLocalInfo(function(data){
+						registerRules(data);
 					});
 				}
 			}
@@ -194,6 +186,10 @@ angular.module('sensei.factories', [])
 				}
 
 			});
+		},
+
+		remove: function( domain ) {
+			chrome.alarms.clear( domain );
 		}
 	};
 }).factory('utilities', function() {

@@ -5,7 +5,7 @@ var config = {
 
 // Utility variables
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
-var RedirectRequest = chrome.declarativeWebRequest.RedirectRequest;
+var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 
 var listenForAlarms = function() {
 	chrome.alarms.onAlarm.addListener(function(alarm){
@@ -69,8 +69,8 @@ function setDailyRefresh() {
 	midnight = midnight.getTime();
 
 	chrome.alarms.create('daily_refresh', {
-		when: midnight
-		// periodInMinutes: 1 // for quick debugging of alarms
+		// when: midnight
+		periodInMinutes: 1 // for quick debugging of alarms
 	});
 };
 
@@ -94,33 +94,40 @@ chrome.runtime.onInstalled.addListener(setup);
 // NEXT: something must be buggy here, affecting both the callback and the wierdness in updateDomainInfo
 function localDomainInfo( domain, localData, returnType ) {
 	if (!localData.entries) {
-		console.error('Nothing in local storage.');
-	}
-	var found = false;
-	for (var i = 0; i < localData.entries.length; i++) {
-		if (localData.entries[i].domain === domain) {
-			found = true;
-			switch (returnType) {
-				case 'object':
-					return localData.entries[i];
-				break
-				case 'index':
-					return i;
-				break
+		return;
+	} else {
+		var found = false;
+		for (var i = 0; i < localData.entries.length; i++) {
+			if (localData.entries[i].domain === domain) {
+				found = true;
+				switch (returnType) {
+					case 'object':
+						return localData.entries[i];
+					break
+					case 'index':
+						return i;
+					break
+				}
 			}
 		}
-	}
-	if (!found) {
-		if (config.debug) {
-			console.error('Entry not found!');
+		if (!found) {
+			if (config.debug) {
+				console.error('Entry not found!');
+			}
+			return false;
 		}
-		return false;
 	}
 };
 
 function getAllLocalInfo( callback ) {
 	chrome.storage.sync.get( 'entries', function( data ) {
-		callback(data);
+		// If no entries in local, return empty array.
+		if(!data.entries) {
+			callback({entries:[]});
+		}
+		else {
+			callback(data);
+		}
 	});
 };
 
@@ -207,22 +214,8 @@ function refreshFromLocal() {
 			if (chrome.runtime.lastError) {
 				alert('Error clearing rules: ' + chrome.runtime.lastError);
 			} else {
-				getAllLocalInfo(function(data){
-					if (data.entries.length > 0) {
-						registerRules(data);
-					}
-					else {
-						chrome.declarativeWebRequest.onRequest.removeRules(
-							null,
-							function() {
-								if (chrome.runtime.lastError) {
-									alert('Error clearing rules: ' + chrome.runtime.lastError);
-								} else {
-									console.log('No rules registered.');
-								}
-							}
-						);
-					}
+				getAllLocalInfo(function(data) {
+					registerRules(data);
 				});
 			}
 		}

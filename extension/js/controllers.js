@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('sensei.controllers', ['sensei.factories'])
-.controller('Options', ['$scope', 'redirectRules', 'storage', 'utilities', function ( $scope, redirectRules, storage, utilities ) {
+.controller('Options', ['$scope', 'redirectRules', 'storage', 'alarms', 'utilities', function ( $scope, redirectRules, storage, alarms, utilities ) {
 	var entries;
-
 	storage.getAllLocalInfo(function(data) {
 		if (!data.entries) {
 			entries = $scope.entries = [];
@@ -29,6 +28,10 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	};
 
 	$scope.updateEntry = function( entry ) {
+		// Add additional props for a new entry
+		entry.periodsLeft = entry.periods;
+		entry.periodBeingUsed = false;
+
 		storage.updateDomainInfo(entry.domain, entry, function(){
 			redirectRules.refreshFromLocal();
 		});
@@ -36,6 +39,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 	$scope.removeEntry = function( entry ) {
 		entries.splice(entries.indexOf(entry), 1);
+		alarms.remove(entry.domain);
 		storage.updateAllLocalInfo(entries, function() {
 			redirectRules.refreshFromLocal();
 		});
@@ -75,7 +79,11 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		if(fire_once_per_page > 1) {return};
 
 		var letPass = function( url ) {
-			window.location = url;
+			if(!url) {
+				window.location = $location.search().domain;
+			}else {
+				window.location = url;
+			}
 		};
 
 		storage.getDomainInfo( redirectedDomain.domain, function(domain_props) {
