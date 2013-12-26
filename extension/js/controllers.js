@@ -47,9 +47,8 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 }]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', function ( $scope, $location, storage, redirectRules, alarms ) {
 	var redirectedDomain = $scope.redirectedDomain = {};
-
-	// TODO: make this set to query in URL.
 	var queryUrl = $location.search().domain;
+	var over = false;
 
 	storage.getDomainInfo( queryUrl, function(domain_props) {
 		redirectedDomain.domain = domain_props.domain;

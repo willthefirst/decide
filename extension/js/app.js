@@ -12,6 +12,14 @@ var sensei = angular.module('sensei', [
 
 // Duplicate to event_page.js
 var config = {
-	debug: false,
-	redirectUrl: chrome.extension.getURL('views/redirect.html')
+	debug: true,
+	redirectUrl: chrome.extension.getURL('views/redirect.html'),
 };
+
+// Use local chrome storage for development to avoid hitting MAX_WRITES
+var chromeStorage;
+if(config.debug){
+	chromeStorage = chrome.storage.local;
+} else {
+	chrome.storage = chrome.stoarage.sync;
+}

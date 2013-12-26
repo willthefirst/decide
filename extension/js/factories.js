@@ -1,7 +1,7 @@
 'use strict';
 
 var getAllLocalInfo = function( callback ) {
-	chrome.storage.sync.get( 'entries', function( data ) {
+	chromeStorage.get( 'entries', function( data ) {
 		// If no entries in local, return empty array.
 		if(!data.entries) {
 			callback({entries:[]});
@@ -36,9 +36,6 @@ angular.module('sensei.factories', [])
 				}
 			}
 			if (!found) {
-				if (config.debug) {
-					console.error('Entry not found!');
-				}
 				return false;
 			}
 		}
@@ -51,7 +48,7 @@ angular.module('sensei.factories', [])
 		// Updates all local info with fresh array
 		updateAllLocalInfo: function( array, callback ) {
 			// Update entries in local storage
-			chrome.storage.sync.set( { 'entries': array } , function() {
+			chromeStorage.set( { 'entries': array } , function() {
 				if(chrome.runtime.lastError) {
 					console.log(chrome.runtime.lastError.message);
 					return;
@@ -87,7 +84,7 @@ angular.module('sensei.factories', [])
 				data.entries[new_entry_index] = new_entry;
 
 				// Update the whole entries object in local storage.
-				chrome.storage.sync.set( { 'entries' : data.entries }, function() {
+				chromeStorage.set( { 'entries' : data.entries }, function() {
 					if(chrome.runtime.lastError) {
 						console.log(chrome.runtime.lastError.message);
 						return;
@@ -143,9 +140,7 @@ angular.module('sensei.factories', [])
 			} else {
 				chrome.declarativeWebRequest.onRequest.getRules(null,
 					function(rules) {
-						if (config.debug) {
-							console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
-						}
+						console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
 					}
 				);
 			}
@@ -164,6 +159,14 @@ angular.module('sensei.factories', [])
 					getAllLocalInfo(function(data){
 						registerRules(data);
 					});
+					chrome.declarativeWebRequest.onRequest.getRules(
+						null,
+						function(stuff) {
+							if(stuff && stuff.length > 0) {
+								console.error('Refresh the extension. Failed to clear redirect rules before setting new ones. This is probably due to old rules from chrome.storage.sync/storage being left over.');
+							}
+						}
+					);
 				}
 			}
 		);

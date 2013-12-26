@@ -31,10 +31,17 @@ $text-secondary: $gray-ll;
 
 // Utility
 
-.center-txt {
-	text-align: center;
+.align-middle {
+	text-align: middle;
 }
 
+.txt-secondary {
+	color: $text-secondary;
+}
+
+.ng-hide {
+	display: none !important;
+}
 // Fonts
 
 @mixin size-1 {
@@ -193,13 +200,3 @@ input[class*='ng-invalid-'] {
 	color: $text-secondary;
 }
 
-/* 	Utilities
-	------------------------------------------------------- */
-
-.align-middle {
-	text-align: middle;
-}
-
-.txt-secondary {
-	color: $text-secondary;
-}

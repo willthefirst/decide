@@ -16,7 +16,8 @@
 </head>
 <body>
 	<div class="wrapper"  ng-controller="Allow">
-		<form name="allow" class="allow">
+		<p ng-if="redirectedDomain.periodsLeft === 0" class="done-for-day">You're done with {{ redirectedDomain.domain }} for the day.<br /><br />Go for a run or something.</p>
+		<form ng-if="redirectedDomain.periodsLeft > 0" name="allow" class="allow">
 			<p class="helper allow-type">If you really mean it, type "I want to use {{ redirectedDomain.domain }} efficiently."</p>
 			<input ng-model="allowSentence" type="text" class="allow-sentence" autofocus validate-allow-sentence  required />
 			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid" title="click me if your are not redirected">redirecting...</button>

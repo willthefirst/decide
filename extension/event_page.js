@@ -1,8 +1,16 @@
 // Configuration
 var config = {
-	redirectUrl: chrome.extension.getURL('views/redirect.html')
+	debug: true,
+	redirectUrl: chrome.extension.getURL('views/redirect.html'),
 };
 
+// Use local chrome storage for development to avoid hitting MAX_WRITES
+var chromeStorage;
+if(config.debug){
+	chromeStorage = chrome.storage.local;
+} else {
+	chrome.storage = chrome.stoarage.sync;
+}
 // Utility variables
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
@@ -14,7 +22,7 @@ var resetAllPeriods = function() {
 			data.entries[i].periodsLeft = data.entries[i].periods;
 			data.entries[i].periodBeingUsed = false;
 		}
-		chrome.storage.sync.set( { 'entries': entries } , function() {
+		chromeStorage.set( { 'entries': entries } , function() {
 			if(chrome.runtime.lastError) {
 				console.log(chrome.runtime.lastError.message);
 				return;
@@ -130,7 +138,7 @@ function localDomainInfo( domain, localData, returnType ) {
 };
 
 function getAllLocalInfo( callback ) {
-	chrome.storage.sync.get( 'entries', function( data ) {
+	chromeStorage.get( 'entries', function( data ) {
 		// If no entries in local, return empty array.
 		if(!data.entries) {
 			callback({entries:[]});
@@ -162,7 +170,7 @@ function updateDomainInfo( redirectedDomain, propsToUpdate, callback ) {
 
 		// Update the whole entries object in local storage.
 
-		chrome.storage.sync.set( { 'entries' : data.entries }, function() {
+		chromeStorage.set( { 'entries' : data.entries }, function() {
 			if(chrome.runtime.lastError) {
 				console.log(chrome.runtime.lastError.message);
 				return;
