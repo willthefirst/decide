@@ -15,6 +15,10 @@ var resetAllPeriods = function() {
 			data.entries[i].periodBeingUsed = false;
 		}
 		chrome.storage.sync.set( { 'entries': entries } , function() {
+			if(chrome.runtime.lastError) {
+				console.log(chrome.runtime.lastError.message);
+				return;
+			}
 			refreshFromLocal();
 		});
 	});
@@ -159,6 +163,10 @@ function updateDomainInfo( redirectedDomain, propsToUpdate, callback ) {
 		// Update the whole entries object in local storage.
 
 		chrome.storage.sync.set( { 'entries' : data.entries }, function() {
+			if(chrome.runtime.lastError) {
+				console.log(chrome.runtime.lastError.message);
+				return;
+			}
 			callback();
 		});
 

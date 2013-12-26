@@ -51,15 +51,13 @@ angular.module('sensei.factories', [])
 		// Updates all local info with fresh array
 		updateAllLocalInfo: function( array, callback ) {
 			// Update entries in local storage
-			console.log(array);
-			chrome.storage.sync.clear(function() {
-				chrome.storage.sync.set( { 'entries': array } , function() {
-					chrome.storage.sync.get('entries', function(data) {
-						console.log(data);
-					});
-					callback();
-				});
-			})
+			chrome.storage.sync.set( { 'entries': array } , function() {
+				if(chrome.runtime.lastError) {
+					console.log(chrome.runtime.lastError.message);
+					return;
+				}
+				callback();
+			});
 		},
 
 		// Returns local info for specified domain.
@@ -90,6 +88,10 @@ angular.module('sensei.factories', [])
 
 				// Update the whole entries object in local storage.
 				chrome.storage.sync.set( { 'entries' : data.entries }, function() {
+					if(chrome.runtime.lastError) {
+						console.log(chrome.runtime.lastError.message);
+						return;
+					}
 					callback();
 				});
 
