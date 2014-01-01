@@ -3,8 +3,9 @@
 .wrapper {
 	margin: auto;
 	max-width: 1200px;
-	padding: 12px;
+	padding: 0 12px;
 	text-align: left;
+	min-width: 1000px;
 }
 
 .focus-prompt {
@@ -14,13 +15,20 @@
 }
 
 .options-add {
-	margin-bottom: $vert-space;
+	margin-bottom: $vert-space*2;
 }
 
 input[class*='opt-field'] {
 	font-size: inherit;
 	color: inherit;
 	text-align: center;
+}
+
+.left-today {
+	width: 60px;
+	display: inline-block;
+	text-align: right;
+	color: $text-secondary;
 }
 
 .opt-field--domain {
@@ -57,7 +65,12 @@ input[class*='opt-field'] {
 	margin-left: 8px;
 	color: $text-secondary;
 
-	&:hover,&:focus {
+	&:hover {
 		color: $text-primary;
 	}
+}
+
+.opt-field--distraction {
+	width: 400px;
+	margin-left: 100px;
 }

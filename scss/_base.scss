@@ -19,7 +19,7 @@ $white: #fefefe;
 $white-blue: #e1eef5;
 
 $green: #5FFF99;
-
+$red: #ffa9a9;
 $vert-space: 16px;
 
 // Sitewide
@@ -63,6 +63,17 @@ $text-secondary: $gray-ll;
 	font-size: 20px;
 	line-height: 30px;
 }
+
+@mixin size-5 {
+	font-size: 16px;
+	line-height: 24px;
+}
+
+@mixin size-6 {
+	font-size: 14px;
+	line-height: 21px;
+}
+
 
 %bold {
 	font-weight: bold;
@@ -162,8 +173,7 @@ button {
 		-webkit-transform: translate3d($button-hor-pad, 0, 0);
 	}
 
-	&:hover, &:focus {
-		outline: 0;
+	&:hover {
 		text-decoration: underline;
 
 		&:before {
@@ -174,18 +184,23 @@ button {
 			-webkit-transform: translate3d(0px, 0, 0);
 		}
 	}
+
+	&:focus {
+		text-decoration: underline;
+		outline: 0;
+	}
 }
 
 %invalid-form {
 	color: #be4141;
 	border-color: #be4141;
 
-
 	&:focus {
 		color: inherit;
 		border-color: #e9322d;
 	}
 }
+
 
 input:focus:required:invalid:focus,
 textarea:focus:required:invalid:focus,
@@ -194,9 +209,39 @@ input[class*='ng-invalid-'] {
 	// @extend %invalid-form;
 }
 
+.input-field {
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+}
+
+$err-msg-width: 180px;
+
+.input-error {
+	border-radius: 2px;
+	padding: 4px;
+	@include size-6;
+	text-align: center;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	color: $red;
+	text-align: center;
+	width: $err-msg-width;
+	position: absolute;
+	left: 50%;
+	top: 100%;
+	margin-left: -$err-msg-width/2;
+}
+
 // Elements
 
 .helper {
 	color: $text-secondary;
 }
 
+.heron {
+	position: fixed;
+	bottom: -20px;
+	right: 10px;
+}

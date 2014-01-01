@@ -1,7 +1,7 @@
 'use strict';
 
 var getAllLocalInfo = function( callback ) {
-	chromeStorage.get( 'entries', function( data ) {
+	chromeStorage.get( null , function( data ) {
 		// If no entries in local, return empty array.
 		if(!data.entries) {
 			callback({entries:[]});
@@ -46,9 +46,11 @@ angular.module('sensei.factories', [])
 		getAllLocalInfo: getAllLocalInfo,
 
 		// Updates all local info with fresh array
-		updateAllLocalInfo: function( array, callback ) {
+		updateAllLocalInfo: function( key, value, callback ) {
+			var object_to_set = {};
+			object_to_set[key] = value;
 			// Update entries in local storage
-			chromeStorage.set( { 'entries': array } , function() {
+			chromeStorage.set( object_to_set , function() {
 				if(chrome.runtime.lastError) {
 					console.log(chrome.runtime.lastError.message);
 					return;

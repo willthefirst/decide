@@ -78,30 +78,30 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: none !important;
 }
 
-/* line 67, ../../scss/_base.scss */
+/* line 78, ../../scss/_base.scss */
 h1, h2, h3 {
   font-weight: bold;
 }
 
-/* line 71, ../../scss/_base.scss */
+/* line 82, ../../scss/_base.scss */
 h1 {
   font-size: 34px;
   line-height: 51px;
 }
 
-/* line 76, ../../scss/_base.scss */
+/* line 87, ../../scss/_base.scss */
 h2 {
   font-size: 30px;
   line-height: 45px;
 }
 
-/* line 81, ../../scss/_base.scss */
+/* line 92, ../../scss/_base.scss */
 h3 {
   font-size: 24px;
   line-height: 36px;
 }
 
-/* line 88, ../../scss/_base.scss */
+/* line 99, ../../scss/_base.scss */
 body {
   background-color: #6c8ea0;
   font-family: 'Actor', sans-serif;
@@ -110,7 +110,7 @@ body {
   line-height: 30px;
 }
 
-/* line 97, ../../scss/_base.scss */
+/* line 108, ../../scss/_base.scss */
 input[type=text],
 input[type=url],
 input[type=number] {
@@ -123,13 +123,13 @@ input[type=number] {
   padding: 0;
   display: inline-block;
 }
-/* line 107, ../../scss/_base.scss */
+/* line 118, ../../scss/_base.scss */
 input[type=text]:focus,
 input[type=url]:focus,
 input[type=number]:focus {
   outline: none;
 }
-/* line 111, ../../scss/_base.scss */
+/* line 122, ../../scss/_base.scss */
 input[type=text].ng-valid,
 input[type=url].ng-valid,
 input[type=number].ng-valid {
@@ -138,7 +138,7 @@ input[type=number].ng-valid {
 
 /* 	Transitions  -------------------------------------------- */
 /* 	Buttons  -------------------------------------------- */
-/* line 126, ../../scss/_base.scss */
+/* line 137, ../../scss/_base.scss */
 button:before, button:after {
   -webkit-transition: all 0.1s ease-out;
   -moz-transition: all 0.1s ease-out;
@@ -151,7 +151,7 @@ button:before, button:after {
   font-size: 1.3em;
 }
 
-/* line 135, ../../scss/_base.scss */
+/* line 146, ../../scss/_base.scss */
 button {
   -webkit-transition: all 0.1s ease-out;
   -moz-transition: all 0.1s ease-out;
@@ -169,106 +169,158 @@ button {
   padding: 0px 10px;
   text-transform: lowercase;
 }
-/* line 149, ../../scss/_base.scss */
+/* line 160, ../../scss/_base.scss */
 button:disabled {
   display: none;
 }
-/* line 153, ../../scss/_base.scss */
+/* line 164, ../../scss/_base.scss */
 button:before {
   content: '[';
   -webkit-transform: translate3d(-10px, 0, 0);
 }
-/* line 159, ../../scss/_base.scss */
+/* line 170, ../../scss/_base.scss */
 button:after {
   content: ']';
   -webkit-transform: translate3d(10px, 0, 0);
 }
-/* line 165, ../../scss/_base.scss */
-button:hover, button:focus {
-  outline: 0;
+/* line 176, ../../scss/_base.scss */
+button:hover {
   text-decoration: underline;
 }
-/* line 169, ../../scss/_base.scss */
-button:hover:before, button:focus:before {
+/* line 179, ../../scss/_base.scss */
+button:hover:before {
   -webkit-transform: translate3d(0px, 0, 0);
 }
-/* line 173, ../../scss/_base.scss */
-button:hover:after, button:focus:after {
+/* line 183, ../../scss/_base.scss */
+button:hover:after {
   -webkit-transform: translate3d(0px, 0, 0);
+}
+/* line 188, ../../scss/_base.scss */
+button:focus {
+  text-decoration: underline;
+  outline: 0;
 }
 
-/* line 199, ../../scss/_base.scss */
+/* line 212, ../../scss/_base.scss */
+.input-field {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+}
+
+/* line 220, ../../scss/_base.scss */
+.input-error {
+  border-radius: 2px;
+  padding: 4px;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #ffa9a9;
+  text-align: center;
+  width: 180px;
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-left: -90px;
+}
+
+/* line 239, ../../scss/_base.scss */
 .helper, .focus-prompt {
   color: #aac3d0;
+}
+
+/* line 243, ../../scss/_base.scss */
+.heron {
+  position: fixed;
+  bottom: -20px;
+  right: 10px;
 }
 
 /* line 3, ../../scss/options.scss */
 .wrapper {
   margin: auto;
   max-width: 1200px;
-  padding: 12px;
+  padding: 0 12px;
   text-align: left;
+  min-width: 1000px;
 }
 
-/* line 10, ../../scss/options.scss */
+/* line 11, ../../scss/options.scss */
 .focus-prompt {
   text-align: left;
   margin: 32px 0;
 }
 
-/* line 16, ../../scss/options.scss */
+/* line 17, ../../scss/options.scss */
 .options-add {
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 
-/* line 20, ../../scss/options.scss */
+/* line 21, ../../scss/options.scss */
 input[class*='opt-field'] {
   font-size: inherit;
   color: inherit;
   text-align: center;
 }
 
-/* line 26, ../../scss/options.scss */
+/* line 27, ../../scss/options.scss */
+.left-today {
+  width: 60px;
+  display: inline-block;
+  text-align: right;
+  color: #aac3d0;
+}
+
+/* line 34, ../../scss/options.scss */
 .opt-field--domain, .saved-domain {
   width: 300px;
 }
 
-/* line 30, ../../scss/options.scss */
+/* line 38, ../../scss/options.scss */
 .opt-field--periods {
   width: 40px;
 }
 
-/* line 34, ../../scss/options.scss */
+/* line 42, ../../scss/options.scss */
 .opt-field--period-length {
   width: 43px;
 }
 
-/* line 38, ../../scss/options.scss */
+/* line 46, ../../scss/options.scss */
 .options-saved {
   margin-bottom: 16px;
 }
 
-/* line 42, ../../scss/options.scss */
+/* line 50, ../../scss/options.scss */
 .rules-saved {
   text-align: left;
 }
-/* line 45, ../../scss/options.scss */
+/* line 53, ../../scss/options.scss */
 .rules-saved td, .rules-saved th {
   padding: 4px 16px 4px 0;
 }
 
-/* line 50, ../../scss/options.scss */
+/* line 58, ../../scss/options.scss */
 .saved-domain {
   display: inline-block;
   text-align: center;
 }
 
-/* line 56, ../../scss/options.scss */
+/* line 64, ../../scss/options.scss */
 .action-delete, .action-save {
   margin-left: 8px;
   color: #aac3d0;
 }
-/* line 60, ../../scss/options.scss */
-.action-delete:hover, .action-delete:focus, .action-save:hover, .action-save:focus {
+/* line 68, ../../scss/options.scss */
+.action-delete:hover, .action-save:hover {
   color: #fefefe;
+}
+
+/* line 73, ../../scss/options.scss */
+.opt-field--distraction {
+  width: 400px;
+  margin-left: 100px;
 }
