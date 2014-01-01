@@ -20,19 +20,21 @@
 		<form name="saveNew" class="options-add">
 			<span class="left-today"></span>
 			<div class="input-field">
-				<input type="text" ng-model="newEntry.domain" placeholder="example.com" class="opt-field--domain" required validate-domain autofocus />
-				<div class="input-error">[ needs to be a valid URL ]</div>
+				<input type="text" ng-model="newEntry.domain" name="newDomain" placeholder="example.com" class="opt-field--domain" required validate-domain autofocus />
+<!-- 				<div class="input-error" ng-show="saveNew.newDomain.$dirty  && saveNew.newDomain.$invalid">
+					<span ng-blur='saveNew.newDomain.$error.domain'>[ needs to be a valid url ]</span>
+				</div> -->
 			</div>
 			<span>for</span>
 			<div class="input-field">
 				<input type="number" ng-model="newEntry.periodLength" class="opt-field--period-length" min="0" max="60" placeholder="30" required/>
-				<div class="input-error">[ between 1 and 60 ]</div>
-			</div>
+<!-- 				<div class="input-error">[ between 1 and 60 ]</div>
+ -->			</div>
 			<span>-minute periods,</span>
 			<div class="input-field">
 				<input type="number" ng-model="newEntry.periods" class="opt-field--periods" min="0" max="10" placeholder="2" required />
-				<div class="input-error">[ Between 1 and 10 ]</div>
-			</div>
+<!-- 				<div class="input-error">[ Between 1 and 10 ]</div>
+ -->			</div>
 			<span>times per day.</span>
 			<button class="action-save" ng-disabled="!saveNew.$valid" ng-click="saveNewEntry(newEntry)">Save</button>
 		</form>

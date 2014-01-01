@@ -23,7 +23,7 @@ angular.module('sensei.directives', ['sensei.factories'])
                         is_not_registered = false;
                     }
                     // Set ng-not-registered-valid|invalid on current element.
-                    ctrl.$setValidity('not-registered', is_not_registered);
+                    ctrl.$setValidity('notRegistered', is_not_registered);
                 });
 
                 // If valid, return the value to the model, otherwise return undefined.
