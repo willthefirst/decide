@@ -69,14 +69,12 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		$scope.newDistraction = '';
 	}
 
-	// $scope.updateDistraction = function( distraction ) {
-	// 	storage.updateDomainInfo(distraction.domain, distraction, function(){
-	// 		redirectRules.refreshFromLocal();
-	// 	});
-	// };
+	$scope.updateDistraction = function( distraction ) {
+		storage.updateDomainInfo(distraction.domain, distraction, function(){});
+	};
 
 	$scope.removeDistraction = function( distraction ) {
-		distractions.splice(entries.indexOf(distraction), 1);
+		distractions.splice(distractions.indexOf(distraction), 1);
 		storage.updateAllLocalInfo('distractions', distractions, function() {});
 	};
 
