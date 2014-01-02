@@ -85,13 +85,16 @@ angular.module('sensei.controllers', ['sensei.factories'])
 }]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', function ( $scope, $location, storage, redirectRules, alarms ) {
 
 	angular.element(document).ready(function () {
-		var input = angular.element(document.getElementById("#js-allow-sentence"));
-		console.log(input);
+		var input = angular.element(document.getElementById("#js-allow-sentence"));		
 	});
 
 	var redirectedDomain = $scope.redirectedDomain = {};
 	var queryUrl = $location.search().domain;
 	var over = false;
+
+	storage.getAllLocalInfo(function(data){
+		$scope.distractions = data.distractions;
+	})
 
 	storage.getSingleLocalInfo( 'entries', queryUrl, function(domain_props) {
 		redirectedDomain.domain = domain_props.domain;

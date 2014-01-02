@@ -22,6 +22,9 @@
 			<input ng-model="allowSentence" type="text" class="allow-sentence" id="js-allow-sentence" autofocus validate-allow-sentence required />
 			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid" title="click me if your are not redirected">redirecting...</button>
 		</form>
+		<li class="distractions-saved" ng-repeat="distraction in distractions track by $index">
+			{{ distraction.txt }}
+		</li>
 		<svg class="heron" width="157px" height="309px" viewBox="0 0 157 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 		    <title>Heron</title>
 		    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
