@@ -61,7 +61,7 @@
 		<ul class="saved-disractions">
 			<li class="distractions-saved" ng-repeat="distraction in distractions track by $index">
 				<form>
-					<span ng-model="distraction.txt">{{distraction.txt}}</span>
+					<input type="text" class="opt-field--distraction" ng-model="distraction.txt" />
 					<button ng-click="removeDistraction(distraction)" class="action-delete">Remove</input>
 					<button ng-click="updateDistraction(distraction)" class="action-save">Update</input>
 				</form>

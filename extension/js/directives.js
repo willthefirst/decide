@@ -18,7 +18,7 @@ angular.module('sensei.directives', ['sensei.factories'])
 
                 // Check if domain is already registered
                 var cleaned_value = utilities.cleanDomainString(value);
-                storage.getDomainInfo(cleaned_value, function( object ) {
+                storage.getSingleLocalInfo('entries', cleaned_value, function( object ) {
                     if(object) {
                         is_not_registered = false;
                     }

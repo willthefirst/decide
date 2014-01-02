@@ -46,7 +46,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		entry.periodsLeft = entry.periods;
 		entry.periodBeingUsed = false;
 
-		storage.updateDomainInfo(entry.domain, entry, function(){
+		storage.updateSingleLocalInfo('entries', entry.domain, entry, function(){
 			redirectRules.refreshFromLocal();
 		});
 	};
@@ -61,16 +61,20 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 	// Distractions
 
+	// Watch for change on any distractions, if so remember their innitial value in order to update local storage.
+
 	$scope.saveNewDistraction = function( distraction ) {
 		// Add additional props for a new entry
+		distraction.oldTxt = distraction.txt;
 		distractions.push(distraction);
-		storage.updateAllLocalInfo('distractions', distractions, function() {
-		});
+		storage.updateAllLocalInfo('distractions', distractions, function() {});
 		$scope.newDistraction = '';
 	}
 
 	$scope.updateDistraction = function( distraction ) {
-		storage.updateDomainInfo(distraction.domain, distraction, function(){});
+		var old_key = distraction.oldTxt;
+		distraction.oldTxt = distraction.txt;
+		storage.updateSingleLocalInfo('distractions', old_key, distraction, function(){});
 	};
 
 	$scope.removeDistraction = function( distraction ) {
@@ -89,7 +93,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	var queryUrl = $location.search().domain;
 	var over = false;
 
-	storage.getDomainInfo( queryUrl, function(domain_props) {
+	storage.getSingleLocalInfo( 'entries', queryUrl, function(domain_props) {
 		redirectedDomain.domain = domain_props.domain;
 		redirectedDomain.periodLength = domain_props.periodLength;
 		redirectedDomain.periodsLeft = domain_props.periodsLeft;
@@ -124,7 +128,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 			}
 		};
 
-		storage.getDomainInfo( redirectedDomain.domain, function(domain_props) {
+		storage.getSingleLocalInfo( 'entries', redirectedDomain.domain, function(domain_props) {
 			// If there are no periods left
 			if (domain_props.periodsLeft < 1) {
 				alert('You have no periods left today for', domain_props.domain);
@@ -136,7 +140,8 @@ angular.module('sensei.controllers', ['sensei.factories'])
 				alarms.set ( redirectedDomain.domain, domain_props.periodLength );
 
 				// Lift redirect rule on this domain.
-				storage.updateDomainInfo(
+				storage.updateSingleLocalInfo(
+					'entries',
 					domain_props.domain,
 					{
 						periodBeingUsed : true,
@@ -147,7 +152,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 						// Redirect to specified page, MUST happen at end of this function
 						letPass($location.search().original);
 					}
-					);
+				);
 			}
 
 		} );

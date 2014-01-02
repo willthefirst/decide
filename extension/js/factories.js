@@ -2,13 +2,7 @@
 
 var getAllLocalInfo = function( callback ) {
 	chromeStorage.get( null , function( data ) {
-		// If no entries in local, return empty array.
-		if(!data.entries) {
-			callback({entries:[]});
-		}
-		else {
-			callback(data);
-		}
+		callback(data);
 	});
 };
 
@@ -17,84 +11,87 @@ angular.module('sensei.factories', [])
 
 	// Gets object or index for specified domain (domain) from all entries (localData)
 	// NEXT: something must be buggy here, affecting both the callback and the wierdness in updateDomainInfo
-	var localDomainInfo = function( domain, localData, returnType ) {
-		if (!localData.entries) {
+	var parseSingleLocalObject = function( category, key_value, data_to_scan, returnType ) {
+		if (!data_to_scan[category]) {
 			return;
-		} else {
-			var found = false;
-			for (var i = 0; i < localData.entries.length; i++) {
-				if (localData.entries[i].domain === domain) {
-					found = true;
-					switch (returnType) {
-						case 'object':
-							return localData.entries[i];
-						break
-						case 'index':
-							return i;
-						break
-					}
+		}
+		// Set key to search for according to category
+		var key;
+		switch (category) {
+			case 'entries':
+				key = 'domain'
+			break
+			case 'distractions':
+				key = 'txt'
+			break
+		}
+
+		var found = false;
+
+		for (var i = 0; (i < data_to_scan[category].length && !found); i++) {
+			if (data_to_scan[category][i][key] === key_value) {
+				found = true;
+				switch (returnType) {
+					case 'object':
+						return data_to_scan[category][i];
+					break
+					case 'index':
+						return i;
+					break
 				}
 			}
-			if (!found) {
-				return false;
-			}
 		}
+		// If not found
+		return false;
+	};
+
+	var updateAllLocalInfo = function( key, value, callback ) {
+		var object_to_set = {};
+		object_to_set[key] = value;
+		chromeStorage.set( object_to_set , function() {
+			if(chrome.runtime.lastError) {
+				console.log(chrome.runtime.lastError.message);
+				return;
+			}
+			callback();
+		});
 	};
 
 	return {
-		// Returns local info for all entries.
+		// Returns all local storage.
 		getAllLocalInfo: getAllLocalInfo,
 
+		// Returns local info for specified key in category.
+		getSingleLocalInfo: function( category, key, callback ) {
+			getAllLocalInfo(function(data_to_scan) {
+				callback(parseSingleLocalObject(category, key, data_to_scan, 'object'));
+			})
+		},
+
 		// Updates all local info with fresh array
-		updateAllLocalInfo: function( key, value, callback ) {
-			var object_to_set = {};
-			object_to_set[key] = value;
-			// Update entries in local storage
-			chromeStorage.set( object_to_set , function() {
-				if(chrome.runtime.lastError) {
-					console.log(chrome.runtime.lastError.message);
-					return;
-				}
-				callback();
-			});
-		},
+		updateAllLocalInfo: updateAllLocalInfo,
 
-		// Returns local info for specified domain.
-		getDomainInfo: function( domain, callback ) {
-			getAllLocalInfo( function(data) {
-				callback(localDomainInfo(domain, data, 'object'));
-			});
-		},
+		updateSingleLocalInfo: function( category, key, propsToUpdate, callback ) {
 
-		updateDomainInfo: function( domain, propsToUpdate, callback ) {
-
-			getAllLocalInfo(function(data) {
-
-				// Note: there is a very strange bug when console.log(data), at least in the chrome web inspector.
-				// console.log(data) -> data.entries[0].periodBeingUsed is true. (this is wrong)
-				// console.log(data.entries[0].periodBeingUsed) -> data.entries[0].periodBeingUsed is false. (this is right)
-
+			getAllLocalInfo(function(data){
 				// Create the new entry
-				var new_entry = localDomainInfo( domain, data, 'object' );
+				var new_item = parseSingleLocalObject( category, key, data, 'object' );
 				var i = 0;
+				console.log(new_item);
 				for (i in propsToUpdate) {
-					new_entry[i] = propsToUpdate[i];
+					new_item[i] = propsToUpdate[i];
 				};
 
 				// Find the index of correct entry and update
-				var new_entry_index = localDomainInfo( domain, data, 'index' );
-				data.entries[new_entry_index] = new_entry;
+				var new_item_index = parseSingleLocalObject( category, key, data, 'index' );
+				data[category][new_item_index] = new_item;
 
 				// Update the whole entries object in local storage.
-				chromeStorage.set( { 'entries' : data.entries }, function() {
-					if(chrome.runtime.lastError) {
-						console.log(chrome.runtime.lastError.message);
-						return;
-					}
+				updateAllLocalInfo(category, data[category], function() {
 					callback();
 				});
-
 			});
+
 		}
 	};
 }).factory('redirectRules', function () {
