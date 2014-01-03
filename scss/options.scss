@@ -1,11 +1,7 @@
 @import 'base';
 
 .wrapper {
-	margin: auto;
-	max-width: 1200px;
-	padding: 0 12px;
 	text-align: left;
-	min-width: 1000px;
 }
 
 .focus-prompt {
@@ -68,6 +64,11 @@ input[class*='opt-field'] {
 	&:hover {
 		color: $text-primary;
 	}
+}
+
+.distractions-add {
+	display: block;
+	margin-bottom: $vert-space;
 }
 
 .opt-field--distraction {

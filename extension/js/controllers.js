@@ -61,32 +61,15 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	// Watch for change on any distractions, if so remember their innitial value in order to update local storage.
 
 	$scope.saveNewDistraction = function( distraction ) {
-
-		// Add additional props for a new entry
-		// Append type
-		var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-		var urlPattern = new RegExp(expression)
- 	    var isUrl = urlPattern.test(distraction.txt);
-	    if (isUrl) {
-	    	distraction.type = 'url';
-	    	if (distraction.txt.substr(0, 'http://'.length) !== 'http://')
-	    	{
-	    	    distraction.txt = 'http://' + distraction.txt;
-	    	}
-	    } else {
-	    	distraction.type = 'text'
-	    }
-		// Append old text
-		distraction.oldTxt = distraction.txt;
+		distraction = utilities.lintDistraction(distraction);
 		distractions.push(distraction);
-		storage.updateAllLocalInfo('distractions', distractions, function() {
-		});
+		storage.updateAllLocalInfo('distractions', distractions, function() {});
 		$scope.newDistraction = '';
 	}
 
 	$scope.updateDistraction = function( distraction ) {
 		var old_key = distraction.oldTxt;
-		distraction.oldTxt = distraction.txt;
+		distraction = utilities.lintDistraction(distraction);
 		storage.updateSingleLocalInfo('distractions', old_key, distraction, function(){});
 	};
 

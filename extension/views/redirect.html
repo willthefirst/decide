@@ -16,13 +16,14 @@
 </head>
 <body>
 	<div class="wrapper"  ng-controller="Allow">
-		<p ng-if="redirectedDomain.periodsLeft === 0" class="done-for-day">You're done with {{ redirectedDomain.domain }} for the day.<br /><br />Go for a run or something.</p>
+		<p ng-if="redirectedDomain.periodsLeft === 0" class="done-for-day">You're done with {{ redirectedDomain.domain }} for the day.</p>
 		<form ng-if="redirectedDomain.periodsLeft > 0" name="allow" class="allow">
 			<p class="helper allow-type">If you really mean it, type "I want to use {{ redirectedDomain.domain }} efficiently."</p>
 			<input ng-model="allowSentence" type="text" class="allow-sentence" id="js-allow-sentence" autofocus validate-allow-sentence required />
 			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid" title="click me if your are not redirected">redirecting...</button>
 		</form>
-		<ul>
+		<h3>take a good break: </h3>
+		<ul class="distractions-list">
 			<li class="distractions-saved" ng-repeat="distraction in distractions track by $index">
 				<a href="{{ distraction.txt }}" ng-if="distraction.type === 'url'">{{ distraction.txt }}</a>
 				<span ng-if="distraction.type === 'text'">{{ distraction.txt }}</span>

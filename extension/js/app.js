@@ -21,5 +21,5 @@ var chromeStorage;
 if(config.debug){
 	chromeStorage = chrome.storage.local;
 } else {
-	chrome.storage = chrome.stoarage.sync;
+	chrome.storage = chrome.storage.sync;
 }

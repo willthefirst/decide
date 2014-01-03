@@ -1,9 +1,6 @@
 @import 'base';
 
 .wrapper {
-	margin: auto;
-	max-width: 1200px;
-	padding: 12px;
 	text-align: center;
 }
 
@@ -35,4 +32,8 @@
 .done-for-day {
 	@include size-1;
 	margin-top: 80px;
+}
+
+.distractions-saved {
+	margin-top: $vert-space;
 }

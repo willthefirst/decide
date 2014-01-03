@@ -18,7 +18,7 @@
 	<div class="wrapper" ng-controller="Options">
 		<h2 class="focus-prompt">let me waste time on...</h2>
 		<form name="saveNew" class="options-add">
-			<span class="left-today col-md-1"></span>
+			<span class="left-today"></span>
 			<div class="input-field">
 				<input type="text" ng-model="newEntry.domain" name="newDomain" placeholder="example.com" class="opt-field--domain" required validate-domain autofocus />
 <!-- 				<div class="input-error" ng-show="saveNew.newDomain.$dirty  && saveNew.newDomain.$invalid">
@@ -54,12 +54,12 @@
 			</ul>
 		</form>
 		<h2 class="focus-prompt">propose constructive distractions, like...</h2>
-		<form name="saveDistraction">
+		<form name="saveDistraction" class="distractions-add">
 			<input type="text" class="opt-field--distraction" ng-model="newDistraction.txt" required placeholder="eg. brainpickings.org or 'go for a run'"/>
 			<button class="action-save" ng-disabled="!saveDistraction.$valid" ng-click="saveNewDistraction(newDistraction)">Save</button>
 		</form>
 		<ul class="saved-disractions">
-			<li class="distractions-saved" ng-repeat="distraction in distractions track by $index">
+			<li class="options-saved" ng-repeat="distraction in distractions track by $index">
 				<form>
 					<input type="text" class="opt-field--distraction" ng-model="distraction.txt" />
 					<button ng-click="removeDistraction(distraction)" class="action-delete">Remove</input>

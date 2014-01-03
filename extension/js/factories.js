@@ -213,7 +213,35 @@ angular.module('sensei.factories', [])
 				return;
 			}
 			var cleaned = (string).replace(/^(?:(http:\/\/www.)|(https:\/\/www.)|(http:\/\/)|(https:\/\/)|(www.))/g, '');
+			cleaned = cleaned.toLowerCase();
 			return cleaned;
+		},
+
+		// Add additional props for a new distraction
+		lintDistraction : function( distraction ) {
+			
+			// Append type
+			var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+			var urlPattern = new RegExp(expression)
+	 	    var isUrl = urlPattern.test(distraction.txt);
+		    
+
+		   	if (isUrl) {
+		    	distraction.type = 'url';
+
+		    	// Add http:// at beginning of links for proper linking on redirect page
+		    	if (distraction.txt.substr(0, 'http://'.length) !== 'http://'){
+		    	    distraction.txt = 'http://' + distraction.txt;
+		    	}
+
+		    } else {
+		    	distraction.type = 'text'
+		    }
+
+			// Append old text
+			distraction.oldTxt = distraction.txt;
+
+			return distraction;
 		}
 	}
 });

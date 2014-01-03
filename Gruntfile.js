@@ -63,12 +63,12 @@ module.exports = function(grunt) {
 				options: {
 					spawn: false,
 				}
-			},
-
-			karma: {
-				files: ['extension/js/**/*.js','tests/**/*.js'],
-			    tasks: ['karma:unit:run'] //NOTE the :run flag
 			}
+
+			// karma: {
+			// 	files: ['extension/js/**/*.js','tests/**/*.js'],
+			//     tasks: ['karma:unit:run'] //NOTE the :run flag
+			// }
 		}
 	});
 
@@ -76,8 +76,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-compass');
-	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	// grunt.loadNpmTasks('grunt-karma');
 
 	// 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
 	grunt.registerTask('default', ['concat', 'compass', 'watch']);

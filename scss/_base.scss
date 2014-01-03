@@ -1,8 +1,37 @@
 @import "compass/reset";
 @import "compass/css3/transition";
-@import "grid";
+@import "blueprint/grid";
 
-// Variables
+
+// Grid
+
+//https://sethvargo.com/quick-960-grid-with-sass/
+$content-width: 1200px;
+
+.wrapper {
+  width: $content-width;
+  padding: 12px;
+  margin: auto;
+
+  .row {
+    clear: both;
+    width: 100%;
+
+    /* span1 - span12 */
+    $spacing: 16px; // must be an even number
+    $padding: 6px;
+    $spans: 12;
+
+    @for $i from 1 through $spans {
+      .span#{$i} {
+        float: left;
+        margin: $spacing $spacing/2 0 $spacing/2;
+        padding: $padding;
+        width: $content-width/($spans/$i) - $spacing - $padding*2;
+      }
+    }
+  }
+}
 
 // Colors
 $gray: #6c8ea0;
@@ -121,6 +150,15 @@ input[type=number] {
 	}
 
 	&.ng-valid {
+		color: $green;
+	}
+}
+
+a {
+	text-decoration: none;
+	color: $green;
+
+	&:visited {
 		color: $green;
 	}
 }
@@ -245,4 +283,5 @@ $err-msg-width: 180px;
 	position: fixed;
 	bottom: -20px;
 	right: 10px;
+	z-index: -1;
 }
