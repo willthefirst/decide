@@ -69,7 +69,7 @@ angular.module('sensei.factories', [])
 
 		// Returns local info for specified key in category.
 		getSingleLocalInfo: function( category, key, callback ) {
-			getAllLocalInfo(function(data_to_scan) {
+			getAllLocalInfo().then(function(data_to_scan) {
 				callback(parseSingleLocalObject(category, key, data_to_scan, 'object'));
 			});
 		},
@@ -79,11 +79,10 @@ angular.module('sensei.factories', [])
 
 		updateSingleLocalInfo: function( category, key, propsToUpdate, callback ) {
 
-			getAllLocalInfo(function(data){
+			getAllLocalInfo().then(function(data){
 				// Create the new entry
 				var new_item = parseSingleLocalObject( category, key, data, 'object' );
 				var i = 0;
-				console.log(new_item);
 				for (i in propsToUpdate) {
 					new_item[i] = propsToUpdate[i];
 				};
@@ -161,7 +160,7 @@ angular.module('sensei.factories', [])
 				if (chrome.runtime.lastError) {
 					alert('Error clearing rules: ' + chrome.runtime.lastError);
 				} else {
-					storage.getAllLocalInfo(function(data){
+					storage.getAllLocalInfo().then(function(data){
 						registerRules(data);
 					});
 					chrome.declarativeWebRequest.onRequest.getRules(

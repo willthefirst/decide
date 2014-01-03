@@ -6,8 +6,8 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	var distractions;
 
 	//TODO Any way to refactor this?
-	storage.getAllLocalInfo(function(data) {
-		if (!data.entries) {
+	storage.getAllLocalInfo().then(function(data){
+			if (!data.entries) {
 			entries = $scope.entries = [];
 		}
 		else {
@@ -19,12 +19,8 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		}
 		else {
 			distractions = $scope.distractions = data.distractions;
-			console.log(distractions);
 		}
-
-		$scope.$apply();
 	});
-
 
 	// Entries
 
@@ -66,12 +62,20 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 	$scope.saveNewDistraction = function( distraction ) {
 
-
 		// Add additional props for a new entry
 		// Append type
-		var regex = new RegExp(/^(?:(http:\/\/)|(https:\/\/)|())([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]+\.[a-zA-Z]{2,6}?$/i);
-	    var isUrl = regex.test(distraction.txt);
-	    isUrl ? distraction.type = 'url' : distraction.type = 'text'
+		var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+		var urlPattern = new RegExp(expression)
+ 	    var isUrl = urlPattern.test(distraction.txt);
+	    if (isUrl) {
+	    	distraction.type = 'url';
+	    	if (distraction.txt.substr(0, 'http://'.length) !== 'http://')
+	    	{
+	    	    distraction.txt = 'http://' + distraction.txt;
+	    	}
+	    } else {
+	    	distraction.type = 'text'
+	    }
 		// Append old text
 		distraction.oldTxt = distraction.txt;
 		distractions.push(distraction);
@@ -101,21 +105,15 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	var queryUrl = $location.search().domain;
 	var over = false;
 
-	// chromeStorage.get( null , function( data ) {
-	// 	// console.log(data.distractions);
-	// 	distractions = data.distractions;
-	// });
-
 	storage.getAllLocalInfo().then(function(data){
 		$scope.distractions = data.distractions;
 	});
 
-	// storage.getSingleLocalInfo( 'entries', queryUrl, function(domain_props) {
-	// 	redirectedDomain.domain = domain_props.domain;
-	// 	redirectedDomain.periodLength = domain_props.periodLength;
-	// 	redirectedDomain.periodsLeft = domain_props.periodsLeft;
-	// 	$scope.$apply();
-	// });
+	storage.getSingleLocalInfo( 'entries', queryUrl, function(domain_props) {
+		redirectedDomain.domain = domain_props.domain;
+		redirectedDomain.periodLength = domain_props.periodLength;
+		redirectedDomain.periodsLeft = domain_props.periodsLeft;
+	});
 
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
 		for (var key in changes) {
