@@ -1,13 +1,7 @@
 'use strict';
 
-var getAllLocalInfo = function( callback ) {
-	chromeStorage.get( null , function( data ) {
-		callback(data);
-	});
-};
-
 angular.module('sensei.factories', [])
-.factory( 'storage' , function() {
+.factory( 'storage' , function( $q ) {
 
 	// Gets object or index for specified domain (domain) from all entries (localData)
 	// NEXT: something must be buggy here, affecting both the callback and the wierdness in updateDomainInfo
@@ -57,6 +51,18 @@ angular.module('sensei.factories', [])
 		});
 	};
 
+	var getAllLocalInfo = function() {
+		var deferred = $q.defer();
+		chromeStorage.get( null , function( data ) {
+			if (!data) {
+				deferred.reject();
+			} else {
+				deferred.resolve(data);
+			}
+		});
+		return deferred.promise;
+	};
+
 	return {
 		// Returns all local storage.
 		getAllLocalInfo: getAllLocalInfo,
@@ -65,7 +71,7 @@ angular.module('sensei.factories', [])
 		getSingleLocalInfo: function( category, key, callback ) {
 			getAllLocalInfo(function(data_to_scan) {
 				callback(parseSingleLocalObject(category, key, data_to_scan, 'object'));
-			})
+			});
 		},
 
 		// Updates all local info with fresh array
@@ -94,7 +100,7 @@ angular.module('sensei.factories', [])
 
 		}
 	};
-}).factory('redirectRules', function () {
+}).factory('redirectRules', function ( storage ) {
 
 	// Utility variables
 	var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
@@ -155,7 +161,7 @@ angular.module('sensei.factories', [])
 				if (chrome.runtime.lastError) {
 					alert('Error clearing rules: ' + chrome.runtime.lastError);
 				} else {
-					getAllLocalInfo(function(data){
+					storage.getAllLocalInfo(function(data){
 						registerRules(data);
 					});
 					chrome.declarativeWebRequest.onRequest.getRules(

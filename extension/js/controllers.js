@@ -19,6 +19,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		}
 		else {
 			distractions = $scope.distractions = data.distractions;
+			console.log(distractions);
 		}
 
 		$scope.$apply();
@@ -64,10 +65,18 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	// Watch for change on any distractions, if so remember their innitial value in order to update local storage.
 
 	$scope.saveNewDistraction = function( distraction ) {
+
+
 		// Add additional props for a new entry
+		// Append type
+		var regex = new RegExp(/^(?:(http:\/\/)|(https:\/\/)|())([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]+\.[a-zA-Z]{2,6}?$/i);
+	    var isUrl = regex.test(distraction.txt);
+	    isUrl ? distraction.type = 'url' : distraction.type = 'text'
+		// Append old text
 		distraction.oldTxt = distraction.txt;
 		distractions.push(distraction);
-		storage.updateAllLocalInfo('distractions', distractions, function() {});
+		storage.updateAllLocalInfo('distractions', distractions, function() {
+		});
 		$scope.newDistraction = '';
 	}
 
@@ -82,7 +91,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		storage.updateAllLocalInfo('distractions', distractions, function() {});
 	};
 
-}]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', function ( $scope, $location, storage, redirectRules, alarms ) {
+}]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', '$timeout', function ( $scope, $location, storage, redirectRules, alarms, $timeout ) {
 
 	angular.element(document).ready(function () {
 		var input = angular.element(document.getElementById("#js-allow-sentence"));		
@@ -92,16 +101,21 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	var queryUrl = $location.search().domain;
 	var over = false;
 
-	storage.getAllLocalInfo(function(data){
-		$scope.distractions = data.distractions;
-	})
+	// chromeStorage.get( null , function( data ) {
+	// 	// console.log(data.distractions);
+	// 	distractions = data.distractions;
+	// });
 
-	storage.getSingleLocalInfo( 'entries', queryUrl, function(domain_props) {
-		redirectedDomain.domain = domain_props.domain;
-		redirectedDomain.periodLength = domain_props.periodLength;
-		redirectedDomain.periodsLeft = domain_props.periodsLeft;
-		$scope.$apply();
+	storage.getAllLocalInfo().then(function(data){
+		$scope.distractions = data.distractions;
 	});
+
+	// storage.getSingleLocalInfo( 'entries', queryUrl, function(domain_props) {
+	// 	redirectedDomain.domain = domain_props.domain;
+	// 	redirectedDomain.periodLength = domain_props.periodLength;
+	// 	redirectedDomain.periodsLeft = domain_props.periodsLeft;
+	// 	$scope.$apply();
+	// });
 
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
 		for (var key in changes) {
