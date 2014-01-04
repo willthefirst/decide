@@ -7,15 +7,21 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 	//TODO Any way to refactor this?
 	storage.getAllLocalInfo().then(function(data){
-			if (!data.entries) {
-			entries = $scope.entries = [];
+		console.log(data);
+		if (!data.entries) {
+			entries = $scope.entries = config.defaultEntries;
+			storage.updateAllLocalInfo('entries', entries, function() {
+				redirectRules.refreshFromLocal();
+			});
 		}
 		else {
 			entries = $scope.entries = data.entries;
 		}
 
+		// If distractions were never created, create default ones.
 		if(!data.distractions) {
-			distractions = $scope.distractions = []
+			distractions = $scope.distractions = config.defaultDistractions;
+			storage.updateAllLocalInfo('distractions', distractions, function() {});
 		}
 		else {
 			distractions = $scope.distractions = data.distractions;

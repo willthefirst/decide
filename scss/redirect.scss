@@ -4,13 +4,22 @@
 	text-align: center;
 }
 
+.how-about {
+	@extend .helper;
+	margin: $vert-space 0 $vert-space*2;
+}
+
 .allow {
 	margin: 100px auto 0;
-	width: 80%;
+	text-align: center;
 }
 
 .allow-type {
 	margin-bottom: $vert-space*2;
+	position: relative;
+	cursor: default;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 .allow-sentence {

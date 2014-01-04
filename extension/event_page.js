@@ -1,4 +1,5 @@
 // Configuration
+
 var config = {
 	debug: true,
 	redirectUrl: chrome.extension.getURL('views/redirect.html'),
@@ -9,18 +10,22 @@ var chromeStorage;
 if(config.debug){
 	chromeStorage = chrome.storage.local;
 } else {
-	chrome.storage = chrome.stoarage.sync;
+	chrome.storage = chrome.storage.sync;
 }
+
 // Utility variables
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 
 var resetAllPeriods = function() {
 	getAllLocalInfo(function(data) {
+		if(!data.entries) {
+			return;
+		}
 		var entries = data.entries;
-		for (var i = 0; i < data.entries.length; i++) {
-			data.entries[i].periodsLeft = data.entries[i].periods;
-			data.entries[i].periodBeingUsed = false;
+		for (var i = 0; i < entries.length; i++) {
+			entries[i].periodsLeft = entries[i].periods;
+			entries[i].periodBeingUsed = false;
 		}
 		chromeStorage.set( { 'entries': entries } , function() {
 			if(chrome.runtime.lastError) {
@@ -137,15 +142,9 @@ function localDomainInfo( domain, localData, returnType ) {
 	}
 };
 
-function getAllLocalInfo( callback ) {
-	chromeStorage.get( 'entries', function( data ) {
-		// If no entries in local, return empty array.
-		if(!data.entries) {
-			callback({entries:[]});
-		}
-		else {
-			callback(data);
-		}
+function getAllLocalInfo(callback) {
+	chromeStorage.get( null, function( data ) {
+		callback(data);
 	});
 };
 

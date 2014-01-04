@@ -37,7 +37,7 @@ angular.module('sensei.directives', ['sensei.factories'])
         require: 'ngModel',
         link: function (scope, element, attr, ctrl) {
             ctrl.$parsers.unshift(function(value) {
-                var is_correct_sentence = (value === "I want to use " + scope.redirectedDomain.domain + " efficiently.");
+                var is_correct_sentence = (value === "I actually, truly, definitely want to use " + scope.redirectedDomain.domain + ".");
                 ctrl.$setValidity('allow-sentence', is_correct_sentence);
 
                 // If valid, return the value to the model, and initiate usePeriod, otherwise return undefined.

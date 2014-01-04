@@ -335,7 +335,7 @@ button:focus {
 }
 
 /* line 278, ../../scss/_base.scss */
-.helper {
+.helper, .how-about {
   color: #aac3d0;
 }
 
@@ -353,17 +353,26 @@ button:focus {
 }
 
 /* line 7, ../../scss/redirect.scss */
-.allow {
-  margin: 100px auto 0;
-  width: 80%;
+.how-about {
+  margin: 16px 0 32px;
 }
 
 /* line 12, ../../scss/redirect.scss */
-.allow-type {
-  margin-bottom: 32px;
+.allow {
+  margin: 100px auto 0;
+  text-align: center;
 }
 
-/* line 16, ../../scss/redirect.scss */
+/* line 17, ../../scss/redirect.scss */
+.allow-type {
+  margin-bottom: 32px;
+  position: relative;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* line 25, ../../scss/redirect.scss */
 .allow-sentence {
   width: 100%;
   font-size: 34px;
@@ -372,23 +381,23 @@ button:focus {
   text-align: center;
   margin: 0 0 32px 0;
 }
-/* line 23, ../../scss/redirect.scss */
+/* line 32, ../../scss/redirect.scss */
 .allow-sentence:focus {
   outline: none;
 }
-/* line 27, ../../scss/redirect.scss */
+/* line 36, ../../scss/redirect.scss */
 .allow-sentence.ng-valid-allow-sentence {
   color: #5fff99;
 }
 
-/* line 32, ../../scss/redirect.scss */
+/* line 41, ../../scss/redirect.scss */
 .done-for-day {
   font-size: 34px;
   line-height: 51px;
   margin-top: 80px;
 }
 
-/* line 37, ../../scss/redirect.scss */
+/* line 46, ../../scss/redirect.scss */
 .distractions-saved {
   margin-top: 16px;
 }

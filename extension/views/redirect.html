@@ -17,18 +17,20 @@
 <body>
 	<div class="wrapper"  ng-controller="Allow">
 		<p ng-if="redirectedDomain.periodsLeft === 0" class="done-for-day">You're done with {{ redirectedDomain.domain }} for the day.</p>
-		<form ng-if="redirectedDomain.periodsLeft > 0" name="allow" class="allow">
-			<p class="helper allow-type">If you really mean it, type "I want to use {{ redirectedDomain.domain }} efficiently."</p>
-			<input ng-model="allowSentence" type="text" class="allow-sentence" id="js-allow-sentence" autofocus validate-allow-sentence required />
-			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid" title="click me if your are not redirected">redirecting...</button>
-		</form>
-		<h3>take a good break: </h3>
+		<h2 class="how-about">instead of {{redirectedDomain.domain}}, how about... </h2>
 		<ul class="distractions-list">
 			<li class="distractions-saved" ng-repeat="distraction in distractions track by $index">
 				<a href="{{ distraction.txt }}" ng-if="distraction.type === 'url'">{{ distraction.txt }}</a>
 				<span ng-if="distraction.type === 'text'">{{ distraction.txt }}</span>
 			</li>
 		</ul>
+		<form ng-if="redirectedDomain.periodsLeft > 0" name="allow" class="allow">
+			<p class="helper allow-type" ng-hide="allow.$valid">
+				If you really mean it, type "I actually, truly, definitely want to use {{ redirectedDomain.domain }}."
+			</p>
+			<input ng-model="allowSentence" type="text" class="allow-sentence" id="js-allow-sentence"  ng-hide="allow.$valid" autofocus validate-allow-sentence required />
+			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid" title="click me if your are not redirected">redirecting...</button>
+		</form>
 		<svg class="heron" width="157px" height="309px" viewBox="0 0 157 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 		    <title>Heron</title>
 		    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
