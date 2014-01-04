@@ -65,7 +65,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /* line 11, ../../scss/_base.scss */
 .wrapper {
-  width: 1200px;
+  max-width: 1200px;
   padding: 12px;
   margin: auto;
 }

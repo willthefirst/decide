@@ -9,7 +9,7 @@
 $content-width: 1200px;
 
 .wrapper {
-  width: $content-width;
+  max-width: $content-width;
   padding: 12px;
   margin: auto;
 
