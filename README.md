@@ -1,10 +1,10 @@
-# Install
+# Heron
+
+## Install
 
 ```
 $ cd decide
 $ npm-install
 ```
 
-Aim
-Heron
-Pounce
+As of 1/3/2014, only functions in Chrome Beta (not Stable).
