@@ -2,7 +2,7 @@
 <html lang="en" ng-csp ng-app="sensei">
 <head>
 	<meta charset="UTF-8">
-	<title>Sensei Options</title>
+	<title>CheckLess Options</title>
 	<link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
 	<!-- Production (development) -->
 	<script src="../js/angular.min.js"></script>
@@ -16,28 +16,20 @@
 </head>
 <body>
 	<div class="wrapper" ng-controller="Options">
-		<h2 class="focus-prompt">let me waste time on...</h2>
+		<h1>Check Less</h1>
 		<form name="saveNew" class="options-add">
-			<span class="left-today"></span>
-			<div class="input-field">
-				<input type="text" ng-model="newEntry.domain" name="newDomain" placeholder="example.com" class="opt-field--domain" required validate-domain autofocus />
+			<label for="newDomain" class="new-domain-prompt">Which website would you like to check less?</label>
+			<input type="text" ng-model="newEntry.domain" name="newDomain" placeholder="example.com" class="opt-field--domain" required validate-domain autofocus />
 <!-- 				<div class="input-error" ng-show="saveNew.newDomain.$dirty  && saveNew.newDomain.$invalid">
-					<span ng-blur='saveNew.newDomain.$error.domain'>[ needs to be a valid url ]</span>
-				</div> -->
-			</div>
-			<span>for</span>
-			<div class="input-field">
-				<input type="number" ng-model="newEntry.periodLength" class="opt-field--period-length" min="0" max="60" placeholder="30" required/>
-<!-- 				<div class="input-error">[ between 1 and 60 ]</div>
- -->			</div>
-			<span>-minute periods,</span>
-			<div class="input-field">
-				<input type="number" ng-model="newEntry.periods" class="opt-field--periods" min="0" max="10" placeholder="2" required />
-<!-- 				<div class="input-error">[ Between 1 and 10 ]</div>
- -->			</div>
-			<span>times per day.</span>
+				<span ng-blur='saveNew.newDomain.$error.domain'>[ needs to be a valid url ]</span>
+			</div> -->
 			<button class="action-save" ng-disabled="!saveNew.$valid" ng-click="saveNewEntry(newEntry)">Save</button>
 		</form>
+		<ul class="focus-prompt">
+			<li>Add a site that you'd like to check less.</li>
+			<li>Every day, we'll limit how many times you use the site.</li>
+			<li>Once you hit your limit, you'll be blocked from that site until the next day.</li>
+		</ul>
 			<ul class="saved-entries">
 				<li class="options-saved" ng-repeat="entry in entries track by $index">
 					<form>
@@ -53,7 +45,7 @@
 				</li>
 			</ul>
 		</form>
-		<h2 class="focus-prompt">propose constructive distractions, like...</h2>
+		<!-- <h2>propose constructive distractions, like...</h2>
 		<form name="saveDistraction" class="distractions-add">
 			<input type="text" class="opt-field--distraction" ng-model="newDistraction.txt" required placeholder="eg. brainpickings.org or 'go for a run'"/>
 			<button class="action-save" ng-disabled="!saveDistraction.$valid" ng-click="saveNewDistraction(newDistraction)">Save</button>
@@ -66,7 +58,7 @@
 					<button ng-click="updateDistraction(distraction)" class="action-save">Update</input>
 				</form>
 			</li>
-		</ul>
+		</ul> -->
 		<svg class="heron" width="157px" height="309px" viewBox="0 0 157 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 		    <title>Heron</title>
 		    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>

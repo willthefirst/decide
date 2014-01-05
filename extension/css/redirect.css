@@ -65,7 +65,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /* line 11, ../../scss/_base.scss */
 .wrapper {
-  max-width: 1200px;
   padding: 12px;
   margin: auto;
 }
@@ -271,14 +270,14 @@ button {
   cursor: pointer;
   border: none;
   margin: auto;
-  color: inherit;
   position: relative;
   padding: 0px 10px;
   text-transform: lowercase;
+  color: #5fff99;
 }
 /* line 199, ../../scss/_base.scss */
 button:disabled {
-  display: none;
+  color: #aac3d0;
 }
 /* line 203, ../../scss/_base.scss */
 button:before {

@@ -9,7 +9,7 @@
 $content-width: 1200px;
 
 .wrapper {
-  max-width: $content-width;
+
   padding: 12px;
   margin: auto;
 
@@ -191,13 +191,13 @@ button {
 	cursor: pointer;
 	border: none;
 	margin: auto;
-	color: inherit;
 	position: relative;
 	padding: 0px $button-hor-pad;
 	text-transform: lowercase;
+	color: $green;
 
 	&:disabled {
-		display: none;
+			color: $text-secondary;
 	}
 
 	&:before {

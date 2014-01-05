@@ -5,15 +5,29 @@
 	width: $content-width;
 }
 
-.focus-prompt {
-	@extend .helper;
-	text-align: left;
-	margin: $vert-space*2 0;
-}
-
 .options-add {
 	margin-bottom: $vert-space*2;
+	text-align: center;
+	@include size-2;
 }
+
+.new-domain-prompt {
+	display: block;
+	padding: $vert-space 0;
+}
+
+.focus-prompt {
+	text-align: left;
+	@extend .helper;
+	margin: auto;
+	width: 40%;
+	list-style-type: circle;
+	padding: 12px 36px;
+	@include size-5;
+
+	border: 1px solid $gray-ll;
+}
+
 
 input[class*='opt-field'] {
 	font-size: inherit;
@@ -60,11 +74,6 @@ input[class*='opt-field'] {
 
 .action-delete, .action-save {
 	margin-left: 8px;
-	color: $text-secondary;
-
-	&:hover {
-		color: $text-primary;
-	}
 }
 
 .distractions-add {

@@ -1,6 +1,4 @@
-# Heron
-
-## Install
+# Install
 
 ```
 $ cd decide

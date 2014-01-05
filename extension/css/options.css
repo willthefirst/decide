@@ -65,7 +65,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /* line 11, ../../scss/_base.scss */
 .wrapper {
-  max-width: 1200px;
   padding: 12px;
   margin: auto;
 }
@@ -271,14 +270,14 @@ button {
   cursor: pointer;
   border: none;
   margin: auto;
-  color: inherit;
   position: relative;
   padding: 0px 10px;
   text-transform: lowercase;
+  color: #5fff99;
 }
 /* line 199, ../../scss/_base.scss */
 button:disabled {
-  display: none;
+  color: #aac3d0;
 }
 /* line 203, ../../scss/_base.scss */
 button:before {
@@ -354,24 +353,39 @@ button:focus {
 }
 
 /* line 8, ../../scss/options.scss */
-.focus-prompt {
-  text-align: left;
-  margin: 32px 0;
+.options-add {
+  margin-bottom: 32px;
+  text-align: center;
+  font-size: 30px;
+  line-height: 45px;
 }
 
 /* line 14, ../../scss/options.scss */
-.options-add {
-  margin-bottom: 32px;
+.new-domain-prompt {
+  display: block;
+  padding: 16px 0;
 }
 
-/* line 18, ../../scss/options.scss */
+/* line 19, ../../scss/options.scss */
+.focus-prompt {
+  text-align: left;
+  margin: auto;
+  width: 40%;
+  list-style-type: circle;
+  padding: 12px 36px;
+  font-size: 16px;
+  line-height: 24px;
+  border: 1px solid #aac3d0;
+}
+
+/* line 32, ../../scss/options.scss */
 input[class*='opt-field'] {
   font-size: inherit;
   color: inherit;
   text-align: center;
 }
 
-/* line 24, ../../scss/options.scss */
+/* line 38, ../../scss/options.scss */
 .left-today {
   width: 60px;
   display: inline-block;
@@ -379,58 +393,53 @@ input[class*='opt-field'] {
   color: #aac3d0;
 }
 
-/* line 31, ../../scss/options.scss */
+/* line 45, ../../scss/options.scss */
 .opt-field--domain, .saved-domain {
   width: 300px;
 }
 
-/* line 35, ../../scss/options.scss */
+/* line 49, ../../scss/options.scss */
 .opt-field--periods {
   width: 40px;
 }
 
-/* line 39, ../../scss/options.scss */
+/* line 53, ../../scss/options.scss */
 .opt-field--period-length {
   width: 43px;
 }
 
-/* line 43, ../../scss/options.scss */
+/* line 57, ../../scss/options.scss */
 .options-saved {
   margin-bottom: 16px;
 }
 
-/* line 47, ../../scss/options.scss */
+/* line 61, ../../scss/options.scss */
 .rules-saved {
   text-align: left;
 }
-/* line 50, ../../scss/options.scss */
+/* line 64, ../../scss/options.scss */
 .rules-saved td, .rules-saved th {
   padding: 4px 16px 4px 0;
 }
 
-/* line 55, ../../scss/options.scss */
+/* line 69, ../../scss/options.scss */
 .saved-domain {
   display: inline-block;
   text-align: center;
 }
 
-/* line 61, ../../scss/options.scss */
+/* line 75, ../../scss/options.scss */
 .action-delete, .action-save {
   margin-left: 8px;
-  color: #aac3d0;
-}
-/* line 65, ../../scss/options.scss */
-.action-delete:hover, .action-save:hover {
-  color: #fefefe;
 }
 
-/* line 70, ../../scss/options.scss */
+/* line 79, ../../scss/options.scss */
 .distractions-add {
   display: block;
   margin-bottom: 16px;
 }
 
-/* line 75, ../../scss/options.scss */
+/* line 84, ../../scss/options.scss */
 .opt-field--distraction {
   width: 400px;
   margin-left: 100px;
