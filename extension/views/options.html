@@ -23,42 +23,49 @@
 <!-- 				<div class="input-error" ng-show="saveNew.newDomain.$dirty  && saveNew.newDomain.$invalid">
 				<span ng-blur='saveNew.newDomain.$error.domain'>[ needs to be a valid url ]</span>
 			</div> -->
-			<button class="action-save" ng-disabled="!saveNew.$valid" ng-click="saveNewEntry(newEntry)">Save</button>
+			<button class="action-save" title="Save" ng-disabled="!saveNew.$valid" ng-click="saveNewEntry(newEntry)">
+				<i class="icon-save"></i>
+			</button>
 		</form>
 		<ul class="focus-prompt">
 			<li>Add a site that you'd like to check less.</li>
 			<li>Every day, we'll limit how many times you use the site.</li>
 			<li>Once you hit your limit, you'll be blocked from that site until the next day.</li>
 		</ul>
-			<ul class="saved-entries">
-				<li class="options-saved" ng-repeat="entry in entries track by $index">
-					<form>
-						<span class="left-today">{{entry.periodsLeft}} left</span>
-						<span ng-model="entry.domain" class="saved-domain">{{ entry.domain }}</span>
-						<span>for</span>
-						<input type="number" ng-model="entry.periodLength" class="opt-field--period-length" min="0" max="60" value="{{ entry.periodLength }}"  /><span>-minute periods,</span>
-						<input type="number" ng-model="entry.periods" class="opt-field--periods" min="0" max="99" value=" {{ entry.periods }}" required />
-						<span>times per day.</span>
-						<button ng-click="removeEntry(entry)" class="action-delete">Remove</input>
-						<button ng-click="updateEntry(entry)" class="action-save">Update</input>
-					</form>
-				</li>
-			</ul>
-		</form>
-		<!-- <h2>propose constructive distractions, like...</h2>
-		<form name="saveDistraction" class="distractions-add">
-			<input type="text" class="opt-field--distraction" ng-model="newDistraction.txt" required placeholder="eg. brainpickings.org or 'go for a run'"/>
-			<button class="action-save" ng-disabled="!saveDistraction.$valid" ng-click="saveNewDistraction(newDistraction)">Save</button>
-		</form>
-		<ul class="saved-disractions">
-			<li class="options-saved" ng-repeat="distraction in distractions track by $index">
-				<form>
-					<input type="text" class="opt-field--distraction" ng-model="distraction.txt" />
-					<button ng-click="removeDistraction(distraction)" class="action-delete">Remove</input>
-					<button ng-click="updateDistraction(distraction)" class="action-save">Update</input>
-				</form>
-			</li>
-		</ul> -->
+		<div class="saved-entries" ng-show="entries.length > 0">
+			<h2>Saved rules</h2>
+			<table class="saved-entries-table">
+				<thead>
+					<tr>
+						<th>Website</th>
+						<th>Daily frequency</th>
+						<th>Duration</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="entry in entries track by $index">
+						<td>
+							<span ng-model="entry.domain">{{ entry.domain }}</span>
+						</td>
+						<td>
+							<input type="number" ng-model="entry.periods" class="opt-field--periods" min="0" max="99" value=" {{ entry.periods }}" required />
+						</td>
+						<td>
+							<input type="number" ng-model="entry.periodLength" class="opt-field--period-length" min="0" max="60" value="{{ entry.periodLength }}"  />
+						</td>
+						<td>
+							<button title="Delete" ng-click="removeEntry(entry)" class="action-delete">
+								<i class="icon-delete"></i>
+							</button>
+							<button title="Update" ng-click="updateEntry(entry)" class="action-save">
+								<i class="icon-save"></i>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<svg class="heron" width="157px" height="309px" viewBox="0 0 157 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 		    <title>Heron</title>
 		    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>

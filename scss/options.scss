@@ -3,6 +3,7 @@
 .wrapper {
 	text-align: left;
 	width: $content-width;
+	padding-bottom: 60px;
 }
 
 .options-add {
@@ -58,18 +59,19 @@ input[class*='opt-field'] {
 	margin-bottom: $vert-space;
 }
 
-.rules-saved {
-	text-align: left;
-
-	td, th {
-		padding: 4px 16px 4px 0;
+.saved-entries-table {
+	margin: auto;
+	thead {
+		color: $text-secondary;
 	}
-}
 
-.saved-domain {
-	@extend .opt-field--domain;
-	display: inline-block;
-	text-align: center;
+	th, td {
+		border: 1px solid $gray-ll;
+		text-align: center;
+		padding: 8px 10px;
+	}
+
+
 }
 
 .action-delete, .action-save {

@@ -9,7 +9,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	storage.getAllLocalInfo().then(function(data){
 		console.log(data);
 		if (!data.entries) {
-			entries = $scope.entries = config.defaultEntries;
+			entries = $scope.entries = config.default.entries;
 			storage.updateAllLocalInfo('entries', entries, function() {
 				redirectRules.refreshFromLocal();
 			});
@@ -20,7 +20,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 		// If distractions were never created, create default ones.
 		if(!data.distractions) {
-			distractions = $scope.distractions = config.defaultDistractions;
+			distractions = $scope.distractions = config.default.distractions;
 			storage.updateAllLocalInfo('distractions', distractions, function() {});
 		}
 		else {
@@ -35,6 +35,8 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		entry.domain = utilities.cleanDomainString(entry.domain);
 
 		// Add additional props for a new entry
+		entry.periods = config.default.periods;
+		entry.periodLength = config.default.periodLength;
 		entry.periodsLeft = entry.periods;
 		entry.periodBeingUsed = false;
 		entries.push(entry);
@@ -62,6 +64,28 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		});
 	};
 
+
+}]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', '$timeout', 'utilities', function ( $scope, $location, storage, redirectRules, alarms, $timeout, utilities) {
+
+	angular.element(document).ready(function () {
+		var input = angular.element(document.getElementById("#js-allow-sentence"));		
+	});
+
+	var redirectedDomain = $scope.redirectedDomain = {};
+	var queryUrl = $location.search().domain;
+	var over = false;
+	var distractions;
+
+	storage.getAllLocalInfo().then(function(data){
+		distractions = $scope.distractions = data.distractions;
+	});
+
+	storage.getSingleLocalInfo( 'entries', queryUrl, function(domain_props) {
+		redirectedDomain.domain = domain_props.domain;
+		redirectedDomain.periodLength = domain_props.periodLength;
+		redirectedDomain.periodsLeft = domain_props.periodsLeft;
+	});
+
 	// Distractions
 
 	// Watch for change on any distractions, if so remember their innitial value in order to update local storage.
@@ -83,26 +107,6 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		distractions.splice(distractions.indexOf(distraction), 1);
 		storage.updateAllLocalInfo('distractions', distractions, function() {});
 	};
-
-}]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', '$timeout', function ( $scope, $location, storage, redirectRules, alarms, $timeout ) {
-
-	angular.element(document).ready(function () {
-		var input = angular.element(document.getElementById("#js-allow-sentence"));		
-	});
-
-	var redirectedDomain = $scope.redirectedDomain = {};
-	var queryUrl = $location.search().domain;
-	var over = false;
-
-	storage.getAllLocalInfo().then(function(data){
-		$scope.distractions = data.distractions;
-	});
-
-	storage.getSingleLocalInfo( 'entries', queryUrl, function(domain_props) {
-		redirectedDomain.domain = domain_props.domain;
-		redirectedDomain.periodLength = domain_props.periodLength;
-		redirectedDomain.periodsLeft = domain_props.periodsLeft;
-	});
 
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
 		for (var key in changes) {

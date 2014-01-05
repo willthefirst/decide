@@ -14,27 +14,23 @@ var sensei = angular.module('sensei', [
 var config = {
 	debug: true,
 	redirectUrl: chrome.extension.getURL('views/redirect.html'),
-	defaultEntries: [
-		{
-			"domain":"facebook.com",
-			"periodBeingUsed": false,
-			"periodLength":15,
-			"periods":2,
-			"periodsLeft":2
-		}
-	],
-	defaultDistractions: [
-		{
-			"oldTxt":"walking outside and clearing your head.",
-			"txt":"walking outside and clearing your head",
-			"type":"text"
-		},
-		{
-			"oldTxt":"http://getpocket.com",
-			"txt":"http://getpocket.com",
-			"type":"url"
-		}
-	]
+	default : {
+		periods: 2,
+		periodLength: 30,
+		distractions: [
+			{
+				"oldTxt":"walking outside and clearing your head.",
+				"txt":"walking outside and clearing your head",
+				"type":"text"
+			},
+			{
+				"oldTxt":"http://getpocket.com",
+				"txt":"http://getpocket.com",
+				"type":"url"
+			}
+		],
+		entries : []
+	}
 };
 
 // Use local chrome storage for development to avoid hitting MAX_WRITES

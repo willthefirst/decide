@@ -38,6 +38,12 @@
 	}
 }
 
+.allow-button {
+	&:disabled {
+		display: none;
+	}
+}
+
 .done-for-day {
 	@include size-1;
 	margin-top: 80px;

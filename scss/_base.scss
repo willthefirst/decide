@@ -1,7 +1,6 @@
 @import "compass/reset";
 @import "compass/css3/transition";
-@import "blueprint/grid";
-
+@import "fonts";
 
 // Grid
 
@@ -171,62 +170,15 @@ a {
 
 /* 	Buttons  -------------------------------------------- */
 
-$button-hor-pad: 10px;
-
-%brackets {
-	@include transition-all-fast;
-	display: inline-block;
-	padding: 0 2px;
-	margin-top: -5px;
-	vertical-align: top;
-	font-size: 1.3em;
-}
-
 button {
-	@include transition-all-fast;
-	display: inline-block;
-	font-size: inherit;
-	font-family: inherit;
-	background-color: inherit;
-	cursor: pointer;
-	border: none;
-	margin: auto;
-	position: relative;
-	padding: 0px $button-hor-pad;
-	text-transform: lowercase;
 	color: $green;
+	background-color: inherit;
+	border: none;
+	font-size: inherit;
+	cursor: pointer;
 
 	&:disabled {
 			color: $text-secondary;
-	}
-
-	&:before {
-		@extend %brackets;
-		content: '[';
-		-webkit-transform: translate3d(-$button-hor-pad, 0, 0);
-	}
-
-	&:after {
-		@extend %brackets;
-		content: ']';
-		-webkit-transform: translate3d($button-hor-pad, 0, 0);
-	}
-
-	&:hover {
-		text-decoration: underline;
-
-		&:before {
-			-webkit-transform: translate3d(0px, 0, 0);
-		}
-
-		&:after {
-			-webkit-transform: translate3d(0px, 0, 0);
-		}
-	}
-
-	&:focus {
-		text-decoration: underline;
-		outline: 0;
 	}
 }
 
