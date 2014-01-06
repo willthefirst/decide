@@ -68,7 +68,7 @@
 
 .done-for-day {
 	@include size-1;
-	margin-top: 80px;
+	margin-bottom: $vert-space*2;
 }
 
 .distraction-list {
