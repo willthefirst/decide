@@ -50,10 +50,10 @@
 							<span ng-model="entry.domain">{{ entry.domain }}</span>
 						</td>
 						<td>
-							<input type="number" ng-model="entry.periods" class="opt-field--periods" min="0" max="99" value=" {{ entry.periods }}" required />
+							<input name="entry-{{$index}}" type="number" ng-model="entry.periods" class="opt-field--periods" min="0" max="99" value=" {{ entry.periods }}" required />
 						</td>
 						<td>
-							<input type="number" ng-model="entry.periodLength" class="opt-field--period-length" min="0" max="60" value="{{ entry.periodLength }}"  />
+							<input name="entry-{{$index}}" type="number" ng-model="entry.periodLength" class="opt-field--period-length" min="0" max="60" value="{{ entry.periodLength }}"  />
 						</td>
 						<td>
 							<button title="Delete" ng-click="removeEntry(entry)" class="action-delete">

@@ -221,45 +221,45 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   width: 1172px;
 }
 
-/* line 63, ../../scss/_base.scss */
+/* line 64, ../../scss/_base.scss */
 .align-middle {
   text-align: middle;
 }
 
-/* line 67, ../../scss/_base.scss */
+/* line 68, ../../scss/_base.scss */
 .txt-secondary {
   color: #aac3d0;
 }
 
-/* line 71, ../../scss/_base.scss */
+/* line 72, ../../scss/_base.scss */
 .ng-hide {
   display: none !important;
 }
 
-/* line 107, ../../scss/_base.scss */
+/* line 108, ../../scss/_base.scss */
 h1, h2, h3 {
   font-weight: bold;
 }
 
-/* line 111, ../../scss/_base.scss */
+/* line 112, ../../scss/_base.scss */
 h1 {
   font-size: 34px;
   line-height: 51px;
 }
 
-/* line 116, ../../scss/_base.scss */
+/* line 117, ../../scss/_base.scss */
 h2 {
   font-size: 30px;
   line-height: 45px;
 }
 
-/* line 121, ../../scss/_base.scss */
+/* line 122, ../../scss/_base.scss */
 h3 {
   font-size: 24px;
   line-height: 36px;
 }
 
-/* line 128, ../../scss/_base.scss */
+/* line 129, ../../scss/_base.scss */
 body {
   background-color: #6c8ea0;
   font-family: 'Actor', sans-serif;
@@ -268,10 +268,9 @@ body {
   line-height: 30px;
 }
 
-/* line 135, ../../scss/_base.scss */
+/* line 136, ../../scss/_base.scss */
 input[class*='opt-field'] {
   font-size: inherit;
-  color: inherit;
   text-align: center;
 }
 
@@ -287,7 +286,7 @@ input[type=number] {
   font-family: inherit;
   padding: 0;
   display: inline-block;
-  color: inherit;
+  color: #ebff08;
 }
 /* line 154, ../../scss/_base.scss */
 input[type=text]:focus,
@@ -296,9 +295,9 @@ input[type=number]:focus {
   outline: none;
 }
 /* line 158, ../../scss/_base.scss */
-input[type=text].ng-valid,
-input[type=url].ng-valid,
-input[type=number].ng-valid {
+input[type=text].ng-dirty.ng-valid,
+input[type=url].ng-dirty.ng-valid,
+input[type=number].ng-dirty.ng-valid {
   color: #5fff99;
 }
 

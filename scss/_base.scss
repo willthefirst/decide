@@ -37,7 +37,7 @@ $gray: #6c8ea0;
 $gray-ll: #aac3d0;
 
 
-$blue-ll: #6C8EA0;
+$blue-ll: #6c8ea0;
 $blue-l: #3d9ad1;
 $blue: #0969a2;
 $blue-d: #0063B1;
@@ -47,7 +47,8 @@ $black: #0b0b0b;
 $white: #fefefe;
 $white-blue: #e1eef5;
 
-$green: #5FFF99;
+$green: #5fff99;
+$yellow: #ebff08;
 $red: #ffa9a9;
 $vert-space: 16px;
 
@@ -134,7 +135,6 @@ body {
 
 input[class*='opt-field'] {
 	font-size: inherit;
-	color: inherit;
 	text-align: center;
 }
 
@@ -149,13 +149,13 @@ input[type=number] {
 	font-family: inherit;
 	padding: 0;
 	display: inline-block;
-	color: inherit;
+	color: $yellow;
 
 	&:focus {
 		outline: none;
 	}
 
-	&.ng-valid {
+	&.ng-dirty.ng-valid {
 		color: $green;
 	}
 }
@@ -185,7 +185,7 @@ button {
 	cursor: pointer;
 
 	&:disabled {
-			color: $text-secondary;
+		color: $text-secondary;
 	}
 }
 
