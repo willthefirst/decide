@@ -18,31 +18,25 @@
 	<div class="wrapper"  ng-controller="Allow">
 		<p ng-if="redirectedDomain.periodsLeft === 0" class="done-for-day">You're done with {{ redirectedDomain.domain }} for the day.</p>
 		<h2 class="how-about">instead of {{redirectedDomain.domain}}, how about... </h2>
-		<div class="saved-distractions">
-			
-			<ul class="saved-disractions">
-				<li class="distractions-saved" ng-repeat="distraction in distractions track by $index">
-					<form>
-						<a href="{{ distraction.txt }}" ng-if="distraction.type === 'url'">{{ distraction.txt }}</a>
-						<span ng-if="distraction.type === 'text'">{{ distraction.txt }}</span>
-						<button title="Delete" ng-click="removeDistraction(distraction)" class="action-delete">
-							<i class="icon-delete"></i>
-						</button>
-						<!-- <button ng-click="updateDistraction(distraction)" class="action-save">Update</input> -->
-					</form>
-				</li>
-				<li>
-					<form name="saveDistraction" class="distractions-add">
-						<input type="text" class="opt-field--distraction" ng-model="newDistraction.txt" required placeholder="eg. brainpickings.org or 'go for a run'"/>
-						<button class="action-save" ng-disabled="!saveDistraction.$valid" ng-click="saveNewDistraction(newDistraction)">
-							<i class="icon-save"></i>
-						</button>
-					</form>
-				</li>
-			</ul>
-		</div>
-		<ul class="distractions-list">
-			
+		<ul class="distraction-list">
+			<li class="distraction-saved" ng-repeat="distraction in distractions track by $index">
+				<form>
+					<a href="{{ distraction.txt }}" ng-if="distraction.type === 'url'">{{ distraction.txt }}</a>
+					<span ng-if="distraction.type === 'text'">{{ distraction.txt }}</span>
+					<button title="Delete" ng-click="removeDistraction(distraction)" class="action-delete">
+						<i class="icon-delete"></i>
+					</button>
+					<!-- <button ng-click="updateDistraction(distraction)" class="action-save">Update</input> -->
+				</form>
+			</li>
+			<li>
+				<form name="saveDistraction" class="distractions-add">
+					<input type="text" class="opt-field--distraction" ng-model="newDistraction.txt" required placeholder="eg. brainpickings.org or 'go for a run'"/>
+					<button class="action-save" ng-disabled="!saveDistraction.$valid" ng-click="saveNewDistraction(newDistraction)">
+						<i class="icon-save"></i>
+					</button>
+				</form>
+			</li>
 		</ul>
 		<form ng-if="redirectedDomain.periodsLeft > 0" name="allow" class="allow">
 			<p class="helper allow-type" ng-hide="allow.$valid">

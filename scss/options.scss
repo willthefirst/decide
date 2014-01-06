@@ -30,12 +30,6 @@
 }
 
 
-input[class*='opt-field'] {
-	font-size: inherit;
-	color: inherit;
-	text-align: center;
-}
-
 .left-today {
 	width: 60px;
 	display: inline-block;
@@ -81,9 +75,4 @@ input[class*='opt-field'] {
 .distractions-add {
 	display: block;
 	margin-bottom: $vert-space;
-}
-
-.opt-field--distraction {
-	width: 400px;
-	margin-left: 100px;
 }

@@ -65,8 +65,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 @font-face {
   font-family: 'fontello';
-  src: url("../fonts/fontello.eot?82619452");
-  src: url("../fonts/fontello.eot?82619452#iefix") format("embedded-opentype"), url("../fonts/fontello.woff?82619452") format("woff"), url("../fonts/fontello.ttf?82619452") format("truetype"), url("../fonts/fontello.svg?82619452#fontello") format("svg");
+  src: url("../fonts/fontello.eot?30388838");
+  src: url("../fonts/fontello.eot?30388838#iefix") format("embedded-opentype"), url("../fonts/fontello.woff?30388838") format("woff"), url("../fonts/fontello.ttf?30388838") format("truetype"), url("../fonts/fontello.svg?30388838#fontello") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -77,7 +77,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fontello';
-    src: url('../font/fontello.svg?82619452#fontello') format('svg');
+    src: url('../font/fontello.svg?30388838#fontello') format('svg');
   }
 }
 */
@@ -119,6 +119,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* '' */
+/* line 55, ../../scss/_fonts.scss */
+.icon-close:before {
+  content: '\e801';
+}
+
+/* '' */
 /* line 10, ../../scss/_base.scss */
 .wrapper {
   padding: 12px;
@@ -262,7 +268,14 @@ body {
   line-height: 30px;
 }
 
-/* line 137, ../../scss/_base.scss */
+/* line 135, ../../scss/_base.scss */
+input[class*='opt-field'] {
+  font-size: inherit;
+  color: inherit;
+  text-align: center;
+}
+
+/* line 143, ../../scss/_base.scss */
 input[type=text],
 input[type=url],
 input[type=number] {
@@ -274,33 +287,34 @@ input[type=number] {
   font-family: inherit;
   padding: 0;
   display: inline-block;
+  color: inherit;
 }
-/* line 147, ../../scss/_base.scss */
+/* line 154, ../../scss/_base.scss */
 input[type=text]:focus,
 input[type=url]:focus,
 input[type=number]:focus {
   outline: none;
 }
-/* line 151, ../../scss/_base.scss */
+/* line 158, ../../scss/_base.scss */
 input[type=text].ng-valid,
 input[type=url].ng-valid,
 input[type=number].ng-valid {
   color: #5fff99;
 }
 
-/* line 156, ../../scss/_base.scss */
+/* line 163, ../../scss/_base.scss */
 a {
   text-decoration: none;
   color: #5fff99;
 }
-/* line 160, ../../scss/_base.scss */
+/* line 167, ../../scss/_base.scss */
 a:visited {
   color: #5fff99;
 }
 
 /* 	Transitions  -------------------------------------------- */
 /* 	Buttons  -------------------------------------------- */
-/* line 173, ../../scss/_base.scss */
+/* line 180, ../../scss/_base.scss */
 button {
   color: #5fff99;
   background-color: inherit;
@@ -308,19 +322,19 @@ button {
   font-size: inherit;
   cursor: pointer;
 }
-/* line 180, ../../scss/_base.scss */
+/* line 187, ../../scss/_base.scss */
 button:disabled {
   color: #aac3d0;
 }
 
-/* line 203, ../../scss/_base.scss */
+/* line 210, ../../scss/_base.scss */
 .input-field {
   display: inline-block;
   vertical-align: top;
   position: relative;
 }
 
-/* line 211, ../../scss/_base.scss */
+/* line 218, ../../scss/_base.scss */
 .input-error {
   border-radius: 2px;
   padding: 4px;
@@ -339,12 +353,12 @@ button:disabled {
   margin-left: -90px;
 }
 
-/* line 230, ../../scss/_base.scss */
+/* line 237, ../../scss/_base.scss */
 .helper, .focus-prompt {
   color: #aac3d0;
 }
 
-/* line 234, ../../scss/_base.scss */
+/* line 241, ../../scss/_base.scss */
 .heron {
   position: fixed;
   bottom: -20px;
@@ -386,13 +400,6 @@ button:disabled {
 }
 
 /* line 33, ../../scss/options.scss */
-input[class*='opt-field'] {
-  font-size: inherit;
-  color: inherit;
-  text-align: center;
-}
-
-/* line 39, ../../scss/options.scss */
 .left-today {
   width: 60px;
   display: inline-block;
@@ -400,54 +407,48 @@ input[class*='opt-field'] {
   color: #aac3d0;
 }
 
-/* line 46, ../../scss/options.scss */
+/* line 40, ../../scss/options.scss */
 .opt-field--domain {
   width: 300px;
 }
 
-/* line 50, ../../scss/options.scss */
+/* line 44, ../../scss/options.scss */
 .opt-field--periods {
   width: 40px;
 }
 
-/* line 54, ../../scss/options.scss */
+/* line 48, ../../scss/options.scss */
 .opt-field--period-length {
   width: 43px;
 }
 
-/* line 58, ../../scss/options.scss */
+/* line 52, ../../scss/options.scss */
 .options-saved {
   margin-bottom: 16px;
 }
 
-/* line 62, ../../scss/options.scss */
+/* line 56, ../../scss/options.scss */
 .saved-entries-table {
   margin: auto;
 }
-/* line 64, ../../scss/options.scss */
+/* line 58, ../../scss/options.scss */
 .saved-entries-table thead {
   color: #aac3d0;
 }
-/* line 68, ../../scss/options.scss */
+/* line 62, ../../scss/options.scss */
 .saved-entries-table th, .saved-entries-table td {
   border: 1px solid #aac3d0;
   text-align: center;
   padding: 8px 10px;
 }
 
-/* line 77, ../../scss/options.scss */
+/* line 71, ../../scss/options.scss */
 .action-delete, .action-save {
   margin-left: 8px;
 }
 
-/* line 81, ../../scss/options.scss */
+/* line 75, ../../scss/options.scss */
 .distractions-add {
   display: block;
   margin-bottom: 16px;
-}
-
-/* line 86, ../../scss/options.scss */
-.opt-field--distraction {
-  width: 400px;
-  margin-left: 100px;
 }

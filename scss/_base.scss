@@ -132,6 +132,12 @@ body {
 	@include size-4;
 }
 
+input[class*='opt-field'] {
+	font-size: inherit;
+	color: inherit;
+	text-align: center;
+}
+
 input[type=text],
 input[type=url],
 input[type=number] {
@@ -143,6 +149,7 @@ input[type=number] {
 	font-family: inherit;
 	padding: 0;
 	display: inline-block;
+	color: inherit;
 
 	&:focus {
 		outline: none;

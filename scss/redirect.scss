@@ -44,11 +44,32 @@
 	}
 }
 
+.opt-field--distraction {
+	width: 350px;
+}
+
 .done-for-day {
 	@include size-1;
 	margin-top: 80px;
 }
 
-.distractions-saved {
-	margin-top: $vert-space;
+.distraction-list {
+	li {
+		margin-bottom: $vert-space;
+	}
+}
+
+.distraction-saved {
+	display: block;
+
+	.action-delete {
+		@include transition-all-fast;
+		opacity: 0;
+	}
+
+	&:hover {
+		.action-delete {
+			opacity: 1;
+		}
+	}
 }

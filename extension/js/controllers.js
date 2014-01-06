@@ -7,7 +7,6 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 	//TODO Any way to refactor this?
 	storage.getAllLocalInfo().then(function(data){
-		console.log(data);
 		if (!data.entries) {
 			entries = $scope.entries = config.default.entries;
 			storage.updateAllLocalInfo('entries', entries, function() {
