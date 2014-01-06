@@ -125,141 +125,51 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* '' */
-/* line 10, ../../scss/_base.scss */
-.wrapper {
-  padding: 12px;
-  margin: auto;
-}
-/* line 15, ../../scss/_base.scss */
-.wrapper .row {
-  clear: both;
-  width: 100%;
-  /* span1 - span12 */
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span1 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 72px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span2 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 172px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span3 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 272px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span4 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 372px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span5 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 472px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span6 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 572px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span7 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 672px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span8 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 772px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span9 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 872px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span10 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 972px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span11 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 1072px;
-}
-/* line 25, ../../scss/_base.scss */
-.wrapper .row .span12 {
-  float: left;
-  margin: 16px 8px 0 8px;
-  padding: 6px;
-  width: 1172px;
-}
-
-/* line 64, ../../scss/_base.scss */
+/* line 35, ../../scss/_base.scss */
 .align-middle {
   text-align: middle;
 }
 
-/* line 68, ../../scss/_base.scss */
+/* line 39, ../../scss/_base.scss */
 .txt-secondary {
   color: #aac3d0;
 }
 
-/* line 72, ../../scss/_base.scss */
+/* line 43, ../../scss/_base.scss */
 .ng-hide {
   display: none !important;
 }
 
-/* line 108, ../../scss/_base.scss */
+/* line 79, ../../scss/_base.scss */
 h1, h2, h3 {
   font-weight: bold;
 }
 
-/* line 112, ../../scss/_base.scss */
+/* line 83, ../../scss/_base.scss */
 h1 {
   font-size: 34px;
   line-height: 51px;
 }
 
-/* line 117, ../../scss/_base.scss */
+/* line 88, ../../scss/_base.scss */
 h2 {
   font-size: 30px;
   line-height: 45px;
 }
 
-/* line 122, ../../scss/_base.scss */
+/* line 93, ../../scss/_base.scss */
 h3 {
   font-size: 24px;
   line-height: 36px;
 }
 
-/* line 129, ../../scss/_base.scss */
+/* line 98, ../../scss/_base.scss */
+strong {
+  color: #fefefe;
+  font-weight: bold;
+}
+
+/* line 105, ../../scss/_base.scss */
 body {
   background-color: #6c8ea0;
   font-family: 'Actor', sans-serif;
@@ -268,13 +178,22 @@ body {
   line-height: 30px;
 }
 
-/* line 136, ../../scss/_base.scss */
+/* line 112, ../../scss/_base.scss */
+.wrapper {
+  padding-left: 12px;
+  padding-right: 12px;
+  max-width: 920px;
+  margin: auto;
+  padding-top: 80px;
+}
+
+/* line 121, ../../scss/_base.scss */
 input[class*='opt-field'] {
   font-size: inherit;
   text-align: center;
 }
 
-/* line 143, ../../scss/_base.scss */
+/* line 128, ../../scss/_base.scss */
 input[type=text],
 input[type=url],
 input[type=number] {
@@ -288,32 +207,32 @@ input[type=number] {
   display: inline-block;
   color: #ebff08;
 }
-/* line 154, ../../scss/_base.scss */
+/* line 139, ../../scss/_base.scss */
 input[type=text]:focus,
 input[type=url]:focus,
 input[type=number]:focus {
   outline: none;
 }
-/* line 158, ../../scss/_base.scss */
+/* line 143, ../../scss/_base.scss */
 input[type=text].ng-dirty.ng-valid,
 input[type=url].ng-dirty.ng-valid,
 input[type=number].ng-dirty.ng-valid {
   color: #5fff99;
 }
 
-/* line 163, ../../scss/_base.scss */
+/* line 148, ../../scss/_base.scss */
 a {
   text-decoration: none;
   color: #5fff99;
 }
-/* line 167, ../../scss/_base.scss */
+/* line 152, ../../scss/_base.scss */
 a:visited {
   color: #5fff99;
 }
 
 /* 	Transitions  -------------------------------------------- */
 /* 	Buttons  -------------------------------------------- */
-/* line 180, ../../scss/_base.scss */
+/* line 165, ../../scss/_base.scss */
 button {
   color: #5fff99;
   background-color: inherit;
@@ -321,19 +240,19 @@ button {
   font-size: inherit;
   cursor: pointer;
 }
-/* line 187, ../../scss/_base.scss */
+/* line 172, ../../scss/_base.scss */
 button:disabled {
   color: #aac3d0;
 }
 
-/* line 210, ../../scss/_base.scss */
+/* line 195, ../../scss/_base.scss */
 .input-field {
   display: inline-block;
   vertical-align: top;
   position: relative;
 }
 
-/* line 218, ../../scss/_base.scss */
+/* line 203, ../../scss/_base.scss */
 .input-error {
   border-radius: 2px;
   padding: 4px;
@@ -352,17 +271,31 @@ button:disabled {
   margin-left: -90px;
 }
 
-/* line 237, ../../scss/_base.scss */
-.helper, .how-about {
+/* line 224, ../../scss/_base.scss */
+.helper, .tutorial, .how-about {
   color: #aac3d0;
 }
 
-/* line 241, ../../scss/_base.scss */
+/* line 228, ../../scss/_base.scss */
 .heron {
   position: fixed;
   bottom: -20px;
   right: 10px;
   z-index: -1;
+}
+
+/* line 235, ../../scss/_base.scss */
+.tutorial {
+  background-color: #416388;
+  text-align: left;
+  padding: 12px 36px;
+  font-size: 16px;
+  line-height: 24px;
+  box-shadow: 0 0 4px #3A3A3A inset;
+}
+/* line 242, ../../scss/_base.scss */
+.tutorial ul {
+  list-style-type: circle;
 }
 
 /* line 3, ../../scss/redirect.scss */
@@ -376,12 +309,31 @@ button:disabled {
 }
 
 /* line 12, ../../scss/redirect.scss */
+.distraction-help {
+  width: 80%;
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* line 20, ../../scss/redirect.scss */
 .allow {
   margin: 100px auto 0;
   text-align: center;
+  border: 1px solid #aac3d0;
+  border-bottom: 0;
+  position: fixed;
+  bottom: 0;
+  left: 4%;
+  right: 4%;
+  background-color: #6c8ea0;
+  opacity: 0.95;
+  padding: 8px;
+  box-shadow: 0px 0px 4px #555;
 }
 
-/* line 17, ../../scss/redirect.scss */
+/* line 35, ../../scss/redirect.scss */
 .allow-type {
   margin-bottom: 32px;
   position: relative;
@@ -390,7 +342,7 @@ button:disabled {
   -webkit-user-select: none;
 }
 
-/* line 25, ../../scss/redirect.scss */
+/* line 43, ../../scss/redirect.scss */
 .allow-sentence {
   width: 100%;
   font-size: 34px;
@@ -399,42 +351,46 @@ button:disabled {
   text-align: center;
   margin: 0 0 32px 0;
 }
-/* line 32, ../../scss/redirect.scss */
+/* line 50, ../../scss/redirect.scss */
 .allow-sentence:focus {
   outline: none;
 }
-/* line 36, ../../scss/redirect.scss */
+/* line 54, ../../scss/redirect.scss */
 .allow-sentence.ng-valid-allow-sentence {
   color: #5fff99;
 }
 
-/* line 42, ../../scss/redirect.scss */
+/* line 60, ../../scss/redirect.scss */
 .allow-button:disabled {
   display: none;
 }
 
-/* line 47, ../../scss/redirect.scss */
+/* line 65, ../../scss/redirect.scss */
 .opt-field--distraction {
   width: 350px;
 }
 
-/* line 51, ../../scss/redirect.scss */
+/* line 69, ../../scss/redirect.scss */
 .done-for-day {
   font-size: 34px;
   line-height: 51px;
   margin-top: 80px;
 }
 
-/* line 57, ../../scss/redirect.scss */
+/* line 74, ../../scss/redirect.scss */
+.distraction-list {
+  padding-bottom: 180px;
+}
+/* line 76, ../../scss/redirect.scss */
 .distraction-list li {
   margin-bottom: 16px;
 }
 
-/* line 62, ../../scss/redirect.scss */
+/* line 81, ../../scss/redirect.scss */
 .distraction-saved {
   display: block;
 }
-/* line 65, ../../scss/redirect.scss */
+/* line 84, ../../scss/redirect.scss */
 .distraction-saved .action-delete {
   -webkit-transition: all 0.1s ease-out;
   -moz-transition: all 0.1s ease-out;
@@ -442,7 +398,7 @@ button:disabled {
   transition: all 0.1s ease-out;
   opacity: 0;
 }
-/* line 71, ../../scss/redirect.scss */
+/* line 90, ../../scss/redirect.scss */
 .distraction-saved:hover .action-delete {
   opacity: 1;
 }

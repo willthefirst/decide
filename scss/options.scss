@@ -2,7 +2,6 @@
 
 .wrapper {
 	text-align: left;
-	width: $content-width;
 	padding-bottom: 60px;
 }
 
@@ -18,27 +17,14 @@
 }
 
 .focus-prompt {
-	text-align: left;
-	@extend .helper;
 	margin: auto;
 	width: 40%;
-	list-style-type: circle;
-	padding: 12px 36px;
-	@include size-5;
-
-	border: 1px solid $gray-ll;
 }
 
-
-.left-today {
-	width: 60px;
-	display: inline-block;
-	text-align: right;
-	color: $text-secondary;
-}
-
-.opt-field--domain {
-	width: 300px;
+.saved-help {
+	width: 40%;
+	margin: auto;
+	margin-top: $vert-space;
 }
 
 .opt-field--periods {
@@ -53,6 +39,11 @@
 	margin-bottom: $vert-space;
 }
 
+.saved-entries {
+	border-top: 1px dotted $gray-ll;
+	padding-top: $vert-space*2;
+}
+
 .saved-entries-table {
 	margin: auto;
 	thead {
@@ -64,15 +55,8 @@
 		text-align: center;
 		padding: 8px 10px;
 	}
-
-
 }
 
 .action-delete, .action-save {
 	margin-left: 8px;
-}
-
-.distractions-add {
-	display: block;
-	margin-bottom: $vert-space;
 }

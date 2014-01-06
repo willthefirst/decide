@@ -16,7 +16,6 @@
 </head>
 <body>
 	<div class="wrapper" ng-controller="Options">
-		<h1>Check Less</h1>
 		<form name="saveNew" class="options-add">
 			<label for="newDomain" class="new-domain-prompt">Which website would you like to check less?</label>
 			<input type="text" ng-model="newEntry.domain" name="newDomain" placeholder="example.com" class="opt-field--domain" required validate-domain autofocus />
@@ -28,13 +27,14 @@
 				Add
 			</button>
 		</form>
-		<ul class="focus-prompt">
-			<li>Add a site that you'd like to check less.</li>
-			<li>Every day, we'll limit how many times you use the site.</li>
-			<li>Once you hit your limit, you'll be blocked from that site until the next day.</li>
-		</ul>
+		<div class="tutorial focus-prompt" ng-show="entries.length === 0">
+			<ul>
+				<li>Add a site that you'd like to check less.</li>
+				<li>Every day, we'll limit how many times you use the site.</li>
+				<li>Once you hit your limit, you'll be blocked from that site until the next day.</li>
+			</ul>
+		</div>
 		<div class="saved-entries" ng-show="entries.length > 0">
-			<h2>Saved rules</h2>
 			<table class="saved-entries-table">
 				<thead>
 					<tr>
@@ -66,6 +66,17 @@
 					</tr>
 				</tbody>
 			</table>
+			<div class="tutorial saved-help" ng-show="entries.length === 1">
+				<p>This is where you can manage your blocked sites.</p>
+				<ul>
+					<li>
+						<strong>Daily frequency</strong> is how many times you'd like to use the site per day.
+					</li>
+					<li>
+						<strong>Duration</strong> is how long you'd like to focus on the site before it gets blocked again.
+					</li>
+				</ul>
+			</div>
 		</div>
 		<svg class="heron" width="157px" height="309px" viewBox="0 0 157 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 		    <title>Heron</title>

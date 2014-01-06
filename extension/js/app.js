@@ -12,23 +12,12 @@ var sensei = angular.module('sensei', [
 
 // Duplicate to event_page.js
 var config = {
-	debug: true,
+	debug: false,
 	redirectUrl: chrome.extension.getURL('views/redirect.html'),
 	default : {
 		periods: 2,
 		periodLength: 30,
-		distractions: [
-			{
-				"oldTxt":"walking outside and clearing your head.",
-				"txt":"walking outside and clearing your head",
-				"type":"text"
-			},
-			{
-				"oldTxt":"http://getpocket.com",
-				"txt":"http://getpocket.com",
-				"type":"url"
-			}
-		],
+		distractions: [],
 		entries : []
 	}
 };
@@ -38,5 +27,5 @@ var chromeStorage;
 if(config.debug){
 	chromeStorage = chrome.storage.local;
 } else {
-	chrome.storage = chrome.storage.sync;
+	chromeStorage = chrome.storage.sync;
 }

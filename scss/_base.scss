@@ -2,39 +2,10 @@
 @import "compass/css3/transition";
 @import "fonts";
 
-// Grid
-
-//https://sethvargo.com/quick-960-grid-with-sass/
-$content-width: 1200px;
-
-.wrapper {
-
-  padding: 12px;
-  margin: auto;
-
-  .row {
-    clear: both;
-    width: 100%;
-
-    /* span1 - span12 */
-    $spacing: 16px; // must be an even number
-    $padding: 6px;
-    $spans: 12;
-
-    @for $i from 1 through $spans {
-      .span#{$i} {
-        float: left;
-        margin: $spacing $spacing/2 0 $spacing/2;
-        padding: $padding;
-        width: $content-width/($spans/$i) - $spacing - $padding*2;
-      }
-    }
-  }
-}
-
 // Colors
 $gray: #6c8ea0;
 $gray-ll: #aac3d0;
+$gray-dd: #416388;
 
 
 $blue-ll: #6c8ea0;
@@ -124,6 +95,11 @@ h3 {
 	@include size-3;
 }
 
+strong {
+	color: $white;
+	font-weight: bold;
+}
+
 // Base
 
 body {
@@ -131,6 +107,14 @@ body {
 	font-family: 'Actor', sans-serif;
 	color: $text-primary;
 	@include size-4;
+}
+
+.wrapper {
+	padding-left: 12px;
+	padding-right: 12px;
+	max-width: 920px;
+	margin: auto;
+	padding-top: 80px;
 }
 
 input[class*='opt-field'] {
@@ -232,6 +216,8 @@ $err-msg-width: 180px;
 	margin-left: -$err-msg-width/2;
 }
 
+
+
 // Elements
 
 .helper {
@@ -243,4 +229,16 @@ $err-msg-width: 180px;
 	bottom: -20px;
 	right: 10px;
 	z-index: -1;
+}
+
+.tutorial {
+	background-color: $gray-dd;
+	text-align: left;
+	@extend .helper;
+	padding: 12px 36px;
+	@include size-5;
+	box-shadow: 0 0 4px #3A3A3A inset;
+	ul {
+		list-style-type: circle;
+	}
 }

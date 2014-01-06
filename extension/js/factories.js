@@ -141,13 +141,14 @@ angular.module('sensei.factories', [])
 			if (chrome.runtime.lastError) {
 				console.log('Error adding rules: ');
 				console.dir(chrome.runtime.lastError.message);
-			} else {
-				chrome.declarativeWebRequest.onRequest.getRules(null,
-					function(rules) {
-						console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
-					}
-				);
-			}
+			} 
+			// else {
+			// 	chrome.declarativeWebRequest.onRequest.getRules(null,
+			// 		function(rules) {
+			// 			console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+			// 		}
+			// 	);
+			// }
 		};
 
 		chrome.declarativeWebRequest.onRequest.addRules(rules, callback);

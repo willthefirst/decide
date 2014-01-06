@@ -17,7 +17,9 @@
 <body>
 	<div class="wrapper"  ng-controller="Allow">
 		<p ng-if="redirectedDomain.periodsLeft === 0" class="done-for-day">You're done with {{ redirectedDomain.domain }} for the day.</p>
-		<h2 class="how-about">instead of {{redirectedDomain.domain}}, how about... </h2>
+		<p class="tutorial distraction-help" ng-show="distractions.length === 0">
+			Use this area to give yourself nice alternatives to time-wasting sites.
+		</p>
 		<ul class="distraction-list">
 			<li class="distraction-saved" ng-repeat="distraction in distractions track by $index">
 				<form>

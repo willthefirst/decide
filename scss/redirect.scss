@@ -9,9 +9,27 @@
 	margin: $vert-space 0 $vert-space*2;
 }
 
+.distraction-help {
+	width: 80%;
+	max-width: 300px;
+	margin: auto;
+	text-align: center;
+	margin-bottom: $vert-space;
+}
+
 .allow {
 	margin: 100px auto 0;
 	text-align: center;
+	border: 1px solid $gray-ll;
+	border-bottom: 0;
+	position: fixed;
+	bottom: 0;
+	left: 4%;
+	right: 4%;
+	background-color: $blue-ll;
+	opacity: 0.95;
+	padding: 8px;
+	box-shadow: 0px 0px 4px #555;
 }
 
 .allow-type {
@@ -54,6 +72,7 @@
 }
 
 .distraction-list {
+	padding-bottom: 180px;
 	li {
 		margin-bottom: $vert-space;
 	}
