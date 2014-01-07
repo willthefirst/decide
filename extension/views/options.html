@@ -36,6 +36,7 @@
 			</ul>
 		</div>
 		<div class="saved-entries" ng-show="entries.length > 0">
+			<form>
 			<table class="saved-entries-table">
 				<thead>
 					<tr>
@@ -51,24 +52,26 @@
 							<span ng-model="entry.domain">{{ entry.domain }}</span>
 						</td>
 						<td>
-							<input name="entry-{{$index}}" type="number" ng-model="entry.periods" class="opt-field--periods" min="0" max="99" value=" {{ entry.periods }}" required />
+							<input type="number" ng-model="entry.periods" class="opt-field--periods" min="0" max="99" value="{{ entry.periods }}" required />
 						</td>
 						<td>
-							<input name="entry-{{$index}}" type="number" ng-model="entry.periodLength" class="opt-field--period-length" min="0" max="60" value="{{ entry.periodLength }}"  />
+							<input type="number" ng-model="entry.periodLength" class="opt-field--period-length" min="0" max="60" value="{{ entry.periodLength }}"  /><span class="opt-field--min">min</span>
 						</td>
 						<td>
-							<button title="Delete" ng-click="removeEntry(entry)" class="action-delete">
-								<i class="icon-delete"></i>
-							</button>
 							<button title="Update" ng-click="updateEntry(entry)" class="action-save">
 								<i class="icon-save"></i>
+							</button>
+							<button title="Delete" ng-click="removeEntry(entry)" class="action-delete">
+								<i class="icon-delete"></i>
 							</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
+			</form>
 			<div class="tutorial saved-help" ng-show="entries.length === 1">
 				<p>This is where you can manage your blocked sites.</p>
+				<br />
 				<ul>
 					<li>
 						<strong>Daily frequency</strong> is how many times you'd like to use the site per day.

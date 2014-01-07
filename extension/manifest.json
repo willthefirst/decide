@@ -10,11 +10,15 @@
     "storage",
   	"declarativeWebRequest",
    	"<all_urls>",
-    "alarms"
+    "alarms",
+    "notifications"
   ],
   "background": {
     "scripts": ["event_page.js"],
     "persistent": false
   },
+  "web_accessible_resources": [
+    "icon.ico"
+  ],
   "options_page" : "views/options.html"
 }

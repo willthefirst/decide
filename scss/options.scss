@@ -35,6 +35,11 @@
 	width: 43px;
 }
 
+.opt-field--min {
+	color:  $text-secondary;
+	@include size-5;
+}
+
 .options-saved {
 	margin-bottom: $vert-space;
 }

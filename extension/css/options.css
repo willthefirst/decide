@@ -342,32 +342,39 @@ button:disabled {
 }
 
 /* line 38, ../../scss/options.scss */
+.opt-field--min {
+  color: #aac3d0;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* line 43, ../../scss/options.scss */
 .options-saved {
   margin-bottom: 16px;
 }
 
-/* line 42, ../../scss/options.scss */
+/* line 47, ../../scss/options.scss */
 .saved-entries {
   border-top: 1px dotted #aac3d0;
   padding-top: 32px;
 }
 
-/* line 47, ../../scss/options.scss */
+/* line 52, ../../scss/options.scss */
 .saved-entries-table {
   margin: auto;
 }
-/* line 49, ../../scss/options.scss */
+/* line 54, ../../scss/options.scss */
 .saved-entries-table thead {
   color: #aac3d0;
 }
-/* line 53, ../../scss/options.scss */
+/* line 58, ../../scss/options.scss */
 .saved-entries-table th, .saved-entries-table td {
   border: 1px solid #aac3d0;
   text-align: center;
   padding: 8px 10px;
 }
 
-/* line 60, ../../scss/options.scss */
+/* line 65, ../../scss/options.scss */
 .action-delete, .action-save {
   margin-left: 8px;
 }

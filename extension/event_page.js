@@ -45,9 +45,6 @@ var listenForAlarms = function() {
 
 		// Else, end period and clear the alarm
 		else {
-			// Notify that period is over
-			// console.log('Period has ended for', alarm.name);
-
 			// Close any open tabs matching the domain to the redirect page.
 			chrome.tabs.query({
 				url: '*://*.' + alarm.name + '/*'
@@ -63,6 +60,36 @@ var listenForAlarms = function() {
 					chrome.tabs.remove(tabs_to_close);
 				}
 			});
+
+			getAllLocalInfo(function(localData){
+				var periodsLeft = localDomainInfo( alarm.name, localData, 'object' ).periodsLeft;
+				var msg;
+				var title;
+
+				if (periodsLeft > 1) {
+					msg = "You can use it " + periodsLeft + " more times today. Time to get back to life.";
+					title = 'Ok, enough ' + alarm.name;
+				}
+				else if (periodsLeft === 1) {
+					msg = "You can use it one last time today. After that Check Less with block it until midnight.";
+					title = 'Ok, enough ' + alarm.name;
+				}
+				else {
+					msg = "Go read a book or something.";
+					title = "No more " + alarm.name + " today.";
+				}
+
+				// Notify that period is over
+				var notify_period_over = webkitNotifications.createNotification(
+				  'icon.ico', // icon url
+				  title,  // notification title
+				  msg  // notification body text
+				);
+
+				notify_period_over.show();
+			});
+
+			
 
 			// Update local storage
 			updateDomainInfo(alarm.name, {
@@ -85,7 +112,6 @@ function setDailyRefresh() {
 
 	chrome.alarms.create('daily_refresh', {
 		when: midnight
-		// periodInMinutes: 1 // for quick debugging of alarms
 	});
 };
 
@@ -155,7 +181,6 @@ function updateDomainInfo( redirectedDomain, propsToUpdate, callback ) {
 		for (i in propsToUpdate) {
 			new_entry[i] = propsToUpdate[i];
 		};
-		console.log(new_entry);
 
 		// Find the index of correct entry and update
 		var new_entry_index = localDomainInfo( redirectedDomain, data, 'index' );
