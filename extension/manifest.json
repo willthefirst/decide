@@ -1,6 +1,6 @@
 {
   "name": "Check Less",
-  "version": "1.0",
+  "version": "1.0.1",
   "manifest_version": 2,
   "description": "Check Less helps you check distracting websites less.",
   "page_action": {

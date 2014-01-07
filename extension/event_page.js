@@ -1,17 +1,13 @@
-// Configuration
+// Import global stuff
 
-var config = {
-	debug: true,
-	redirectUrl: chrome.extension.getURL('views/redirect.html'),
-};
-
-// Use local chrome storage for development to avoid hitting MAX_WRITES
-var chromeStorage;
-if(config.debug){
-	chromeStorage = chrome.storage.local;
-} else {
-	chrome.storage = chrome.storage.sync;
+function loadScript(scriptName, callback) {
+    var scriptEl = document.createElement('script');
+    scriptEl.src = chrome.extension.getURL('/js/' + scriptName);
+    scriptEl.addEventListener('load', callback, false);
+    document.head.appendChild(scriptEl);
 }
+
+loadScript('shared.js');
 
 // Utility variables
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
@@ -39,7 +35,6 @@ var resetAllPeriods = function() {
 
 var listenForAlarms = function() {
 	chrome.alarms.onAlarm.addListener(function(alarm){
-
 		// If alarm is the daily refresh alarm, clear periodsLeft for all domains
 		if(alarm.name === "daily_refresh") {
 			chrome.alarms.clearAll();
@@ -48,9 +43,10 @@ var listenForAlarms = function() {
 			setDailyRefresh();
 		}
 
-		// Else,end period and clear the alarm
+		// Else, end period and clear the alarm
 		else {
 			// Notify that period is over
+			// console.log('Period has ended for', alarm.name);
 
 			// Close any open tabs matching the domain to the redirect page.
 			chrome.tabs.query({
@@ -104,7 +100,7 @@ function setup() {
 	resetAllPeriods();
 
 	// Set up new listeners.
-	setDailyRefresh();
+	// setDailyRefresh();
 	listenForAlarms();
 };
 
@@ -134,9 +130,7 @@ function localDomainInfo( domain, localData, returnType ) {
 			}
 		}
 		if (!found) {
-			if (config.debug) {
-				console.error('Entry not found!');
-			}
+			// console.error('Entry not found!');
 			return false;
 		}
 	}
@@ -149,7 +143,6 @@ function getAllLocalInfo(callback) {
 };
 
 function updateDomainInfo( redirectedDomain, propsToUpdate, callback ) {
-
 	getAllLocalInfo(function(data) {
 
 		// Note: there is a very strange bug when console.log(data), at least in the chrome web inspector.
@@ -162,6 +155,7 @@ function updateDomainInfo( redirectedDomain, propsToUpdate, callback ) {
 		for (i in propsToUpdate) {
 			new_entry[i] = propsToUpdate[i];
 		};
+		console.log(new_entry);
 
 		// Find the index of correct entry and update
 		var new_entry_index = localDomainInfo( redirectedDomain, data, 'index' );
@@ -185,18 +179,15 @@ function registerRules ( data ) {
 	var rules = [];
 	var entries = data.entries;
 	for ( var i = 0; i < entries.length; i++) {
-		// If period is in use, skip
 		if (entries[i].periodBeingUsed) {
-			if (config.debug) {
-				console.log('Period being used, skipping.');
-			}
+		// If period is in use, skip
 		}
 		else {
 			var redirectRule = {
 				conditions: [
 					new RequestMatcher({
 						url: {
-								hostContains: entries[i].domain
+							hostContains: entries[i].domain
 						}
 					})
 				],
@@ -218,7 +209,7 @@ function registerRules ( data ) {
 		} else {
 			// chrome.declarativeWebRequest.onRequest.getRules(null,
 			// 	function(rules) {
-			// 		console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+					// console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
 			// 	}
 			// );
 		}

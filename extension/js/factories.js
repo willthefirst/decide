@@ -159,7 +159,7 @@ angular.module('sensei.factories', [])
 			null,
 			function() {
 				if (chrome.runtime.lastError) {
-					alert('Error clearing rules: ' + chrome.runtime.lastError);
+					console.error('Error clearing rules: ' + chrome.runtime.lastError);
 				} else {
 					storage.getAllLocalInfo().then(function(data){
 						registerRules(data);
@@ -185,20 +185,27 @@ angular.module('sensei.factories', [])
 
 	return {
 		set: function( domain , periodLength ) {
+
+			//Debug
+			// var five_sex = new Date();
+			// five_sex = five_sex.getTime() + 5000;
+
+			// chrome.alarms.create(domain, {
+			// 	when: five_sex
+			// 	// delayInMinutes: periodLength
+			// });
+
 			chrome.alarms.create(domain, {
 				delayInMinutes: periodLength
 			});
+
 			chrome.alarms.get(domain, function(alarm){
 				if (!alarm) {
 					console.error('Alarm failed to set.')
 				}
 				else {
 					var rings = new Date(alarm.scheduledTime);
-					if (config.debug) {
-						console.log(domain, 'period started, ends on', rings );
-					}
 				}
-
 			});
 		},
 
