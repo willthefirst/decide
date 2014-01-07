@@ -35,6 +35,7 @@ var resetAllPeriods = function() {
 
 var listenForAlarms = function() {
 	chrome.alarms.onAlarm.addListener(function(alarm){
+		console.log(alarm.name);
 		// If alarm is the daily refresh alarm, clear periodsLeft for all domains
 		if(alarm.name === "daily_refresh") {
 			chrome.alarms.clearAll();
@@ -62,6 +63,7 @@ var listenForAlarms = function() {
 			});
 
 			getAllLocalInfo(function(localData){
+				console.log('here');
 				var periodsLeft = localDomainInfo( alarm.name, localData, 'object' ).periodsLeft;
 				var msg;
 				var title;
@@ -88,8 +90,6 @@ var listenForAlarms = function() {
 
 				notify_period_over.show();
 			});
-
-			
 
 			// Update local storage
 			updateDomainInfo(alarm.name, {
@@ -232,11 +232,11 @@ function registerRules ( data ) {
 		if (chrome.runtime.lastError) {
 			console.error('Error adding rules: ' + chrome.runtime.lastError);
 		} else {
-			// chrome.declarativeWebRequest.onRequest.getRules(null,
-			// 	function(rules) {
-					// console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
-			// 	}
-			// );
+			chrome.declarativeWebRequest.onRequest.getRules(null,
+				function(rules) {
+					console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+				}
+			);
 		}
 	};
 

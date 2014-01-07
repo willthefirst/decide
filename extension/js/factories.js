@@ -187,17 +187,17 @@ angular.module('sensei.factories', [])
 		set: function( domain , periodLength ) {
 
 			// Debug
-			// var five_sex = new Date();
-			// five_sex = five_sex.getTime() + 5000;
-
-			// chrome.alarms.create(domain, {
-			// 	when: five_sex
-			// 	// delayInMinutes: periodLength
-			// });
+			var five_sex = new Date();
+			five_sex = five_sex.getTime() + 5000;
 
 			chrome.alarms.create(domain, {
-				delayInMinutes: periodLength
+				when: five_sex
+				// delayInMinutes: periodLength
 			});
+
+			// chrome.alarms.create(domain, {
+			// 	delayInMinutes: periodLength
+			// });
 
 			chrome.alarms.get(domain, function(alarm){
 				if (!alarm) {
