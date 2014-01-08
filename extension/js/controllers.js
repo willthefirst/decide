@@ -57,14 +57,21 @@ angular.module('sensei.controllers', ['sensei.factories'])
 	};
 
 	$scope.removeEntry = function( entry ) {
-		entries.splice(entries.indexOf(entry), 1);
+		storage.getAllLocalInfo().then(function(data){
+			entries = $scope.entries = data.entries;
 
-		// Clear alarms associated with entry
-		alarms.remove(entry.domain);
+			entries.splice(entries.indexOf(entry), 1);
 
-		storage.updateAllLocalInfo('entries', entries, function() {
-			redirectRules.refreshFromLocal();
+			// Clear alarms associated with entry
+			alarms.remove(entry.domain);
+
+			// TODO: refactor this. refresh scope every time something new happens to ensure we have latest local information,
+			// but this is unescessary if we are not updating AllLocalInfo.
+			storage.updateAllLocalInfo('entries', entries, function() {
+				redirectRules.refreshFromLocal();
+			});
 		});
+
 	};
 
 

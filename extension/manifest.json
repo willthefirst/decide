@@ -1,8 +1,13 @@
 {
   "name": "Check Less",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "manifest_version": 2,
   "description": "Check Less helps you check distracting websites less.",
+  "icons" : {
+    "16": "img/heron_16.png",
+    "48": "img/heron_48.png",
+    "128": "img/heron_128.png"
+  },
   "page_action": {
     "default_icon": "icon.ico"
   },
