@@ -56,7 +56,7 @@
 							<input type="number" ng-model="entry.periods" class="opt-field--periods" min="0" max="99" value="{{ entry.periods }}" required />
 						</td>
 						<td>
-							<input type="number" ng-model="entry.periodLength" class="opt-field--period-length" min="5" max="60" value="{{ entry.periodLength }}"  /><span class="opt-field--min">min</span>
+							<input type="number" ng-model="entry.periodLength" class="opt-field--period-length" min="1" max="60" value="{{ entry.periodLength }}"  /><span class="opt-field--min">min</span>
 						</td>
 						<td>
 							<button title="Update" ng-click="updateEntry(entry)" class="action-save">

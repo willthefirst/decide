@@ -35,7 +35,8 @@ var resetAllPeriods = function() {
 
 var listenForAlarms = function() {
 	chrome.alarms.onAlarm.addListener(function(alarm){
-		console.log(alarm.name);
+		var name = alarm.name;
+		console.log("Ring!", name);
 		// If alarm is the daily refresh alarm, fill up periodsLeft for all domains
 		if(alarm.name === "daily_refresh") {
 			chrome.alarms.clearAll();
@@ -51,6 +52,7 @@ var listenForAlarms = function() {
 				url: '*://*.' + alarm.name + '/*'
 			}, function(array) {
 				if (array.length === 0) {
+					console.log('no open tabs to close.')
 					// No open tabs
 				}
 				else {
@@ -63,7 +65,6 @@ var listenForAlarms = function() {
 			});
 
 			getAllLocalInfo(function(localData){
-				console.log('here');
 				var periodsLeft = localDomainInfo( alarm.name, localData, 'object' ).periodsLeft;
 				var msg;
 				var title;

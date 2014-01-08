@@ -20,6 +20,11 @@ if(config.debug){
 // Debug tools
 var debug = {
 
+	full : function() {
+		this.getAllAlarms();
+		this.getAllEntries();
+	},
+
 	// Get alarms set
 	getAllAlarms : function() {
 		chrome.alarms.getAll(function(alarms){
@@ -34,5 +39,22 @@ var debug = {
 				}
 			}
 		});
+	},
+
+	getAllEntries : function() {
+		chromeStorage.get(function(data){
+			var entries = data.entries
+			for (var i = 0; i < entries.length;i++) {
+				console.log(entries[i].domain + " has " + entries[i].periodsLeft + " periods left." );
+			}
+		});
+	},
+
+	getRedirectRules : function() {
+		chrome.declarativeWebRequest.onRequest.getRules(null,
+			function(rules) {
+				console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+			}
+		);
 	}
 }

@@ -35,8 +35,6 @@ angular.module('sensei.factories', [])
 				}
 			}
 		}
-		// If not found
-		return false;
 	};
 
 	var updateAllLocalInfo = function( key, value, callback ) {
@@ -252,4 +250,19 @@ angular.module('sensei.factories', [])
 			return distraction;
 		}
 	}
+}).factory( 'build' , function( utilities ) {
+
+	return {
+
+		// Add additional props for a new entry
+		newEntry : function ( entry ) {
+			entry.domain = utilities.cleanDomainString(entry.domain);
+			entry.periods = config.default.periods;
+			entry.periodLength = config.default.periodLength;
+			entry.periodsLeft = entry.periods;
+			entry.periodBeingUsed = false;
+			return entry;
+		}
+	}
+
 });

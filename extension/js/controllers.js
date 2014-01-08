@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sensei.controllers', ['sensei.factories'])
-.controller('Options', ['$scope', 'redirectRules', 'storage', 'alarms', 'utilities', function ( $scope, redirectRules, storage, alarms, utilities ) {
+.controller('Options', ['$scope', 'redirectRules', 'storage', 'alarms', 'utilities', 'build', function ( $scope, redirectRules, storage, alarms, utilities, build ) {
 	var entries;
 	var distractions;
 
@@ -31,18 +31,16 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 	$scope.saveNewEntry = function( entry ) {
 
-		entry.domain = utilities.cleanDomainString(entry.domain);
-
-		// Add additional props for a new entry
-		entry.periods = config.default.periods;
-		entry.periodLength = config.default.periodLength;
-		entry.periodsLeft = entry.periods;
-		entry.periodBeingUsed = false;
-		entries.push(entry);
-		storage.updateAllLocalInfo('entries', entries, function() {
-			redirectRules.refreshFromLocal();
+		// Update scope entries before updating all local Info
+		storage.getAllLocalInfo().then(function(data){
+			entries = $scope.entries = data.entries;
+			entry = build.newEntry(entry);
+			entries.push(entry);
+			storage.updateAllLocalInfo('entries', entries, function() {
+				redirectRules.refreshFromLocal();
+			});
+			$scope.newEntry = '';
 		});
-		$scope.newEntry = '';
 	};
 
 	$scope.updateEntry = function( entry ) {
