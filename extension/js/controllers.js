@@ -50,6 +50,9 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		entry.periodsLeft = entry.periods;
 		entry.periodBeingUsed = false;
 
+		// Clear alarms associated with entry
+		alarms.remove(entry.domain);
+
 		storage.updateSingleLocalInfo('entries', entry.domain, entry, function(){
 			redirectRules.refreshFromLocal();
 		});
@@ -57,7 +60,10 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 	$scope.removeEntry = function( entry ) {
 		entries.splice(entries.indexOf(entry), 1);
+
+		// Clear alarms associated with entry
 		alarms.remove(entry.domain);
+
 		storage.updateAllLocalInfo('entries', entries, function() {
 			redirectRules.refreshFromLocal();
 		});
@@ -67,7 +73,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 }]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', '$timeout', 'utilities', function ( $scope, $location, storage, redirectRules, alarms, $timeout, utilities) {
 
 	angular.element(document).ready(function () {
-		var input = angular.element(document.getElementById("#js-allow-sentence"));		
+		var input = angular.element(document.getElementById("#js-allow-sentence"));
 	});
 
 	var redirectedDomain = $scope.redirectedDomain = {};

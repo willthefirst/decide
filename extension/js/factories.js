@@ -141,7 +141,7 @@ angular.module('sensei.factories', [])
 			if (chrome.runtime.lastError) {
 				console.log('Error adding rules: ');
 				console.dir(chrome.runtime.lastError.message);
-			} 
+			}
 			// else {
 			// 	chrome.declarativeWebRequest.onRequest.getRules(null,
 			// 		function(rules) {
@@ -187,12 +187,12 @@ angular.module('sensei.factories', [])
 		set: function( domain , periodLength ) {
 
 			// Debug
+
 			// var five_sex = new Date();
-			// five_sex = five_sex.getTime() + 5000;
+			// five_sex = five_sex.getTime() + 1000;
 
 			// chrome.alarms.create(domain, {
 			// 	when: five_sex
-			// 	// delayInMinutes: periodLength
 			// });
 
 			chrome.alarms.create(domain, {
@@ -227,12 +227,12 @@ angular.module('sensei.factories', [])
 
 		// Add additional props for a new distraction
 		lintDistraction : function( distraction ) {
-			
+
 			// Append type
 			var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
 			var urlPattern = new RegExp(expression)
 	 	    var isUrl = urlPattern.test(distraction.txt);
-		    
+
 
 		   	if (isUrl) {
 		    	distraction.type = 'url';

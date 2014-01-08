@@ -16,3 +16,23 @@ if(config.debug){
 } else {
 	chromeStorage = chrome.storage.sync;
 }
+
+// Debug tools
+var debug = {
+
+	// Get alarms set
+	getAllAlarms : function() {
+		chrome.alarms.getAll(function(alarms){
+			if (!alarms) {
+				console.error('Alarm failed to set.')
+			}
+			else {
+				var rings = new Date(alarms.scheduledTime);
+				for (var i = 0; i<alarms.length;i++) {
+					rings = new Date(alarms[i].scheduledTime);
+					console.log(alarms[i].name, rings);
+				}
+			}
+		});
+	}
+}

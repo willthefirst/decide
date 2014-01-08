@@ -36,7 +36,7 @@ var resetAllPeriods = function() {
 var listenForAlarms = function() {
 	chrome.alarms.onAlarm.addListener(function(alarm){
 		console.log(alarm.name);
-		// If alarm is the daily refresh alarm, clear periodsLeft for all domains
+		// If alarm is the daily refresh alarm, fill up periodsLeft for all domains
 		if(alarm.name === "daily_refresh") {
 			chrome.alarms.clearAll();
 			resetAllPeriods();
@@ -104,7 +104,7 @@ var listenForAlarms = function() {
 	});
 };
 
-// Fill up all periodsLeft every day at midnight
+// Create alarm that refreshes all periodsLeft every day
 function setDailyRefresh() {
 	var midnight = new Date();
 	midnight.setHours(0,0,0,0);
