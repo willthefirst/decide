@@ -1,5 +1,5 @@
 var config = {
-	debug: false,
+	debug: true,
 	redirectUrl: chrome.extension.getURL('views/redirect.html'),
 	default : {
 		periods: 2,

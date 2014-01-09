@@ -1,14 +1,3 @@
-// Import global stuff
-
-function loadScript(scriptName, callback) {
-    var scriptEl = document.createElement('script');
-    scriptEl.src = chrome.extension.getURL('/js/' + scriptName);
-    scriptEl.addEventListener('load', callback, false);
-    document.head.appendChild(scriptEl);
-}
-
-loadScript('shared.js');
-
 // Utility variables
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
@@ -108,12 +97,14 @@ var listenForAlarms = function() {
 // Create alarm that refreshes all periodsLeft every day
 function setDailyRefresh() {
 	var midnight = new Date();
-	midnight.setHours(0,0,0,0);
+	midnight.setHours(24,0,0,0);
+
 	midnight = midnight.getTime();
 
 	chrome.alarms.create('daily_refresh', {
 		when: midnight
 	});
+
 };
 
 // https://developer.chrome.com/extensions/examples/extensions/catifier/event_page.js
@@ -127,7 +118,7 @@ function setup() {
 	resetAllPeriods();
 
 	// Set up new listeners.
-	// setDailyRefresh();
+	setDailyRefresh();
 	listenForAlarms();
 };
 
