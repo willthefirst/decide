@@ -106,13 +106,41 @@ angular.module('sensei.factories', [])
 	// Register rules
 	var registerRules = function( data ) {
 		var rules = [];
+		var check_for_redirects = [];
 		var entries = data.entries;
 		for ( var i = 0; i < entries.length; i++) {
-			// If period is in use, skip
+			var domain_checks = [
+				entries[i].domain
+			];
+			check_for_redirects = check_for_redirects.concat(domain_checks);
+			console.log(check_for_redirects);
+			chrome.webRequest.onCompleted.addListener(function(data){
+				console.log(data)
+				// NEXT: add data.url to potential redirect urls (but lint it probably)
+			}, {
+				urls: check_for_redirects,
+				types: ["main_frame"]
+			});
+
+			// If period is in use, just listen to see it's redirected.
 			if (entries[i].periodBeingUsed) {
-				if (config.debug) {
-					console.log('Period being used, skipping.');
-				}
+				// Catch all possible variations on a domain name
+				var domain_checks = [
+					entries[i].domain,
+					'*://' + entries[i].domain + '.*/*',
+					'*://' + entries[i].domain + '/*',
+					'*://*.' + entries[i].domain + '.*/*',
+					'*://*.' + entries[i].domain + '/*'
+				];
+				check_for_redirects = check_for_redirects.concat(domain_checks);
+
+				chrome.webRequest.onCompleted.addListener(function(data){
+					console.log(data)
+					// NEXT: add data.url to potential redirect urls (but lint it probably)
+				}, {
+					urls: check_for_redirects,
+					types: ["main_frame"]
+				});
 			}
 			else {
 				var redirectRule = {
@@ -150,6 +178,7 @@ angular.module('sensei.factories', [])
 		};
 
 		chrome.declarativeWebRequest.onRequest.addRules(rules, callback);
+
 	};
 
 	var refreshFromLocal = function() {

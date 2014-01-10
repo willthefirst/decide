@@ -7,5 +7,9 @@ var sensei = angular.module('sensei', [
 	]).config([
 	'$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode(true);
+	}]).run([
+	'$rootScope', function($rootScope) {
+		$rootScope.config = config;
 	}
 ]);
+
