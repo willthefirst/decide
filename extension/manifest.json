@@ -2,7 +2,7 @@
   "name": "Check Less",
   "version": "1.0.9",
   "manifest_version": 2,
-  "description": "Check Less helps you check distracting websites less.",
+  "description": "Makes you more efficient by reducing your impulse to check updates, messages, distracting websites, pings, pokes, and the like.",
   "icons" : {
     "16": "img/heron_16.png",
     "48": "img/heron_48.png",
