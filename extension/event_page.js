@@ -2,6 +2,9 @@
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 
+chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"})
+// chrome.browserAction.setBadgeText({text:'30'});
+
 var resetAllPeriods = function() {
 	getAllLocalInfo(function(data) {
 		if(!data.entries) {
