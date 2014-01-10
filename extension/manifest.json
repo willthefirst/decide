@@ -24,7 +24,8 @@
     "persistent": true
   },
   "web_accessible_resources": [
-    "icon.ico"
+    "img/heron_16.png",
+    "views/redirect,html"
   ],
   "options_page" : "views/options.html"
 }

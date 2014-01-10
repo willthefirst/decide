@@ -19,7 +19,7 @@
 	<div class="wrapper" ng-controller="Options">
 		<form name="saveNew" class="options-add">
 			<label for="newDomain" class="new-domain-prompt">Which website would you like to check less?</label>
-			<input type="text" ng-model="newEntry.domain" name="newDomain" placeholder="example.com" class="opt-field--domain" required validate-domain autofocus />
+			<input type="text" ng-model="newEntry.domain" name="newDomain" placeholder="eg. 'facebook'" class="opt-field--domain" required validate-domain autofocus />
 <!-- 				<div class="input-error" ng-show="saveNew.newDomain.$dirty  && saveNew.newDomain.$invalid">
 				<span ng-blur='saveNew.newDomain.$error.domain'>[ needs to be a valid url ]</span>
 			</div> -->
@@ -31,7 +31,7 @@
 		<div class="tutorial focus-prompt" ng-show="entries.length === 0">
 			<ul>
 				<li>Add a site that sucks up your time.</li>
-				<li>CheckLess will limit the number of times and length of time you use the site./li>
+				<li>Check Less will limit the number of times and length of time you use the site.</li>
 				<li>After you hit your limit, you'll be blocked.</li>
 				<li>
 					<strong>Tip: </strong>some sites will redirect to another address (eg. "gmail.com" redirects to "mail.google.com").
