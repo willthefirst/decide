@@ -17,17 +17,6 @@
 </head>
 <body>
 	<div class="wrapper" ng-controller="Options">
-		<form name="saveNew" class="options-add">
-			<label for="newDomain" class="new-domain-prompt">Which website would you like to check less?</label>
-			<input type="text" ng-model="newEntry.domain" name="newDomain" placeholder="eg. 'facebook'" class="opt-field--domain" required validate-domain autofocus />
-<!-- 				<div class="input-error" ng-show="saveNew.newDomain.$dirty  && saveNew.newDomain.$invalid">
-				<span ng-blur='saveNew.newDomain.$error.domain'>[ needs to be a valid url ]</span>
-			</div> -->
-			<button class="action-save" title="Save" ng-disabled="!saveNew.$valid" ng-click="saveNewEntry(newEntry)">
-				<i class="icon-save"></i>
-				Add
-			</button>
-		</form>
 		<div class="tutorial focus-prompt" ng-show="entries.length === 0">
 			<ul>
 				<li>Add a site that sucks up your time.</li>

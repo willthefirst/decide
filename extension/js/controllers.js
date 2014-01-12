@@ -3,17 +3,22 @@
 angular.module('checkless.controllers', ['checkless.factories'])
 .controller('PopupAdd', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
 
-	$scope.newEntry = {};
+	$scope.newEntry = {
+		domain: "",
+		periods: 2,
+		periodLength: 30
+	};
+
 	chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
-	    $scope.newEntry.domain = tabs[0].url;
+		var domain = tabs[0].url;
+		domain = utilities.cleanDomainString(domain).host;
+	    $scope.newEntry.domain = domain;
+	    console.log($scope.newEntry.domain);
 	    $scope.$apply();
 	});
 
-
-
-
-
 	$scope.saveNewEntry = function( entry ) {
+		console.log(entry);
 		// Update scope entries before updating all local Info
 		storage.getAllLocalInfo().then(function(data){
 			var entries = data.entries;

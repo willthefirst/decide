@@ -218,9 +218,41 @@ angular.module('checkless.factories', [])
 			if (!string) {
 				return;
 			}
-			var cleaned = (string).replace(/^(?:(http:\/\/www.)|(https:\/\/www.)|(http:\/\/)|(https:\/\/)|(www.))/g, '');
-			cleaned = cleaned.toLowerCase();
-			return cleaned;
+
+			// parseUri 1.2.2
+			// (c) Steven Levithan <stevenlevithan.com>
+			// MIT License
+
+			parseUri.options = {
+				strictMode: false,
+				key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+				q:   {
+					name:   "queryKey",
+					parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+				},
+				parser: {
+					strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+					loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+				}
+			};
+
+			function parseUri (str) {
+				var	o   = parseUri.options,
+					m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+					uri = {},
+					i   = 14;
+
+				while (i--) uri[o.key[i]] = m[i] || "";
+
+				uri[o.q.name] = {};
+				uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+					if ($1) uri[o.q.name][$1] = $2;
+				});
+
+				return uri;
+			};
+
+			return parseUri(string);
 		},
 
 		// Add additional props for a new distraction
@@ -256,7 +288,8 @@ angular.module('checkless.factories', [])
 
 		// Add additional props for a new entry
 		newEntry : function ( newEntry ) {
-			entry.domain = utilities.cleanDomainString(newEntry.domain);
+			var entry = {};
+			entry.domain = newEntry.domain;
 			entry.periods = newEntry.periods;
 			entry.periodLength = newEntry.periodLength;
 			entry.periodsLeft = entry.periods;
