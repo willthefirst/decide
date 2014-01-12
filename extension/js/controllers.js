@@ -1,7 +1,29 @@
 'use strict';
 
 angular.module('checkless.controllers', ['checkless.factories'])
-.controller('Options', ['$scope', 'redirectRules', 'storage', 'alarms', 'utilities', 'build', function ( $scope, redirectRules, storage, alarms, utilities, build ) {
+.controller('PopupAdd', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
+
+	// HERE: figure out current domain and save it to newEntry.domain
+	var url;
+	chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+	    url = tabs[0].url;
+	    console.log(url);
+
+	});
+
+
+	$scope.saveNewEntry = function( entry ) {
+		// Update scope entries before updating all local Info
+		storage.getAllLocalInfo().then(function(data){
+			var entries = data.entries;
+			entry = build.newEntry(entry);
+			entries.push(entry);
+			storage.updateAllLocalInfo('entries', entries, function() {
+				redirectRules.refreshFromLocal();
+			});
+		});
+	};
+}]).controller('Options', ['$scope', 'redirectRules', 'storage', 'alarms', 'utilities', 'build', function ( $scope, redirectRules, storage, alarms, utilities, build ) {
 	var entries;
 	var distractions;
 
@@ -26,22 +48,6 @@ angular.module('checkless.controllers', ['checkless.factories'])
 			distractions = $scope.distractions = data.distractions;
 		}
 	});
-
-	// Entries
-
-	$scope.saveNewEntry = function( entry ) {
-
-		// Update scope entries before updating all local Info
-		storage.getAllLocalInfo().then(function(data){
-			entries = $scope.entries = data.entries;
-			entry = build.newEntry(entry);
-			entries.push(entry);
-			storage.updateAllLocalInfo('entries', entries, function() {
-				redirectRules.refreshFromLocal();
-			});
-			$scope.newEntry = '';
-		});
-	};
 
 	$scope.updateEntry = function( entry ) {
 		// Add additional props for a new entry

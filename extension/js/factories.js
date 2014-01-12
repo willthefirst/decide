@@ -255,10 +255,10 @@ angular.module('checkless.factories', [])
 	return {
 
 		// Add additional props for a new entry
-		newEntry : function ( entry ) {
-			entry.domain = utilities.cleanDomainString(entry.domain);
-			entry.periods = config.default.periods;
-			entry.periodLength = config.default.periodLength;
+		newEntry : function ( newEntry ) {
+			entry.domain = utilities.cleanDomainString(newEntry.domain);
+			entry.periods = newEntry.periods;
+			entry.periodLength = newEntry.periodLength;
 			entry.periodsLeft = entry.periods;
 			entry.periodBeingUsed = false;
 			return entry;

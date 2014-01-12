@@ -18,7 +18,8 @@
   	"declarativeWebRequest",
    	"<all_urls>",
     "alarms",
-    "notifications"
+    "notifications",
+    "tabs"
   ],
   "minimum_chrome_version": "32",
   "background": {
