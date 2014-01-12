@@ -3,13 +3,14 @@
 angular.module('checkless.controllers', ['checkless.factories'])
 .controller('PopupAdd', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
 
-	// HERE: figure out current domain and save it to newEntry.domain
-	var url;
+	$scope.newEntry = {};
 	chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
-	    url = tabs[0].url;
-	    console.log(url);
-
+	    $scope.newEntry.domain = tabs[0].url;
+	    $scope.$apply();
 	});
+
+
+
 
 
 	$scope.saveNewEntry = function( entry ) {
