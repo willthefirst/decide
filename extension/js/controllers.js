@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sensei.controllers', ['sensei.factories'])
+angular.module('checkless.controllers', ['checkless.factories'])
 .controller('Options', ['$scope', 'redirectRules', 'storage', 'alarms', 'utilities', 'build', function ( $scope, redirectRules, storage, alarms, utilities, build ) {
 	var entries;
 	var distractions;

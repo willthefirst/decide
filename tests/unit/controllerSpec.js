@@ -44,7 +44,7 @@ describe('Options controller', function() {
       }
     }
 
-    beforeEach(module('sensei'));
+    beforeEach(module('checkless'));
 
     beforeEach(inject(function($rootScope, $controller) {
         this.scope = $rootScope.$new();

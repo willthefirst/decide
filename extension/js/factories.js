@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sensei.factories', [])
+angular.module('checkless.factories', [])
 .factory( 'storage' , function( $q ) {
 
 	// Gets object or index for specified domain (domain) from all entries (localData)
