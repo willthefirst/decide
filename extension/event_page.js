@@ -5,6 +5,60 @@ var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"})
 // chrome.browserAction.setBadgeText({text:'30'});
 
+// chrome.declarativeWebRequest.onMessage.addListener(function (details) {
+
+// 	// If message is to update badge, then details.tabID has periodBeingUsed
+// 	if (details.message ==== "update_badge") {
+
+// 		// Find domain requested
+
+
+
+// 		// setTimeout to update badge every 30 seconds for this tab (more accurate than 1min)
+// 			// (time_left_in_milliseconds) = periodEnd - now
+// 			// mins_left = time_left_in_milliseconds / (1000/60)
+// 			// update badge with mins left.
+
+// 		// if url changes | tab is closed, break the setTimeout (will be refreshed from next message if same host)
+
+// 	}
+
+
+// });
+
+
+// If a different tab is selected, update the extension time.
+	// Check host
+	// If host exists and periodBeingUsed = true
+	// Set badge to (alarm_time - current_time)inMinutes
+
+// Next: conditions to call timerForPeriodTab
+
+
+// This function is given the tabId for a tab that is on a periodBeingUsed domain
+function timerForPeriodTab( tabId ) {
+
+
+
+	getAllLocalInfo(function(data){
+		localDomainInfo(function( domain, data, object ) {
+
+		});
+	});
+
+	var badge_updater = window.setTimeout(function(){
+
+
+
+	}, (30 * 1000));
+
+	// setTimeout to update badge every 30 seconds for this tab (more accurate than 1min)
+	// 			// (time_left_in_milliseconds) = periodEnd - now
+	// 			// mins_left = time_left_in_milliseconds / (1000/60)
+	// 			// update badge with mins left.
+}
+
+
 var resetAllPeriods = function() {
 	getAllLocalInfo(function(data) {
 		if(!data.entries) {
@@ -253,3 +307,44 @@ function refreshFromLocal() {
 		}
 	);
 };
+
+function cleanDomainString( string ) {
+	if (!string) {
+		return;
+	}
+
+	// parseUri 1.2.2
+	// (c) Steven Levithan <stevenlevithan.com>
+	// MIT License
+
+	parseUri.options = {
+		strictMode: false,
+		key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+		q:   {
+			name:   "queryKey",
+			parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+		},
+		parser: {
+			strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+			loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+		}
+	};
+
+	function parseUri (str) {
+		var	o   = parseUri.options,
+			m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+			uri = {},
+			i   = 14;
+
+		while (i--) uri[o.key[i]] = m[i] || "";
+
+		uri[o.q.name] = {};
+		uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+			if ($1) uri[o.q.name][$1] = $2;
+		});
+
+		return uri;
+	};
+
+	return parseUri(string);
+},

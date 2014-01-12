@@ -154,7 +154,7 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		var letPass = function( url ) {
 			if(!url) {
 				window.location = $location.search().domain;
-			}else {
+			} else {
 				window.location = url;
 			}
 		};
@@ -168,7 +168,12 @@ angular.module('checkless.controllers', ['checkless.factories'])
 			else {
 
 				// Set alarm for end of period
-				alarms.set ( redirectedDomain.domain, domain_props.periodLength );
+				alarms.set( redirectedDomain.domain, domain_props.periodLength );
+
+				// Calculate end of period time (for updating timer in browser_action)
+				// Would rather avoid callback annoyance of doing alarms.get, better to just recalculate.
+				var end = new Date();
+				end = end.getTime() + (periodLength * 60 * 1000);
 
 				// Lift redirect rule on this domain.
 				storage.updateSingleLocalInfo(
@@ -177,6 +182,7 @@ angular.module('checkless.controllers', ['checkless.factories'])
 					{
 						periodBeingUsed : true,
 						periodsLeft: (domain_props.periodsLeft - 1),
+						periodEnd: end
 					},
 					function() {
 						redirectRules.refreshFromLocal();

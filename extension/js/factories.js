@@ -102,20 +102,32 @@ angular.module('checkless.factories', [])
 	// Utility variables
 	var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 	var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
+	var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
+
 
 	// Register rules
 	var registerRules = function( data ) {
 		var rules = [];
 		var entries = data.entries;
+		var rule;
 		for ( var i = 0; i < entries.length; i++) {
-			// If period is in use, skip
+			// If period is in use, alert event_page to update badge
 			if (entries[i].periodBeingUsed) {
-				if (config.debug) {
-					console.log('Period being used, skipping.');
-				}
+				rule = {
+					conditions: [
+						new RequestMatcher({
+							url: {
+								hostContains: entries[i].domain
+							}
+						})
+					],
+					actions: [
+						new SendMessageToExtension('update_badge');
+					]
+				};
 			}
 			else {
-				var redirectRule = {
+				rule = {
 					conditions: [
 						new RequestMatcher({
 							url: {
@@ -130,7 +142,7 @@ angular.module('checkless.factories', [])
 						})
 					]
 				};
-				rules.push(redirectRule);
+				rules.push(rule);
 			}
 		}
 
@@ -200,9 +212,6 @@ angular.module('checkless.factories', [])
 			chrome.alarms.get(domain, function(alarm){
 				if (!alarm) {
 					console.error('Alarm failed to set.')
-				}
-				else {
-					var rings = new Date(alarm.scheduledTime);
 				}
 			});
 		},
@@ -285,7 +294,6 @@ angular.module('checkless.factories', [])
 }).factory( 'build' , function( utilities ) {
 
 	return {
-
 		// Add additional props for a new entry
 		newEntry : function ( newEntry ) {
 			var entry = {};
