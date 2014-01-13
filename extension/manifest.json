@@ -19,7 +19,8 @@
    	"<all_urls>",
     "alarms",
     "notifications",
-    "tabs"
+    "tabs",
+    "webNavigation"
   ],
   "minimum_chrome_version": "32",
   "background": {

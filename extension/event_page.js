@@ -5,57 +5,48 @@ var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"})
 // chrome.browserAction.setBadgeText({text:'30'});
 
-// chrome.declarativeWebRequest.onMessage.addListener(function (details) {
+var old_request;
 
-// 	// If message is to update badge, then details.tabID has periodBeingUsed
-// 	if (details.message ==== "update_badge") {
+chrome.declarativeWebRequest.onMessage.addListener(function (details) {
+	var domain_info = JSON.parse(details.message);
+	var requestId = details.requestId;
 
-// 		// Find domain requested
-
-
-
-// 		// setTimeout to update badge every 30 seconds for this tab (more accurate than 1min)
-// 			// (time_left_in_milliseconds) = periodEnd - now
-// 			// mins_left = time_left_in_milliseconds / (1000/60)
-// 			// update badge with mins left.
-
-// 		// if url changes | tab is closed, break the setTimeout (will be refreshed from next message if same host)
-
-// 	}
-
-
-// });
-
-
-// If a different tab is selected, update the extension time.
-	// Check host
-	// If host exists and periodBeingUsed = true
-	// Set badge to (alarm_time - current_time)inMinutes
-
-// Next: conditions to call timerForPeriodTab
+	if (domain_info.hasOwnProperty('type')
+		&& domain_info.type === 'update_badge'
+		&& requestId !== old_request) {
+			old_request = requestId;
+			manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
+		}
+});
 
 
 // This function is given the tabId for a tab that is on a periodBeingUsed domain
-function timerForPeriodTab( tabId ) {
+function manageBadgeTimer( tabId, domain, periodEnd ) {
+	var tab_id = tabId;
+	console.log(tab_id);
 
+	// Update immediately
+	updateBadgeTimer(periodEnd, tab_id);
 
+	// Update badge every 30 seconds
+	var badge_updater = window.setInterval( function(){updateBadgeTimer(periodEnd, tab_id)}, (30 * 1000));
 
-	getAllLocalInfo(function(data){
-		localDomainInfo(function( domain, data, object ) {
+	// If tab is closed or domain changes to a new one, cancel timeout and break out of function;
 
-		});
+	//tab.newDomain or tab closed
+		// cancel the timeout
+		// return
+
+}
+
+function updateBadgeTimer( periodEnd, tab_id ) {
+	var now = new Date();
+	var mins_left = (periodEnd - now.getTime()) / (1000*60);
+	mins_left = Math.round(mins_left);
+	chrome.browserAction.setBadgeText({
+		text: mins_left.toString(),
+		tabId: tab_id
 	});
-
-	var badge_updater = window.setTimeout(function(){
-
-
-
-	}, (30 * 1000));
-
-	// setTimeout to update badge every 30 seconds for this tab (more accurate than 1min)
-	// 			// (time_left_in_milliseconds) = periodEnd - now
-	// 			// mins_left = time_left_in_milliseconds / (1000/60)
-	// 			// update badge with mins left.
 }
 
 
@@ -347,4 +338,4 @@ function cleanDomainString( string ) {
 	};
 
 	return parseUri(string);
-},
+}

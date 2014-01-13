@@ -13,7 +13,6 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		var domain = tabs[0].url;
 		domain = utilities.cleanDomainString(domain).host;
 	    $scope.newEntry.domain = domain;
-	    console.log($scope.newEntry.domain);
 	    $scope.$apply();
 	});
 
@@ -173,7 +172,7 @@ angular.module('checkless.controllers', ['checkless.factories'])
 				// Calculate end of period time (for updating timer in browser_action)
 				// Would rather avoid callback annoyance of doing alarms.get, better to just recalculate.
 				var end = new Date();
-				end = end.getTime() + (periodLength * 60 * 1000);
+				end = end.getTime() + (domain_props.periodLength * 60 * 1000);
 
 				// Lift redirect rule on this domain.
 				storage.updateSingleLocalInfo(

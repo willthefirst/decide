@@ -113,16 +113,25 @@ angular.module('checkless.factories', [])
 		for ( var i = 0; i < entries.length; i++) {
 			// If period is in use, alert event_page to update badge
 			if (entries[i].periodBeingUsed) {
+
+				var message = {
+					'type' : 'update_badge',
+					'domain' : entries[i].domain,
+					'periodEnd' : entries[i].periodEnd
+				};
+				message = JSON.stringify(message);
 				rule = {
 					conditions: [
 						new RequestMatcher({
 							url: {
 								hostContains: entries[i].domain
-							}
+							},
+							stages: ['onHeadersReceived'],
+							resourceType: ['main_frame']
 						})
 					],
 					actions: [
-						new SendMessageToExtension('update_badge');
+						new SendMessageToExtension({message : message})
 					]
 				};
 			}
@@ -142,8 +151,8 @@ angular.module('checkless.factories', [])
 						})
 					]
 				};
-				rules.push(rule);
 			}
+			rules.push(rule);
 		}
 
 		// Callback after rules are accepted
