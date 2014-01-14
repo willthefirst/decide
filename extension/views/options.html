@@ -22,14 +22,21 @@
 				<li>Add a site that sucks up your time.</li>
 				<li>Check Less will limit the number of times and length of time you use the site.</li>
 				<li>After you hit your limit, you'll be blocked.</li>
-				<li>
-					<strong>Tip: </strong>some sites will redirect to another address (eg. "gmail.com" redirects to "mail.google.com").
-					<br />Be sure to <strong>use the last url you're taken to</strong> (ie. "mail.google.com").
-				</li>
 			</ul>
 		</div>
 		<div class="saved-entries" ng-show="entries.length > 0">
-			<form>
+			<div class="tutorial saved-help" ng-show="entries.length === 1">
+				<p>This is where you can manage your blocked sites.</p>
+				<br />
+				<ul>
+					<li>
+						<strong>Daily frequency</strong> is how many times you'd like to use the site per day.
+					</li>
+					<li>
+						<strong>Duration</strong> is how long you'd like to focus on the site before it gets blocked again (in minutes).
+					</li>
+				</ul>
+			</div>
 			<table class="saved-entries-table">
 				<thead>
 					<tr>
@@ -61,19 +68,6 @@
 					</tr>
 				</tbody>
 			</table>
-			</form>
-			<div class="tutorial saved-help" ng-show="entries.length === 1">
-				<p>This is where you can manage your blocked sites.</p>
-				<br />
-				<ul>
-					<li>
-						<strong>Daily frequency</strong> is how many times you'd like to use the site per day.
-					</li>
-					<li>
-						<strong>Duration</strong> is how long you'd like to focus on the site before it gets blocked again (in minutes).
-					</li>
-				</ul>
-			</div>
 		</div>
 		<svg class="heron" width="157px" height="309px" viewBox="0 0 157 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 		    <title>Heron</title>

@@ -3,28 +3,13 @@
 .wrapper {
 	text-align: left;
 	padding-bottom: 60px;
-}
-
-.options-add {
-	margin-bottom: $vert-space*2;
-	text-align: center;
-	@include size-2;
-}
-
-.new-domain-prompt {
-	display: block;
-	padding: $vert-space 0;
-}
-
-.focus-prompt {
-	margin: auto;
-	width: 60%;
+	padding-top: $vert-space;
 }
 
 .saved-help {
-	width: 40%;
+	width: 60%;
 	margin: auto;
-	margin-top: $vert-space;
+	margin-bottom: $vert-space;
 }
 
 .opt-field--periods {
@@ -45,7 +30,6 @@
 }
 
 .saved-entries {
-	border-top: 1px dotted $gray-ll;
 	padding-top: $vert-space*2;
 }
 
