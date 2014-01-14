@@ -22,20 +22,25 @@ chrome.declarativeWebRequest.onMessage.addListener(function (details) {
 
 // This function is given the tabId for a tab that is on a periodBeingUsed domain
 function manageBadgeTimer( tabId, domain, periodEnd ) {
-	var tab_id = tabId;
-	console.log(tab_id);
+	var period_tab = tabId;
 
 	// Update immediately
-	updateBadgeTimer(periodEnd, tab_id);
+
+	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+		if (tabId === period_tab && changeInfo.status === "complete") {
+			updateBadgeTimer(periodEnd, period_tab);
+		}
+	});
 
 	// Update badge every 30 seconds
-	var badge_updater = window.setInterval( function(){updateBadgeTimer(periodEnd, tab_id)}, (30 * 1000));
+	var badge_updater = window.setInterval( function(){
+		updateBadgeTimer(periodEnd, tab_id)
+	}, (30 * 1000));
 
 	// If tab is closed or domain changes to a new one, cancel timeout and break out of function;
-
-	//tab.newDomain or tab closed
-		// cancel the timeout
-		// return
+		//tab.newDomain or tab closed
+			// cancel the timeout
+			// return
 
 }
 
