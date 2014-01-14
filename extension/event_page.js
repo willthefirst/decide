@@ -24,18 +24,28 @@ chrome.declarativeWebRequest.onMessage.addListener(function (details) {
 function manageBadgeTimer( tabId, domain, periodEnd ) {
 	var period_tab = tabId;
 
-	// Update immediately
+	// Update badge every 30 seconds
+	var secs = 30;
+	var badge_updater = setInterval(function(){
+		updateBadgeTimer(periodEnd, period_tab);
+	}, (secs * 1000));
 
+	// Update immediately
 	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-		if (tabId === period_tab && changeInfo.status === "complete") {
-			updateBadgeTimer(periodEnd, period_tab);
+		if (tabId === period_tab) {
+			if ( changeInfo.status === "complete" && tab.url.indexOf(domain) !== -1) {
+				updateBadgeTimer(periodEnd, period_tab);
+			}
+			else if (tab.url.indexOf(domain) === -1) {
+				clearInterval(badge_updater);
+				chrome.browserAction.setBadgeText({
+					text: '',
+					tabId: period_tab
+				});
+			}
 		}
 	});
 
-	// Update badge every 30 seconds
-	var badge_updater = window.setInterval( function(){
-		updateBadgeTimer(periodEnd, tab_id)
-	}, (30 * 1000));
 
 	// If tab is closed or domain changes to a new one, cancel timeout and break out of function;
 		//tab.newDomain or tab closed
@@ -47,9 +57,17 @@ function manageBadgeTimer( tabId, domain, periodEnd ) {
 function updateBadgeTimer( periodEnd, tab_id ) {
 	var now = new Date();
 	var mins_left = (periodEnd - now.getTime()) / (1000*60);
-	mins_left = Math.round(mins_left);
+
+	// Show seconds if less than 1 minute left
+	if (mins_left <= 1) {
+		mins_left = ((Math.floor(mins_left * 60)).toString()) + 's';
+	}
+	// Otherwise show minutes
+	else {
+		mins_left = ((Math.floor(mins_left + 1)).toString()) + 'm';
+	}
 	chrome.browserAction.setBadgeText({
-		text: mins_left.toString(),
+		text: mins_left,
 		tabId: tab_id
 	});
 }
@@ -279,7 +297,7 @@ function registerRules ( data ) {
 		} else {
 			chrome.declarativeWebRequest.onRequest.getRules(null,
 				function(rules) {
-					console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+					// console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
 				}
 			);
 		}
