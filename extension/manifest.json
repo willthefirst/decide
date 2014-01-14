@@ -29,7 +29,7 @@
   },
   "web_accessible_resources": [
     "img/heron_16.png",
-    "views/redirect,html"
+    "views/redirect.html"
   ],
   "options_page" : "views/options.html"
 }
