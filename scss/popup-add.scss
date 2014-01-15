@@ -2,13 +2,26 @@
 
 .wrapper-popup {
 	min-width: 250px;
-	padding: 2px 4px 2px;
+	padding: 2px 16px;
 	text-align: center;
 }
 
-.new-domain {
+.new-question {
 	color: $text-secondary;
-	padding: $vert-space 4px;
+	margin: $vert-space 0;
+	@include size-5;
+}
+
+.new-domain {
+	text-decoration: underline;
+}
+
+.period-info {
+	margin-bottom: $vert-space;
+}
+
+.opt-field--min {
+	color: $text-secondary;
 	@include size-5;
 }
 
@@ -16,5 +29,5 @@
 	width: 100%;
 	color: $white;
 	background-color: $green;
-	margin-top: $vert-space;
+	margin-bottom: $vert-space;
 }

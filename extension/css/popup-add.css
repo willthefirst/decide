@@ -306,22 +306,39 @@ button:disabled {
 /* line 3, ../../scss/popup-add.scss */
 .wrapper-popup {
   min-width: 250px;
-  padding: 2px 4px 2px;
+  padding: 2px 16px;
   text-align: center;
 }
 
 /* line 9, ../../scss/popup-add.scss */
-.new-domain {
+.new-question {
   color: #aac3d0;
-  padding: 16px 4px;
+  margin: 16px 0;
   font-size: 16px;
   line-height: 24px;
 }
 
 /* line 15, ../../scss/popup-add.scss */
+.new-domain {
+  text-decoration: underline;
+}
+
+/* line 19, ../../scss/popup-add.scss */
+.period-info {
+  margin-bottom: 16px;
+}
+
+/* line 23, ../../scss/popup-add.scss */
+.opt-field--min {
+  color: #aac3d0;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* line 28, ../../scss/popup-add.scss */
 .action-save {
   width: 100%;
   color: #fefefe;
   background-color: #5fff99;
-  margin-top: 16px;
+  margin-bottom: 16px;
 }
