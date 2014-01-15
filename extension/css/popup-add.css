@@ -303,64 +303,25 @@ button:disabled {
   border-radius: 1px;
 }
 
-/* line 3, ../../scss/options.scss */
-.wrapper {
-  text-align: left;
-  padding-bottom: 60px;
-  padding-top: 16px;
+/* line 3, ../../scss/popup-add.scss */
+.wrapper-popup {
+  min-width: 250px;
+  padding: 2px 4px 2px;
+  text-align: center;
 }
 
-/* line 9, ../../scss/options.scss */
-.saved-help {
-  width: 60%;
-  margin: auto;
-  margin-bottom: 16px;
-}
-
-/* line 15, ../../scss/options.scss */
-.opt-field--periods {
-  width: 40px;
-}
-
-/* line 19, ../../scss/options.scss */
-.opt-field--period-length {
-  width: 43px;
-}
-
-/* line 23, ../../scss/options.scss */
-.opt-field--min {
+/* line 9, ../../scss/popup-add.scss */
+.new-domain {
   color: #aac3d0;
+  padding: 16px 4px;
   font-size: 16px;
   line-height: 24px;
 }
 
-/* line 28, ../../scss/options.scss */
-.options-saved {
-  margin-bottom: 16px;
-}
-
-/* line 32, ../../scss/options.scss */
-.saved-entries {
-  padding-top: 32px;
-}
-
-/* line 36, ../../scss/options.scss */
-.saved-entries-table {
-  margin: auto;
-}
-/* line 38, ../../scss/options.scss */
-.saved-entries-table thead {
-  color: #aac3d0;
-}
-/* line 42, ../../scss/options.scss */
-.saved-entries-table th, .saved-entries-table td {
-  border: 1px solid #aac3d0;
-  text-align: center;
-  padding: 8px 10px;
-}
-
-/* line 49, ../../scss/options.scss */
-.action-delete, .action-save {
-  margin-left: 8px;
-  color: #5fff99;
+/* line 15, ../../scss/popup-add.scss */
+.action-save {
+  width: 100%;
+  color: #fefefe;
+  background-color: #5fff99;
+  margin-top: 16px;
 }

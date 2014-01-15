@@ -161,7 +161,6 @@ a {
 /* 	Buttons  -------------------------------------------- */
 
 button {
-	color: $green;
 	background-color: inherit;
 	border: none;
 	font-size: inherit;
@@ -240,4 +239,9 @@ $err-msg-width: 180px;
 	ul {
 		list-style-type: circle;
 	}
+}
+
+.button {
+	padding: 8px 16px;
+	border-radius: 1px;
 }

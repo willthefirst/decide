@@ -3,6 +3,8 @@
 angular.module('checkless.controllers', ['checkless.factories'])
 .controller('PopupAdd', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
 
+	$scope.added = false;
+
 	$scope.newEntry = {
 		domain: "",
 		periods: 2,
@@ -17,7 +19,6 @@ angular.module('checkless.controllers', ['checkless.factories'])
 	});
 
 	$scope.saveNewEntry = function( entry ) {
-		console.log(entry);
 		// Update scope entries before updating all local Info
 		storage.getAllLocalInfo().then(function(data){
 			var entries = data.entries;
@@ -25,6 +26,7 @@ angular.module('checkless.controllers', ['checkless.factories'])
 			entries.push(entry);
 			storage.updateAllLocalInfo('entries', entries, function() {
 				redirectRules.refreshFromLocal();
+				$scope.added = true;
 			});
 		});
 	};
