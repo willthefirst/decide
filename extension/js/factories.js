@@ -104,7 +104,6 @@ angular.module('checkless.factories', [])
 	var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 	var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
 
-
 	// Register rules
 	var registerRules = function( data ) {
 		var rules = [];
