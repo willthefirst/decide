@@ -305,7 +305,7 @@ button:disabled {
 
 /* line 3, ../../scss/popup-add.scss */
 .wrapper-popup {
-  min-width: 250px;
+  min-width: 280px;
   padding: 2px 16px;
   text-align: center;
 }
@@ -356,6 +356,15 @@ button:disabled {
 
 /* line 44, ../../scss/popup-add.scss */
 .saved-domain {
-  padding: 16px;
+  display: block;
+  padding: 16px 0;
   color: #5fff99;
+}
+
+/* line 50, ../../scss/popup-add.scss */
+.help-manage {
+  color: #aac3d0;
+  padding-bottom: 16px;
+  font-size: 14px;
+  line-height: 21px;
 }

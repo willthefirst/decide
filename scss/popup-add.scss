@@ -1,7 +1,7 @@
 @import 'base';
 
 .wrapper-popup {
-	min-width: 250px;
+	min-width: 280px;
 	padding: 2px 16px;
 	text-align: center;
 }
@@ -42,6 +42,13 @@
 }
 
 .saved-domain {
-	padding: $vert-space;
+	display: block;
+	padding: $vert-space 0;
 	color: $green;
+}
+
+.help-manage {
+	color: $text-secondary;
+	padding-bottom: $vert-space;
+	@include size-6;
 }
