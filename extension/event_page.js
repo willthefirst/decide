@@ -3,7 +3,22 @@ var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 
 chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"})
-// chrome.browserAction.setBadgeText({text:'30'});
+
+// Disable the badge in these conditions
+var disable_conditions = function() {
+	// User is on redirect page
+	var disable = tab.url.indexOf("chrome-extension://" + config.redirectUrl) !== 0
+	// User is on options page
+	|| tab.url.indexOf("chrome-extension://" + config.optionsUrl) !== 0;
+	return disable;
+}
+
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+	if (disable_conditions) {
+		chrome.browserAction.disable();
+	}
+});
 
 var old_request;
 
