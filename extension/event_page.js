@@ -5,18 +5,23 @@ var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"})
 
 // Disable the badge in these conditions
-var disable_conditions = function() {
-	// User is on redirect page
-	var disable = tab.url.indexOf("chrome-extension://" + config.redirectUrl) !== 0
-	// User is on options page
-	|| tab.url.indexOf("chrome-extension://" + config.optionsUrl) !== 0;
+var disable_conditions = function(tab) {
+	var disable =
+		// User is on redirect page
+		(tab.url.indexOf(config.redirectUrl) !== -1)
+		// User is on options page
+		|| (tab.url.indexOf(config.optionsUrl) !== -1);
 	return disable;
-}
-
+};
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-	if (disable_conditions) {
-		chrome.browserAction.disable();
+	if (changeInfo.status === "complete") {
+		if (disable_conditions(tab)) {
+			chrome.browserAction.disable( tabId );
+		}
+		else {
+			chrome.browserAction.enable( tabId );
+		}
 	}
 });
 
