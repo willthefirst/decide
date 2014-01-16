@@ -2,6 +2,14 @@
 
 angular.module('checkless.controllers', ['checkless.factories'])
 .controller('PopupAdd', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
+	utilities.getDomainFromTab(function(domain){
+		storage.getSingleLocalInfo( 'entries', domain, function(domain_props) {
+			$scope.current_period.periodEnd = domain_props.periodEnd;
+
+		});
+	});
+
+}]).controller('PopupAdd', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
 
 	$scope.added = false;
 
@@ -11,11 +19,9 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		periodLength: 30
 	};
 
-	chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
-		var domain = tabs[0].url;
-		domain = utilities.cleanDomainString(domain).host;
-	    $scope.newEntry.domain = domain;
-	    $scope.$apply();
+	utilities.getDomainFromTab(function(domain){
+		$scope.newEntry.domain = domain;
+		$scope.$apply();
 	});
 
 	$scope.saveNewEntry = function( entry ) {
@@ -87,8 +93,6 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		});
 
 	};
-
-
 }]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', '$timeout', 'utilities', function ( $scope, $location, storage, redirectRules, alarms, $timeout, utilities) {
 
 	angular.element(document).ready(function () {

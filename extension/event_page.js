@@ -28,6 +28,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 var old_request;
 
 chrome.declarativeWebRequest.onMessage.addListener(function (details) {
+	alert(here);
 	var domain_info = JSON.parse(details.message);
 	var requestId = details.requestId;
 
@@ -35,6 +36,13 @@ chrome.declarativeWebRequest.onMessage.addListener(function (details) {
 		&& domain_info.type === 'update_badge'
 		&& requestId !== old_request) {
 			old_request = requestId;
+
+			console.log('here');
+			// Set info popup
+			chrome.browserAction.setPopup({
+				popup: '/views/popup/period-info.html'
+			});
+
 			manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
 		}
 });
@@ -286,12 +294,33 @@ function updateDomainInfo( redirectedDomain, propsToUpdate, callback ) {
 function registerRules ( data ) {
 	var rules = [];
 	var entries = data.entries;
+	var rule;
 	for ( var i = 0; i < entries.length; i++) {
+		// If period is in use, alert event_page to update badge
 		if (entries[i].periodBeingUsed) {
-		// If period is in use, skip
+			var message = {
+				'type' : 'update_badge',
+				'domain' : entries[i].domain,
+				'periodEnd' : entries[i].periodEnd
+			};
+			message = JSON.stringify(message);
+			rule = {
+				conditions: [
+					new RequestMatcher({
+						url: {
+							hostContains: entries[i].domain
+						},
+						stages: ['onHeadersReceived'],
+						resourceType: ['main_frame']
+					})
+				],
+				actions: [
+					new SendMessageToExtension({message : message})
+				]
+			};
 		}
 		else {
-			var redirectRule = {
+			rule = {
 				conditions: [
 					new RequestMatcher({
 						url: {
@@ -306,25 +335,26 @@ function registerRules ( data ) {
 					})
 				]
 			};
-			rules.push(redirectRule);
 		}
+		rules.push(rule);
 	}
 
 	// Callback after rules are accepted
 	var callback = function() {
 		if (chrome.runtime.lastError) {
-			console.error('Error adding rules: ' + chrome.runtime.lastError);
-		} else {
-			chrome.declarativeWebRequest.onRequest.getRules(null,
-				function(rules) {
-					// console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
-				}
-			);
+			console.log('Error adding rules: ');
+			console.dir(chrome.runtime.lastError.message);
 		}
+		// else {
+		// 	chrome.declarativeWebRequest.onRequest.getRules(null,
+		// 		function(rules) {
+		// 			console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+		// 		}
+		// 	);
+		// }
 	};
 
-	chrome.declarativeWebRequest.onRequest.addRules(
-		rules, callback);
+	chrome.declarativeWebRequest.onRequest.addRules(rules, callback);
 };
 
 function refreshFromLocal() {

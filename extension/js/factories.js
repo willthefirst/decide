@@ -113,7 +113,6 @@ angular.module('checkless.factories', [])
 		for ( var i = 0; i < entries.length; i++) {
 			// If period is in use, alert event_page to update badge
 			if (entries[i].periodBeingUsed) {
-
 				var message = {
 					'type' : 'update_badge',
 					'domain' : entries[i].domain,
@@ -298,6 +297,15 @@ angular.module('checkless.factories', [])
 			distraction.oldTxt = distraction.txt;
 
 			return distraction;
+		},
+
+		getDomainFromTab : function(callback) {
+			var clean = this.cleanDomainString;
+			chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+				var domain = tabs[0].url;
+				domain = clean(domain).host;
+				callback(domain);
+			});
 		}
 	}
 }).factory( 'build' , function( utilities ) {
