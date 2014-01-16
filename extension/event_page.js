@@ -28,7 +28,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 var old_request;
 
 chrome.declarativeWebRequest.onMessage.addListener(function (details) {
-	alert(here);
 	var domain_info = JSON.parse(details.message);
 	var requestId = details.requestId;
 
@@ -37,10 +36,10 @@ chrome.declarativeWebRequest.onMessage.addListener(function (details) {
 		&& requestId !== old_request) {
 			old_request = requestId;
 
-			console.log('here');
 			// Set info popup
 			chrome.browserAction.setPopup({
-				popup: '/views/popup/period-info.html'
+				popup: '/views/popup/period-info.html',
+				tabId: details.tabId
 			});
 
 			manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
@@ -69,6 +68,11 @@ function manageBadgeTimer( tabId, domain, periodEnd ) {
 				chrome.browserAction.setBadgeText({
 					text: '',
 					tabId: period_tab
+				});
+				// Set info popup
+				chrome.browserAction.setPopup({
+					popup: '/views/popup/add.html',
+					tabId: details.tabId
 				});
 			}
 		}
