@@ -87,6 +87,15 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		// Clear alarms associated with entry
 		alarms.remove(entry.domain);
 
+		// Reset any browser actions with domain
+		chrome.tabs.query({ url: '*://' + entry.domain + '/*' }, function(array) {
+			var tabs_to_remove = []
+			for (var i = 0; i < array.length; i++) {
+				tabs_to_remove.push(array[i].id);
+			}
+			chrome.tabs.remove(tabs_to_remove);
+		});
+
 		storage.updateSingleLocalInfo('entries', entry.domain, entry, function(){
 			redirectRules.refreshFromLocal();
 		});

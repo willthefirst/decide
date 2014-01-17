@@ -2,38 +2,41 @@
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 
-chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"})
+chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"});
 
-// Disable the badge in these conditions
-var disable_conditions = function(tab) {
-	var disable =
-		// User is on redirect page
-		(tab.url.indexOf(config.redirectUrl) !== -1)
-		// User is on options page
-		|| (tab.url.indexOf(config.optionsUrl) !== -1);
-	return disable;
+function browserActionDisabler() {
+	// Disable the badge in these conditions
+	var disable_conditions = function(tab) {
+		var disable =
+			// User is on redirect page
+			(tab.url.indexOf(config.redirectUrl) !== -1)
+			// User is on options page
+			|| (tab.url.indexOf(config.optionsUrl) !== -1);
+		return disable;
+	};
+
+	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+		if (changeInfo.status === "complete") {
+			if (disable_conditions(tab)) {
+				chrome.browserAction.disable( tabId );
+			}
+			else {
+				chrome.browserAction.enable( tabId );
+			}
+		}
+	});
 };
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-	if (changeInfo.status === "complete") {
-		if (disable_conditions(tab)) {
-			chrome.browserAction.disable( tabId );
-		}
-		else {
-			chrome.browserAction.enable( tabId );
-		}
-	}
-});
+function browserActionUpdater() {
+	var old_request;
 
-var old_request;
+	chrome.declarativeWebRequest.onMessage.addListener(function (details) {
+		var domain_info = JSON.parse(details.message);
+		var requestId = details.requestId;
 
-chrome.declarativeWebRequest.onMessage.addListener(function (details) {
-	var domain_info = JSON.parse(details.message);
-	var requestId = details.requestId;
-
-	if (domain_info.hasOwnProperty('type')
-		&& domain_info.type === 'update_badge'
-		&& requestId !== old_request) {
+		if (domain_info.hasOwnProperty('type')
+			&& domain_info.type === 'update_badge'
+			&& requestId !== old_request) {
 			old_request = requestId;
 
 			// Set info popup
@@ -46,9 +49,11 @@ chrome.declarativeWebRequest.onMessage.addListener(function (details) {
 				}
 			});
 
+			// Start the timer
 			manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
 		}
-});
+	});
+}
 
 
 // This function is given the tabId for a tab that is on a periodBeingUsed domain
@@ -64,24 +69,28 @@ function manageBadgeTimer( tabId, domain, periodEnd ) {
 	// Update immediately
 	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 		if (tabId === period_tab) {
-			if ( changeInfo.status === "complete" && tab.url.indexOf(domain) !== -1) {
+			if (changeInfo.status === "complete" && tab.url.indexOf(domain) !== -1) {
 				updateBadgeTimer(periodEnd, period_tab);
 			}
 
 			// If tab changes to non-blocked URL, kill the timer + badge, and reset the popup.
 			else if (tab.url.indexOf(domain) === -1) {
-				clearInterval(badge_updater);
-				chrome.browserAction.setBadgeText({
-					text: '',
-					tabId: period_tab
-				});
-				// Set info popup
-				chrome.browserAction.setPopup({
-					popup: '/views/popup/add.html',
-					tabId: details.tabId
-				});
+				resetBrowserAction(badge_updater);
 			}
 		}
+	});
+}
+
+function resetBrowserAction( interval, tab ) {
+	clearInterval(interval);
+	chrome.browserAction.setBadgeText({
+		text: '',
+		tabId: tab
+	});
+	// Set info popup
+	chrome.browserAction.setPopup({
+		popup: '/views/popup/add.html',
+		tabId: tab
 	});
 }
 
@@ -127,7 +136,6 @@ var resetAllPeriods = function() {
 var listenForAlarms = function() {
 	chrome.alarms.onAlarm.addListener(function(alarm){
 		var name = alarm.name;
-		console.log("Ring!", name);
 		// If alarm is the daily refresh alarm, fill up periodsLeft for all domains
 		if(alarm.name === "daily_refresh") {
 			chrome.alarms.clearAll();
@@ -142,11 +150,7 @@ var listenForAlarms = function() {
 			chrome.tabs.query({
 				url: '*://*.' + alarm.name + '/*'
 			}, function(array) {
-				if (array.length === 0) {
-					console.log('no open tabs to close.')
-					// No open tabs
-				}
-				else {
+				if (array.length !== 0) {
 					var tabs_to_close = [];
 					for (var i = 0; i < array.length; i++) {
 						tabs_to_close.push(array[i].id);
@@ -222,6 +226,10 @@ function setup() {
 	// Set up new listeners.
 	setDailyRefresh();
 	listenForAlarms();
+
+	// Badge managment
+	browserActionDisabler();
+	browserActionUpdater();
 };
 
 // This is triggered when the extension is installed or updated.
@@ -345,7 +353,7 @@ function registerRules ( data ) {
 	// Callback after rules are accepted
 	var callback = function() {
 		if (chrome.runtime.lastError) {
-			console.log('Error adding rules: ');
+			console.error('Error adding rules: ');
 			console.dir(chrome.runtime.lastError.message);
 		}
 		// else {
