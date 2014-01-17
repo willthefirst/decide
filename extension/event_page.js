@@ -27,30 +27,40 @@ function browserActionDisabler() {
 	});
 };
 
+
 function browserActionUpdater() {
 	var old_request;
 
 	chrome.declarativeWebRequest.onMessage.addListener(function (details) {
 		var domain_info = JSON.parse(details.message);
 		var requestId = details.requestId;
-
-		if (domain_info.hasOwnProperty('type')
-			&& domain_info.type === 'update_badge'
+		if (domain_info.type === 'update_badge'
 			&& requestId !== old_request) {
 			old_request = requestId;
 
-			// Set info popup
-			chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-				if (tabId === details.tabId) {
-					chrome.browserAction.setPopup({
-						tabId: details.tabId,
-						popup: '/views/popup/period-info.html'
-					});
-				}
-			});
 
-			// Start the timer
-			manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
+					// Set info popup
+					chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+						if (tabId === details.tabId ) {
+
+							// Make sure the rule is still true (case where user removes domain from options page during a session)
+							getAllLocalInfo(function(localData) {
+								var domain_exists_in_local = localDomainInfo( domain_info.domain, localData, 'object' );
+								if (domain_exists_in_local) {
+									alert('bag');
+									chrome.browserAction.setPopup({
+										tabId: details.tabId,
+										popup: '/views/popup/period-info.html'
+									});
+								}
+							});
+
+						}
+					});
+
+					// Start the timer
+					manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
+
 		}
 	});
 }
@@ -58,6 +68,7 @@ function browserActionUpdater() {
 
 // This function is given the tabId for a tab that is on a periodBeingUsed domain
 function manageBadgeTimer( tabId, domain, periodEnd ) {
+	var ok_to_update = true;
 	var period_tab = tabId;
 
 	// Update badge every 30 seconds
@@ -69,7 +80,7 @@ function manageBadgeTimer( tabId, domain, periodEnd ) {
 	// Update immediately
 	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 		if (tabId === period_tab) {
-			if (changeInfo.status === "complete" && tab.url.indexOf(domain) !== -1) {
+			if (changeInfo.status === "complete" && tab.url.indexOf(domain) !== -1 && ok_to_update) {
 				updateBadgeTimer(periodEnd, period_tab);
 			}
 
@@ -84,6 +95,14 @@ function manageBadgeTimer( tabId, domain, periodEnd ) {
 	chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
 		if (tabId === period_tab) {
 			clearInterval(badge_updater);
+		}
+	});
+
+	// If entry is removed on options page, clear the badge timer
+	chrome.runtime.onMessage.addListener(function( request, sender, sendReponse ) {
+		if (request.type === "entry_removed" && request.domain === domain ) {
+			resetBrowserAction( badge_updater, period_tab );
+			ok_to_update = false;
 		}
 	});
 }

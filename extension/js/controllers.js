@@ -44,7 +44,7 @@ angular.module('checkless.controllers', ['checkless.factories'])
 	$scope.saveNewEntry = function( entry ) {
 		// Update scope entries before updating all local Info
 		storage.getAllLocalInfo().then(function(data){
-			var entries = data.entries;
+			var entries = data.entries || [];
 			entry = build.newEntry(entry);
 			entries.push(entry);
 			storage.updateAllLocalInfo('entries', entries, function() {
@@ -87,7 +87,7 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		// Clear alarms associated with entry
 		alarms.remove(entry.domain);
 
-		// Reset any browser actions with domain
+		// Close any browser actions with domain
 		chrome.tabs.query({ url: '*://' + entry.domain + '/*' }, function(array) {
 			var tabs_to_remove = []
 			for (var i = 0; i < array.length; i++) {
@@ -107,6 +107,12 @@ angular.module('checkless.controllers', ['checkless.factories'])
 
 			// Clear alarms associated with entry
 			alarms.remove(entries[index].domain);
+
+			// Reset badge on any tab with this domain, clear refresh interval on the backend.
+			chrome.runtime.sendMessage({
+				type: 'entry_removed',
+				domain: entries[index].domain
+			});
 
 			// Remove from $scope
 			entries.splice(index, 1);
