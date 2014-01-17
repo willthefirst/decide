@@ -79,6 +79,13 @@ function manageBadgeTimer( tabId, domain, periodEnd ) {
 			}
 		}
 	});
+
+	// If tab is removed, clear the interval
+	chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
+		if (tabId === period_tab) {
+			clearInterval(badge_updater);
+		}
+	});
 }
 
 function resetBrowserAction( interval, tab ) {
