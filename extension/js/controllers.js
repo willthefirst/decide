@@ -1,11 +1,28 @@
 'use strict';
 
 angular.module('checkless.controllers', ['checkless.factories'])
-.controller('PopupAdd', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
-	utilities.getDomainFromTab(function(domain){
-		storage.getSingleLocalInfo( 'entries', domain, function(domain_props) {
-			$scope.current_period.periodEnd = domain_props.periodEnd;
+.controller('PopupPeriodInfo', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
 
+	$scope.current_period = {};
+
+	utilities.getDomainFromTab(function(domain){
+
+		$scope.current_domain = domain;
+
+		storage.getSingleLocalInfo( 'entries', domain, function(domain_props) {
+
+			// Determine time that period ends
+			var time = new Date(domain_props.periodEnd);
+			time = time.toLocaleTimeString().toLowerCase();
+			$scope.current_period.periodEnd = time;
+
+			// Inform how many periods are left
+			if (domain_props.periodsLeft === 1) {
+				$scope.periodsLeftMsg = '1 check left today.';
+			}
+			else {
+				$scope.periodsLeftMsg = domain_props.periodsLeft + ' checks left today.';
+			}
 		});
 	});
 

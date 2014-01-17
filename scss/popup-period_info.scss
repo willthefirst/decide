@@ -1,0 +1,21 @@
+@import 'base';
+
+.domain, .period-end {
+	margin-bottom: $vert-space;
+}
+
+.domain {
+	text-align: left;
+}
+
+.period-end {
+	@include size-4;
+}
+
+.period-end-time {
+	color: $red;
+}
+
+.periods-left {
+	text-align: right;
+}

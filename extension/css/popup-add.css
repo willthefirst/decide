@@ -303,66 +303,73 @@ button:disabled {
   border-radius: 1px;
 }
 
-/* line 3, ../../scss/popup-add.scss */
+/* 	Popups
+	------------------------------------------------------- */
+/* line 256, ../../scss/_base.scss */
 .wrapper-popup {
   min-width: 280px;
-  padding: 2px 16px;
+  padding: 16px 16px;
   text-align: center;
   box-shadow: 0px 0px 4px #444 inset;
-}
-
-/* line 10, ../../scss/popup-add.scss */
-.new-question {
-  color: #aac3d0;
-  margin: 16px 0;
   font-size: 16px;
   line-height: 24px;
 }
 
-/* line 16, ../../scss/popup-add.scss */
+/* line 3, ../../scss/popup-add.scss */
+.new-question {
+  color: #aac3d0;
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* line 9, ../../scss/popup-add.scss */
 .new-domain {
   text-decoration: underline;
 }
 
-/* line 20, ../../scss/popup-add.scss */
+/* line 13, ../../scss/popup-add.scss */
 .period-info {
   margin-bottom: 16px;
+  font-size: 20px;
+  line-height: 30px;
 }
 
-/* line 24, ../../scss/popup-add.scss */
+/* line 18, ../../scss/popup-add.scss */
 .opt-field--min {
   color: #aac3d0;
   font-size: 16px;
   line-height: 24px;
 }
 
-/* line 29, ../../scss/popup-add.scss */
+/* line 23, ../../scss/popup-add.scss */
 .action-save {
   width: 100%;
   color: #fefefe;
   background-color: #4bd87e;
-  margin-bottom: 16px;
   box-shadow: 0px 2px 0px 0px #2c7948;
+  font-size: 20px;
+  line-height: 30px;
 }
-/* line 36, ../../scss/popup-add.scss */
+/* line 29, ../../scss/popup-add.scss */
 .action-save:hover {
   background-color: #5fff99;
 }
 
-/* line 41, ../../scss/popup-add.scss */
+/* line 34, ../../scss/popup-add.scss */
 .options-success {
   font-size: 16px;
   line-height: 24px;
 }
 
-/* line 45, ../../scss/popup-add.scss */
+/* line 38, ../../scss/popup-add.scss */
 .saved-domain {
   display: block;
   padding: 16px 0;
   color: #5fff99;
 }
 
-/* line 51, ../../scss/popup-add.scss */
+/* line 44, ../../scss/popup-add.scss */
 .help-manage {
   color: #aac3d0;
   padding-bottom: 16px;

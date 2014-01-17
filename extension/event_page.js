@@ -37,9 +37,13 @@ chrome.declarativeWebRequest.onMessage.addListener(function (details) {
 			old_request = requestId;
 
 			// Set info popup
-			chrome.browserAction.setPopup({
-				popup: '/views/popup/period-info.html',
-				tabId: details.tabId
+			chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+				if (tabId === details.tabId) {
+					chrome.browserAction.setPopup({
+						tabId: details.tabId,
+						popup: '/views/popup/period-info.html'
+					});
+				}
 			});
 
 			manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
@@ -63,6 +67,8 @@ function manageBadgeTimer( tabId, domain, periodEnd ) {
 			if ( changeInfo.status === "complete" && tab.url.indexOf(domain) !== -1) {
 				updateBadgeTimer(periodEnd, period_tab);
 			}
+
+			// If tab changes to non-blocked URL, kill the timer + badge, and reset the popup.
 			else if (tab.url.indexOf(domain) === -1) {
 				clearInterval(badge_updater);
 				chrome.browserAction.setBadgeText({
@@ -77,13 +83,6 @@ function manageBadgeTimer( tabId, domain, periodEnd ) {
 			}
 		}
 	});
-
-
-	// If tab is closed or domain changes to a new one, cancel timeout and break out of function;
-		//tab.newDomain or tab closed
-			// cancel the timeout
-			// return
-
 }
 
 function updateBadgeTimer( periodEnd, tab_id ) {

@@ -248,3 +248,16 @@ $err-msg-width: 180px;
 	padding: 8px 16px;
 	border-radius: 1px;
 }
+
+
+/* 	Popups
+	------------------------------------------------------- */
+
+.wrapper-popup {
+	min-width: 280px;
+	padding: $vert-space 16px;
+	text-align: center;
+	box-shadow: 0px 0px 4px #444 inset;
+	@include size-5;
+}
+
