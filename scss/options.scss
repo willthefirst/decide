@@ -6,6 +6,34 @@
 	padding-top: $vert-space;
 }
 
+.welcome {
+	color: $text-secondary;
+	margin-bottom: $vert-space;
+}
+
+.intro-steps {
+	@include size-3;
+	list-style-type: decimal;
+	padding-left: 22px;
+
+	li {
+		margin-bottom: 8px;
+	}
+}
+
+.heron-icon {
+	display: inline-block;
+	vertical-align: middle;
+	background: url("/img/heron_48.png") $gray 3px 5px no-repeat;
+	border-radius: 3px;
+	background-color: #ddd;
+	border: 1px solid #dedede;
+	margin: 0 4px;
+	width: 53px;
+	height: 53px;
+	box-shadow: 0 1px 0 0px #555;
+}
+
 .saved-help {
 	width: 60%;
 	margin: auto;

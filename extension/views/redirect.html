@@ -46,7 +46,7 @@
 				If you really mean it, type "I actually, truly, definitely want to use {{ redirectedDomain.domain }}."
 			</p>
 			<input ng-model="allowSentence" type="text" class="allow-sentence" id="js-allow-sentence"  ng-hide="allow.$valid" autofocus validate-allow-sentence required />
-			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid && config.debug" title="click me if your are not redirected">redirecting...</button>
+			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid && !config.debug" title="click me if your are not redirected">redirecting...</button>
 		</form>
 		<svg class="heron" width="157px" height="309px" viewBox="0 0 157 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 		    <title>Heron</title>

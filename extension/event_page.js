@@ -11,7 +11,11 @@ function browserActionDisabler() {
 			// User is on redirect page
 			(tab.url.indexOf(config.redirectUrl) !== -1)
 			// User is on options page
-			|| (tab.url.indexOf(config.optionsUrl) !== -1);
+			|| (tab.url.indexOf(config.optionsUrl) !== -1)
+			// User is on newtab page
+			|| (tab.url.indexOf('newtab') !== -1)
+			// User is on extensions page
+			|| (tab.url.indexOf('extensions') !== -1);
 		return disable;
 	};
 
@@ -47,14 +51,12 @@ function browserActionUpdater() {
 							getAllLocalInfo(function(localData) {
 								var domain_exists_in_local = localDomainInfo( domain_info.domain, localData, 'object' );
 								if (domain_exists_in_local) {
-									alert('bag');
 									chrome.browserAction.setPopup({
 										tabId: details.tabId,
 										popup: '/views/popup/period-info.html'
 									});
 								}
 							});
-
 						}
 					});
 
@@ -239,6 +241,10 @@ function setDailyRefresh() {
 
 };
 
+function showIntroduction() {
+	chrome.tabs.create({url: chrome.extension.getURL('views/options.html')})
+}
+
 // https://developer.chrome.com/extensions/examples/extensions/catifier/event_page.js
 // This function is also called when the extension has been updated.  Because
 // registered rules are persisted beyond browser restarts, we remove
@@ -256,6 +262,9 @@ function setup() {
 	// Badge managment
 	browserActionDisabler();
 	browserActionUpdater();
+
+	// Display introduction from browser_action
+	showIntroduction();
 };
 
 // This is triggered when the extension is installed or updated.

@@ -17,26 +17,17 @@
 </head>
 <body>
 	<div class="wrapper" ng-controller="Options">
-		<div class="tutorial focus-prompt" ng-show="entries.length === 0">
-			<ul>
-				<li>Add a site that sucks up your time.</li>
+		<div class="focus-prompt" ng-show="entries.length === 0">
+			<h2 class="welcome">Welcome to Check Less</h2>
+			<ol class="intro-steps">
+				<li>Go to any web page.</li>
+				<li>Click the
+					<span class="heron-icon"></span>
+					 at the top right corner of your browser.</li>
 				<li>Check Less will limit the number of times and length of time you use the site.</li>
-				<li>After you hit your limit, you'll be blocked.</li>
-			</ul>
+			</ol>
 		</div>
 		<div class="saved-entries" ng-show="entries.length > 0">
-			<div class="tutorial saved-help" ng-show="entries.length === 1">
-				<p>This is where you can manage your blocked sites.</p>
-				<br />
-				<ul>
-					<li>
-						<strong>Daily frequency</strong> is how many times you'd like to use the site per day.
-					</li>
-					<li>
-						<strong>Duration</strong> is how long you'd like to focus on the site before it gets blocked again (in minutes).
-					</li>
-				</ul>
-			</div>
 			<table class="saved-entries-table">
 				<thead>
 					<tr>

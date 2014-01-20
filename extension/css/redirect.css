@@ -378,45 +378,55 @@ button:disabled {
   color: #5fff99;
 }
 
-/* line 61, ../../scss/redirect.scss */
+/* line 60, ../../scss/redirect.scss */
+.allow-button {
+  color: #5fff99;
+}
+/* line 63, ../../scss/redirect.scss */
 .allow-button:disabled {
   display: none;
 }
 
-/* line 66, ../../scss/redirect.scss */
+/* line 68, ../../scss/redirect.scss */
 .opt-field--distraction {
   width: 350px;
 }
 
-/* line 70, ../../scss/redirect.scss */
+/* line 72, ../../scss/redirect.scss */
 .done-for-day {
   font-size: 34px;
   line-height: 51px;
   margin-bottom: 32px;
 }
 
-/* line 75, ../../scss/redirect.scss */
+/* line 77, ../../scss/redirect.scss */
 .distraction-list {
   padding-bottom: 180px;
 }
-/* line 77, ../../scss/redirect.scss */
+/* line 79, ../../scss/redirect.scss */
 .distraction-list li {
   margin-bottom: 16px;
 }
 
-/* line 82, ../../scss/redirect.scss */
+/* line 84, ../../scss/redirect.scss */
+.action-save {
+  color: #5fff99;
+}
+
+/* line 88, ../../scss/redirect.scss */
 .distraction-saved {
   display: block;
 }
-/* line 85, ../../scss/redirect.scss */
+/* line 91, ../../scss/redirect.scss */
 .distraction-saved .action-delete {
   -webkit-transition: all 0.1s ease-out;
   -moz-transition: all 0.1s ease-out;
   -o-transition: all 0.1s ease-out;
   transition: all 0.1s ease-out;
   opacity: 0;
+  color: #5fff99;
 }
-/* line 91, ../../scss/redirect.scss */
+/* line 98, ../../scss/redirect.scss */
 .distraction-saved:hover .action-delete {
   opacity: 1;
 }

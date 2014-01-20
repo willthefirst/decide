@@ -58,6 +58,8 @@
 }
 
 .allow-button {
+	color: $green;
+
 	&:disabled {
 		display: none;
 	}
@@ -79,12 +81,17 @@
 	}
 }
 
+.action-save {
+	color: $green;
+}
+
 .distraction-saved {
 	display: block;
 
 	.action-delete {
 		@include transition-all-fast;
 		opacity: 0;
+		color: $green;
 	}
 
 	&:hover {
