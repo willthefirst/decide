@@ -3,28 +3,41 @@
 .wrapper {
 	text-align: left;
 	padding-bottom: 60px;
+	padding-top: $vert-space;
 }
 
-.options-add {
-	margin-bottom: $vert-space*2;
-	text-align: center;
-	@include size-2;
+.welcome {
+	color: $text-secondary;
+	margin-bottom: $vert-space;
 }
 
-.new-domain-prompt {
-	display: block;
-	padding: $vert-space 0;
+.intro-steps {
+	@include size-3;
+	list-style-type: decimal;
+	padding-left: 22px;
+
+	li {
+		margin-bottom: 8px;
+	}
 }
 
-.focus-prompt {
-	margin: auto;
-	width: 60%;
+.heron-icon {
+	display: inline-block;
+	vertical-align: middle;
+	background: url("/img/heron_48.png") $gray 3px 5px no-repeat;
+	border-radius: 3px;
+	background-color: #ddd;
+	border: 1px solid #dedede;
+	margin: 0 4px;
+	width: 53px;
+	height: 53px;
+	box-shadow: 0 1px 0 0px #555;
 }
 
 .saved-help {
-	width: 40%;
+	width: 60%;
 	margin: auto;
-	margin-top: $vert-space;
+	margin-bottom: $vert-space;
 }
 
 .opt-field--periods {
@@ -45,7 +58,6 @@
 }
 
 .saved-entries {
-	border-top: 1px dotted $gray-ll;
 	padding-top: $vert-space*2;
 }
 
@@ -64,4 +76,5 @@
 
 .action-delete, .action-save {
 	margin-left: 8px;
+	color: $green;
 }

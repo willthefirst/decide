@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-csp ng-app="sensei">
+<html lang="en" ng-csp ng-app="checkless">
 <head>
 	<meta charset="UTF-8">
 	<title>CheckLess Options</title>
@@ -17,30 +17,17 @@
 </head>
 <body>
 	<div class="wrapper" ng-controller="Options">
-		<form name="saveNew" class="options-add">
-			<label for="newDomain" class="new-domain-prompt">Which website would you like to check less?</label>
-			<input type="text" ng-model="newEntry.domain" name="newDomain" placeholder="eg. 'facebook'" class="opt-field--domain" required validate-domain autofocus />
-<!-- 				<div class="input-error" ng-show="saveNew.newDomain.$dirty  && saveNew.newDomain.$invalid">
-				<span ng-blur='saveNew.newDomain.$error.domain'>[ needs to be a valid url ]</span>
-			</div> -->
-			<button class="action-save" title="Save" ng-disabled="!saveNew.$valid" ng-click="saveNewEntry(newEntry)">
-				<i class="icon-save"></i>
-				Add
-			</button>
-		</form>
-		<div class="tutorial focus-prompt" ng-show="entries.length === 0">
-			<ul>
-				<li>Add a site that sucks up your time.</li>
+		<div class="focus-prompt" ng-show="entries.length === 0">
+			<h2 class="welcome">Welcome to Check Less</h2>
+			<ol class="intro-steps">
+				<li>Go to any web page.</li>
+				<li>Click the
+					<span class="heron-icon"></span>
+					 at the top right corner of your browser.</li>
 				<li>Check Less will limit the number of times and length of time you use the site.</li>
-				<li>After you hit your limit, you'll be blocked.</li>
-				<li>
-					<strong>Tip: </strong>some sites will redirect to another address (eg. "gmail.com" redirects to "mail.google.com").
-					<br />Be sure to <strong>use the last url you're taken to</strong> (ie. "mail.google.com").
-				</li>
-			</ul>
+			</ol>
 		</div>
 		<div class="saved-entries" ng-show="entries.length > 0">
-			<form>
 			<table class="saved-entries-table">
 				<thead>
 					<tr>
@@ -72,19 +59,6 @@
 					</tr>
 				</tbody>
 			</table>
-			</form>
-			<div class="tutorial saved-help" ng-show="entries.length === 1">
-				<p>This is where you can manage your blocked sites.</p>
-				<br />
-				<ul>
-					<li>
-						<strong>Daily frequency</strong> is how many times you'd like to use the site per day.
-					</li>
-					<li>
-						<strong>Duration</strong> is how long you'd like to focus on the site before it gets blocked again (in minutes).
-					</li>
-				</ul>
-			</div>
 		</div>
 		<svg class="heron" width="157px" height="309px" viewBox="0 0 157 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 		    <title>Heron</title>

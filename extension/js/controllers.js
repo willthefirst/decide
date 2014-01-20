@@ -1,7 +1,59 @@
 'use strict';
 
-angular.module('sensei.controllers', ['sensei.factories'])
-.controller('Options', ['$scope', 'redirectRules', 'storage', 'alarms', 'utilities', 'build', function ( $scope, redirectRules, storage, alarms, utilities, build ) {
+angular.module('checkless.controllers', ['checkless.factories'])
+.controller('PopupPeriodInfo', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
+
+	$scope.current_period = {};
+
+	utilities.getDomainFromTab(function(domain){
+
+		$scope.current_domain = domain;
+
+		storage.getSingleLocalInfo( 'entries', domain, function(domain_props) {
+
+			// Determine time that period ends
+			var time = new Date(domain_props.periodEnd);
+			time = time.toLocaleTimeString().toLowerCase();
+			$scope.current_period.periodEnd = time;
+
+			// Inform how many periods are left
+			if (domain_props.periodsLeft === 1) {
+				$scope.periodsLeftMsg = '1 check left today.';
+			}
+			else {
+				$scope.periodsLeftMsg = domain_props.periodsLeft + ' checks left today.';
+			}
+		});
+	});
+
+}]).controller('PopupAdd', ['$scope', '$location', 'redirectRules', 'storage', 'utilities', 'build', function ( $scope, $location, redirectRules, storage, utilities, build ) {
+
+	$scope.added = false;
+
+	$scope.newEntry = {
+		domain: "",
+		periods: 2,
+		periodLength: 30
+	};
+
+	utilities.getDomainFromTab(function(domain){
+		$scope.newEntry.domain = domain;
+		$scope.$apply();
+	});
+
+	$scope.saveNewEntry = function( entry ) {
+		// Update scope entries before updating all local Info
+		storage.getAllLocalInfo().then(function(data){
+			var entries = data.entries || [];
+			entry = build.newEntry(entry);
+			entries.push(entry);
+			storage.updateAllLocalInfo('entries', entries, function() {
+				redirectRules.refreshFromLocal();
+				$scope.added = true;
+			});
+		});
+	};
+}]).controller('Options', ['$scope', 'redirectRules', 'storage', 'alarms', 'utilities', 'build', function ( $scope, redirectRules, storage, alarms, utilities, build ) {
 	var entries;
 	var distractions;
 
@@ -27,22 +79,6 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		}
 	});
 
-	// Entries
-
-	$scope.saveNewEntry = function( entry ) {
-
-		// Update scope entries before updating all local Info
-		storage.getAllLocalInfo().then(function(data){
-			entries = $scope.entries = data.entries;
-			entry = build.newEntry(entry);
-			entries.push(entry);
-			storage.updateAllLocalInfo('entries', entries, function() {
-				redirectRules.refreshFromLocal();
-			});
-			$scope.newEntry = '';
-		});
-	};
-
 	$scope.updateEntry = function( entry ) {
 		// Add additional props for a new entry
 		entry.periodsLeft = entry.periods;
@@ -50,6 +86,15 @@ angular.module('sensei.controllers', ['sensei.factories'])
 
 		// Clear alarms associated with entry
 		alarms.remove(entry.domain);
+
+		// Close any browser actions with domain
+		chrome.tabs.query({ url: '*://' + entry.domain + '/*' }, function(array) {
+			var tabs_to_remove = []
+			for (var i = 0; i < array.length; i++) {
+				tabs_to_remove.push(array[i].id);
+			}
+			chrome.tabs.remove(tabs_to_remove);
+		});
 
 		storage.updateSingleLocalInfo('entries', entry.domain, entry, function(){
 			redirectRules.refreshFromLocal();
@@ -63,6 +108,12 @@ angular.module('sensei.controllers', ['sensei.factories'])
 			// Clear alarms associated with entry
 			alarms.remove(entries[index].domain);
 
+			// Reset badge on any tab with this domain, clear refresh interval on the backend.
+			chrome.runtime.sendMessage({
+				type: 'entry_removed',
+				domain: entries[index].domain
+			});
+
 			// Remove from $scope
 			entries.splice(index, 1);
 
@@ -74,8 +125,6 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		});
 
 	};
-
-
 }]).controller('Allow', ['$scope', '$location', 'storage', 'redirectRules', 'alarms', '$timeout', 'utilities', function ( $scope, $location, storage, redirectRules, alarms, $timeout, utilities) {
 
 	angular.element(document).ready(function () {
@@ -142,7 +191,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 		var letPass = function( url ) {
 			if(!url) {
 				window.location = $location.search().domain;
-			}else {
+			} else {
 				window.location = url;
 			}
 		};
@@ -156,7 +205,12 @@ angular.module('sensei.controllers', ['sensei.factories'])
 			else {
 
 				// Set alarm for end of period
-				alarms.set ( redirectedDomain.domain, domain_props.periodLength );
+				alarms.set( redirectedDomain.domain, domain_props.periodLength );
+
+				// Calculate end of period time (for updating timer in browser_action)
+				// Would rather avoid callback annoyance of doing alarms.get, better to just recalculate.
+				var end = new Date();
+				end = end.getTime() + (domain_props.periodLength * 60 * 1000);
 
 				// Lift redirect rule on this domain.
 				storage.updateSingleLocalInfo(
@@ -165,6 +219,7 @@ angular.module('sensei.controllers', ['sensei.factories'])
 					{
 						periodBeingUsed : true,
 						periodsLeft: (domain_props.periodsLeft - 1),
+						periodEnd: end
 					},
 					function() {
 						redirectRules.refreshFromLocal();

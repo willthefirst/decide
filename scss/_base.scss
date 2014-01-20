@@ -19,6 +19,9 @@ $white: #fefefe;
 $white-blue: #e1eef5;
 
 $green: #5fff99;
+$green-d: #4BD87E;
+$green-dd: #2C7948;
+
 $yellow: #ebff08;
 $red: #ffa9a9;
 $vert-space: 16px;
@@ -114,7 +117,6 @@ body {
 	padding-right: 12px;
 	max-width: 920px;
 	margin: auto;
-	padding-top: 80px;
 }
 
 input[class*='opt-field'] {
@@ -162,7 +164,6 @@ a {
 /* 	Buttons  -------------------------------------------- */
 
 button {
-	color: $green;
 	background-color: inherit;
 	border: none;
 	font-size: inherit;
@@ -242,3 +243,21 @@ $err-msg-width: 180px;
 		list-style-type: circle;
 	}
 }
+
+.button {
+	padding: 8px 16px;
+	border-radius: 1px;
+}
+
+
+/* 	Popups
+	------------------------------------------------------- */
+
+.wrapper-popup {
+	min-width: 280px;
+	padding: $vert-space 16px;
+	text-align: center;
+	box-shadow: 0px 0px 4px #444 inset;
+	@include size-5;
+}
+

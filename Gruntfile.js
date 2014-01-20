@@ -69,6 +69,17 @@ module.exports = function(grunt) {
 			// 	files: ['extension/js/**/*.js','tests/**/*.js'],
 			//     tasks: ['karma:unit:run'] //NOTE the :run flag
 			// }
+		},
+
+		compress: {
+		  main: {
+		    options: {
+		      archive: 'extension.zip'
+		    },
+		    files: [
+		      { src: ['extension'], dest: '/' } // includes files in path
+		    ]
+		  }
 		}
 	});
 
@@ -77,10 +88,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-compress');
 	// grunt.loadNpmTasks('grunt-karma');
 
 	// 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-	grunt.registerTask('default', ['concat', 'compass', 'watch']);
+	grunt.registerTask('default', ['concat', 'compass', 'watch', 'compress']);
 	// grunt.registerTask('prod', ['concat', 'uglify', 'compass', 'watch']);
 
 };

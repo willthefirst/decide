@@ -315,96 +315,64 @@ button:disabled {
   line-height: 24px;
 }
 
-/* line 3, ../../scss/options.scss */
-.wrapper {
-  text-align: left;
-  padding-bottom: 60px;
-  padding-top: 16px;
-}
-
-/* line 9, ../../scss/options.scss */
-.welcome {
+/* line 3, ../../scss/popup-add.scss */
+.new-question {
   color: #aac3d0;
   margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
-/* line 14, ../../scss/options.scss */
-.intro-steps {
-  font-size: 24px;
-  line-height: 36px;
-  list-style-type: decimal;
-  padding-left: 22px;
-}
-/* line 19, ../../scss/options.scss */
-.intro-steps li {
-  margin-bottom: 8px;
+/* line 9, ../../scss/popup-add.scss */
+.new-domain {
+  text-decoration: underline;
 }
 
-/* line 24, ../../scss/options.scss */
-.heron-icon {
-  display: inline-block;
-  vertical-align: middle;
-  background: url("/img/heron_48.png") #6c8ea0 3px 5px no-repeat;
-  border-radius: 3px;
-  background-color: #ddd;
-  border: 1px solid #dedede;
-  margin: 0 4px;
-  width: 53px;
-  height: 53px;
-  box-shadow: 0 1px 0 0px #555;
-}
-
-/* line 37, ../../scss/options.scss */
-.saved-help {
-  width: 60%;
-  margin: auto;
+/* line 13, ../../scss/popup-add.scss */
+.period-info {
   margin-bottom: 16px;
+  font-size: 20px;
+  line-height: 30px;
 }
 
-/* line 43, ../../scss/options.scss */
-.opt-field--periods {
-  width: 40px;
-}
-
-/* line 47, ../../scss/options.scss */
-.opt-field--period-length {
-  width: 43px;
-}
-
-/* line 51, ../../scss/options.scss */
+/* line 18, ../../scss/popup-add.scss */
 .opt-field--min {
   color: #aac3d0;
   font-size: 16px;
   line-height: 24px;
 }
 
-/* line 56, ../../scss/options.scss */
-.options-saved {
-  margin-bottom: 16px;
+/* line 23, ../../scss/popup-add.scss */
+.action-save {
+  width: 100%;
+  color: #fefefe;
+  background-color: #4bd87e;
+  box-shadow: 0px 2px 0px 0px #2c7948;
+  font-size: 20px;
+  line-height: 30px;
+}
+/* line 29, ../../scss/popup-add.scss */
+.action-save:hover {
+  background-color: #5fff99;
 }
 
-/* line 60, ../../scss/options.scss */
-.saved-entries {
-  padding-top: 32px;
+/* line 34, ../../scss/popup-add.scss */
+.options-success {
+  font-size: 16px;
+  line-height: 24px;
 }
 
-/* line 64, ../../scss/options.scss */
-.saved-entries-table {
-  margin: auto;
-}
-/* line 66, ../../scss/options.scss */
-.saved-entries-table thead {
-  color: #aac3d0;
-}
-/* line 70, ../../scss/options.scss */
-.saved-entries-table th, .saved-entries-table td {
-  border: 1px solid #aac3d0;
-  text-align: center;
-  padding: 8px 10px;
-}
-
-/* line 77, ../../scss/options.scss */
-.action-delete, .action-save {
-  margin-left: 8px;
+/* line 38, ../../scss/popup-add.scss */
+.saved-domain {
+  display: block;
+  padding: 16px 0;
   color: #5fff99;
+}
+
+/* line 44, ../../scss/popup-add.scss */
+.help-manage {
+  color: #aac3d0;
+  padding-bottom: 16px;
+  font-size: 14px;
+  line-height: 21px;
 }

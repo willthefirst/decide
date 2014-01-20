@@ -1,6 +1,6 @@
 {
   "name": "Check Less",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "manifest_version": 2,
   "description": "Makes you more efficient by reducing your impulse to check updates, messages, distracting websites, pings, pokes, and the like.",
   "icons" : {
@@ -8,8 +8,10 @@
     "48": "img/heron_48.png",
     "128": "img/heron_128.png"
   },
-  "page_action": {
-    "default_icon": "img/heron_16.png"
+  "browser_action": {
+      "default_icon": "img/heron_16.png",
+      "default_title": "Check Less",
+      "default_popup": "views/popup/add.html"
   },
   "permissions": [
     "storage",
@@ -17,7 +19,8 @@
    	"<all_urls>",
     "alarms",
     "notifications",
-    "webRequest"
+    "tabs",
+    "webNavigation"
   ],
   "minimum_chrome_version": "32",
   "background": {
@@ -26,7 +29,7 @@
   },
   "web_accessible_resources": [
     "img/heron_16.png",
-    "views/redirect,html"
+    "views/redirect.html"
   ],
   "options_page" : "views/options.html"
 }

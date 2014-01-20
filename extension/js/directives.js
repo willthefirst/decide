@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sensei.directives', ['sensei.factories'])
+angular.module('checkless.directives', ['checkless.factories'])
 .directive('validateDomain', [ 'storage' , 'utilities', function( storage , utilities ) {
     return {
         restrict: 'A',

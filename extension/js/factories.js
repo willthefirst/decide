@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sensei.factories', [])
+angular.module('checkless.factories', [])
 .factory( 'storage' , function( $q ) {
 
 	// Gets object or index for specified domain (domain) from all entries (localData)
@@ -102,48 +102,40 @@ angular.module('sensei.factories', [])
 	// Utility variables
 	var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 	var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
+	var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
 
 	// Register rules
 	var registerRules = function( data ) {
 		var rules = [];
 		var check_for_redirects = [];
 		var entries = data.entries;
+		var rule;
 		for ( var i = 0; i < entries.length; i++) {
-			var domain_checks = [
-				entries[i].domain
-			];
-			check_for_redirects = check_for_redirects.concat(domain_checks);
-			console.log(check_for_redirects);
-			chrome.webRequest.onCompleted.addListener(function(data){
-				console.log(data)
-				// NEXT: add data.url to potential redirect urls (but lint it probably)
-			}, {
-				urls: check_for_redirects,
-				types: ["main_frame"]
-			});
-
-			// If period is in use, just listen to see it's redirected.
+			// If period is in use, alert event_page to update badge
 			if (entries[i].periodBeingUsed) {
-				// Catch all possible variations on a domain name
-				var domain_checks = [
-					entries[i].domain,
-					'*://' + entries[i].domain + '.*/*',
-					'*://' + entries[i].domain + '/*',
-					'*://*.' + entries[i].domain + '.*/*',
-					'*://*.' + entries[i].domain + '/*'
-				];
-				check_for_redirects = check_for_redirects.concat(domain_checks);
-
-				chrome.webRequest.onCompleted.addListener(function(data){
-					console.log(data)
-					// NEXT: add data.url to potential redirect urls (but lint it probably)
-				}, {
-					urls: check_for_redirects,
-					types: ["main_frame"]
-				});
+				var message = {
+					'type' : 'update_badge',
+					'domain' : entries[i].domain,
+					'periodEnd' : entries[i].periodEnd
+				};
+				message = JSON.stringify(message);
+				rule = {
+					conditions: [
+						new RequestMatcher({
+							url: {
+								hostContains: entries[i].domain
+							},
+							stages: ['onHeadersReceived'],
+							resourceType: ['main_frame']
+						})
+					],
+					actions: [
+						new SendMessageToExtension({message : message})
+					]
+				};
 			}
 			else {
-				var redirectRule = {
+				rule = {
 					conditions: [
 						new RequestMatcher({
 							url: {
@@ -158,8 +150,8 @@ angular.module('sensei.factories', [])
 						})
 					]
 				};
-				rules.push(redirectRule);
 			}
+			rules.push(rule);
 		}
 
 		// Callback after rules are accepted
@@ -230,9 +222,6 @@ angular.module('sensei.factories', [])
 				if (!alarm) {
 					console.error('Alarm failed to set.')
 				}
-				else {
-					var rings = new Date(alarm.scheduledTime);
-				}
 			});
 		},
 
@@ -247,9 +236,41 @@ angular.module('sensei.factories', [])
 			if (!string) {
 				return;
 			}
-			var cleaned = (string).replace(/^(?:(http:\/\/www.)|(https:\/\/www.)|(http:\/\/)|(https:\/\/)|(www.))/g, '');
-			cleaned = cleaned.toLowerCase();
-			return cleaned;
+
+			// parseUri 1.2.2
+			// (c) Steven Levithan <stevenlevithan.com>
+			// MIT License
+
+			parseUri.options = {
+				strictMode: false,
+				key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+				q:   {
+					name:   "queryKey",
+					parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+				},
+				parser: {
+					strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+					loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+				}
+			};
+
+			function parseUri (str) {
+				var	o   = parseUri.options,
+					m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+					uri = {},
+					i   = 14;
+
+				while (i--) uri[o.key[i]] = m[i] || "";
+
+				uri[o.q.name] = {};
+				uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+					if ($1) uri[o.q.name][$1] = $2;
+				});
+
+				return uri;
+			};
+
+			return parseUri(string);
 		},
 
 		// Add additional props for a new distraction
@@ -277,17 +298,26 @@ angular.module('sensei.factories', [])
 			distraction.oldTxt = distraction.txt;
 
 			return distraction;
+		},
+
+		getDomainFromTab : function(callback) {
+			var clean = this.cleanDomainString;
+			chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+				var domain = tabs[0].url;
+				domain = clean(domain).host;
+				callback(domain);
+			});
 		}
 	}
 }).factory( 'build' , function( utilities ) {
 
 	return {
-
 		// Add additional props for a new entry
-		newEntry : function ( entry ) {
-			entry.domain = utilities.cleanDomainString(entry.domain);
-			entry.periods = config.default.periods;
-			entry.periodLength = config.default.periodLength;
+		newEntry : function ( newEntry ) {
+			var entry = {};
+			entry.domain = newEntry.domain;
+			entry.periods = newEntry.periods;
+			entry.periodLength = newEntry.periodLength;
 			entry.periodsLeft = entry.periods;
 			entry.periodBeingUsed = false;
 			return entry;

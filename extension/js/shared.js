@@ -1,6 +1,7 @@
 var config = {
-	debug: true,
+	debug: false,
 	redirectUrl: chrome.extension.getURL('views/redirect.html'),
+	optionsUrl: chrome.extension.getURL('views/options.html'),
 	default : {
 		periods: 2,
 		periodLength: 30,
