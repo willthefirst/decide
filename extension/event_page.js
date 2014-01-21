@@ -1,6 +1,7 @@
 // Utility variables
 var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
+var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
 
 chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"});
 
@@ -31,7 +32,6 @@ function browserActionDisabler() {
 	});
 };
 
-
 function browserActionUpdater() {
 	var old_request;
 
@@ -42,27 +42,25 @@ function browserActionUpdater() {
 			&& requestId !== old_request) {
 			old_request = requestId;
 
+			// Set info popup
+			chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+				if (tabId === details.tabId ) {
 
-					// Set info popup
-					chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-						if (tabId === details.tabId ) {
-
-							// Make sure the rule is still true (case where user removes domain from options page during a session)
-							getAllLocalInfo(function(localData) {
-								var domain_exists_in_local = localDomainInfo( domain_info.domain, localData, 'object' );
-								if (domain_exists_in_local) {
-									chrome.browserAction.setPopup({
-										tabId: details.tabId,
-										popup: '/views/popup/period-info.html'
-									});
-								}
+					// Make sure the rule is still true (case where user removes domain from options page during a session)
+					getAllLocalInfo(function(localData) {
+						var domain_exists_in_local = localDomainInfo( domain_info.domain, localData, 'object' );
+						if (domain_exists_in_local) {
+							chrome.browserAction.setPopup({
+								tabId: details.tabId,
+								popup: '/views/popup/period-info.html'
 							});
 						}
 					});
+				}
+			});
 
-					// Start the timer
-					manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
-
+			// Start the timer
+			manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
 		}
 	});
 }
@@ -231,9 +229,10 @@ var listenForAlarms = function() {
 // Create alarm that refreshes all periodsLeft every day
 function setDailyRefresh() {
 	var midnight = new Date();
-	midnight.setHours(24,0,0,0);
+	// midnight.setHours(24,0,0,0);
 
-	midnight = midnight.getTime();
+	// midnight = midnight.getTime();
+	midnight = ((midnight.getTime()) + 1000*60) ;
 
 	chrome.alarms.create('daily_refresh', {
 		when: midnight
@@ -337,8 +336,9 @@ function updateDomainInfo( redirectedDomain, propsToUpdate, callback ) {
 };
 
 // Register rules
-function registerRules ( data ) {
+var registerRules = function( data ) {
 	var rules = [];
+	var check_for_redirects = [];
 	var entries = data.entries;
 	var rule;
 	for ( var i = 0; i < entries.length; i++) {
@@ -388,7 +388,7 @@ function registerRules ( data ) {
 	// Callback after rules are accepted
 	var callback = function() {
 		if (chrome.runtime.lastError) {
-			console.error('Error adding rules: ');
+			console.log('Error adding rules: ');
 			console.dir(chrome.runtime.lastError.message);
 		}
 		// else {
@@ -401,6 +401,7 @@ function registerRules ( data ) {
 	};
 
 	chrome.declarativeWebRequest.onRequest.addRules(rules, callback);
+
 };
 
 function refreshFromLocal() {
@@ -408,11 +409,19 @@ function refreshFromLocal() {
 		null,
 		function() {
 			if (chrome.runtime.lastError) {
-				alert('Error clearing rules: ' + chrome.runtime.lastError);
+				console.error('Error clearing rules: ' + chrome.runtime.lastError);
 			} else {
-				getAllLocalInfo(function(data) {
+				storage.getAllLocalInfo().then(function(data){
 					registerRules(data);
 				});
+				chrome.declarativeWebRequest.onRequest.getRules(
+					null,
+					function(stuff) {
+						if(stuff && stuff.length > 0) {
+							console.error('Refresh the extension. Failed to clear redirect rules before setting new ones. This is probably due to old rules from chrome.storage.sync/storage being left over.');
+						}
+					}
+				);
 			}
 		}
 	);

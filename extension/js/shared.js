@@ -1,5 +1,5 @@
 var config = {
-	debug: false,
+	debug: true,
 	redirectUrl: chrome.extension.getURL('views/redirect.html'),
 	optionsUrl: chrome.extension.getURL('views/options.html'),
 	default : {
