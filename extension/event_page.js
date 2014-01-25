@@ -3,26 +3,26 @@ var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
 
-chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"});
+function tabUrlContains( array, tab_url ) {
+	if (Object.prototype.toString.call( array ) !== '[object Array]') {
+		console.error('tabUrlContains expects an array as the 1st parameter, but received a ' + typeof array);
+		return false;
+	}
+	for (var i = 0; i < array.length; i++) {
+		if(tab_url.indexOf(array[i]) !== -1) {
+			return array[i];
+		}
+	}
+	return false;
+}
 
 function browserActionDisabler() {
 	// Disable the badge in these conditions
-	var disable_conditions = function(tab) {
-		var disable =
-			// User is on redirect page
-			(tab.url.indexOf(config.redirectUrl) !== -1)
-			// User is on options page
-			|| (tab.url.indexOf(config.optionsUrl) !== -1)
-			// User is on newtab page
-			|| (tab.url.indexOf('newtab') !== -1)
-			// User is on extensions page
-			|| (tab.url.indexOf('extensions') !== -1);
-		return disable;
-	};
+	var disable_urls = ['chrome-extension://', 'chrome://', 'newtab'];
 
 	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 		if (changeInfo.status === "complete") {
-			if (disable_conditions(tab)) {
+			if (tabUrlContains(disable_urls, tab.url)) {
 				chrome.browserAction.disable( tabId );
 			}
 			else {
@@ -32,7 +32,7 @@ function browserActionDisabler() {
 	});
 };
 
-function browserActionUpdater() {
+function listenForBrowserActionUpdates() {
 	var old_request;
 
 	chrome.declarativeWebRequest.onMessage.addListener(function (details) {
@@ -41,74 +41,64 @@ function browserActionUpdater() {
 		if (domain_info.type === 'update_badge'
 			&& requestId !== old_request) {
 			old_request = requestId;
+			chrome.tabs.onUpdated.addListener(function setPopup(tabId, changeInfo, tab) {
+				if (changeInfo.status === "complete") {
+					// Check that this is not the redirect page, which can contain the url of the domain
+					if (tabUrlContains([domain_info.domain], tab.url) && !tabUrlContains(['chrome-extension://'], tab.url)) {
 
-			// Set info popup
-			chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-				if (tabId === details.tabId ) {
+						// Make sure the rule is still true (case where user removes domain from options page during a session)
+						getAllLocalInfo(function(localData) {
+							var domain_exists_in_local = localDomainInfo( domain_info.domain, localData, 'object' );
+							if (domain_exists_in_local) {
 
-					// Make sure the rule is still true (case where user removes domain from options page during a session)
-					getAllLocalInfo(function(localData) {
-						var domain_exists_in_local = localDomainInfo( domain_info.domain, localData, 'object' );
-						if (domain_exists_in_local) {
-							chrome.browserAction.setPopup({
-								tabId: details.tabId,
-								popup: '/views/popup/period-info.html'
-							});
-						}
-					});
+								chrome.browserAction.setBadgeText({
+									text: 'check',
+									tabId: tabId
+								});
+								// Set browser popup
+								chrome.browserAction.setPopup({
+									tabId: details.tabId,
+									popup: '/views/popup/period-info.html'
+								});
+
+							}
+							else {
+								resetBrowserAction(tabid);
+							}
+						});
+					}
+					// If user moves to open URL
+					else {
+						resetBrowserAction( tabId );
+					}
 				}
-			});
 
-			// Start the timer
-			manageBadgeTimer( details.tabId, domain_info.domain, domain_info.periodEnd );
+				// Start the timer
+				listenForPeriodEnd( details.tabId, domain_info.domain, domain_info.periodEnd, setPopup );
+			});
 		}
 	});
 }
 
 
 // This function is given the tabId for a tab that is on a periodBeingUsed domain
-function manageBadgeTimer( tabId, domain, periodEnd ) {
-	var ok_to_update = true;
+function listenForPeriodEnd( tabId, domain, periodEnd, listener_to_clear ) {
 	var period_tab = tabId;
 
-	// Update badge every 30 seconds
-	var secs = 30;
-	var badge_updater = setInterval(function(){
-		updateBadgeTimer(periodEnd, period_tab);
-	}, (secs * 1000));
-
-	// Update immediately
-	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-		if (tabId === period_tab) {
-			if (changeInfo.status === "complete" && tab.url.indexOf(domain) !== -1 && ok_to_update) {
-				updateBadgeTimer(periodEnd, period_tab);
-			}
-
-			// If tab changes to non-blocked URL, kill the timer + badge, and reset the popup.
-			else if (tab.url.indexOf(domain) === -1) {
-				resetBrowserAction(badge_updater);
-			}
-		}
-	});
-
-	// If tab is removed, clear the interval
-	chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
-		if (tabId === period_tab) {
-			clearInterval(badge_updater);
-		}
-	});
-
-	// If entry is removed on options page, clear the badge timer
-	chrome.runtime.onMessage.addListener(function( request, sender, sendReponse ) {
+	// If entry is removed on options page, reset the browser action and popup
+	chrome.runtime.onMessage.addListener(function entryRemoved ( request, sender, sendReponse ) {
 		if (request.type === "entry_removed" && request.domain === domain ) {
-			resetBrowserAction( badge_updater, period_tab );
-			ok_to_update = false;
+			resetBrowserAction( period_tab );
+			alert('period is over for', domain)
+			// Clear the old listener that updates the popup
+			chrome.tabs.onUpdated.removeListener(setPopup);
+			// Clear this listener.
+			chrome.runtime.onMessage.removeListener(entryRemoved);
 		}
 	});
 }
 
-function resetBrowserAction( interval, tab ) {
-	clearInterval(interval);
+function resetBrowserAction( tab ) {
 	chrome.browserAction.setBadgeText({
 		text: '',
 		tabId: tab
@@ -120,44 +110,7 @@ function resetBrowserAction( interval, tab ) {
 	});
 }
 
-function updateBadgeTimer( periodEnd, tab_id ) {
-	var now = new Date();
-	var mins_left = (periodEnd - now.getTime()) / (1000*60);
-
-	// Show seconds if less than 1 minute left
-	if (mins_left <= 1) {
-		mins_left = ((Math.floor(mins_left * 60)).toString()) + 's';
-	}
-	// Otherwise show minutes
-	else {
-		mins_left = ((Math.floor(mins_left + 1)).toString()) + 'm';
-	}
-	chrome.browserAction.setBadgeText({
-		text: mins_left,
-		tabId: tab_id
-	});
-}
-
-
-var resetAllPeriods = function() {
-	getAllLocalInfo(function(data) {
-		if(!data.entries) {
-			return;
-		}
-		var entries = data.entries;
-		for (var i = 0; i < entries.length; i++) {
-			entries[i].periodsLeft = entries[i].periods;
-			entries[i].periodBeingUsed = false;
-		}
-		chromeStorage.set( { 'entries': entries } , function() {
-			if(chrome.runtime.lastError) {
-				console.log(chrome.runtime.lastError.message);
-				return;
-			}
-			refreshFromLocal();
-		});
-	});
-};
+// Alarm functions
 
 var listenForAlarms = function() {
 	chrome.alarms.onAlarm.addListener(function(alarm){
@@ -229,24 +182,43 @@ var listenForAlarms = function() {
 // Create alarm that refreshes all periodsLeft every day
 function setDailyRefresh() {
 	var midnight = new Date();
-	// midnight.setHours(24,0,0,0);
+	midnight.setHours(24,0,0,0);
 
-	// midnight = midnight.getTime();
-	midnight = ((midnight.getTime()) + 1000*60) ;
+	midnight = midnight.getTime();
+	// midnight = ((midnight.getTime()) + 1000*60) ;
 
 	chrome.alarms.create('daily_refresh', {
 		when: midnight
 	});
+};
 
+// Initialize functions
+
+var resetAllPeriods = function() {
+	getAllLocalInfo(function(data) {
+		if(!data.entries) {
+			return;
+		}
+		var entries = data.entries;
+		for (var i = 0; i < entries.length; i++) {
+			entries[i].periodsLeft = entries[i].periods;
+			entries[i].periodBeingUsed = false;
+		}
+		chromeStorage.set( { 'entries': entries } , function() {
+			if(chrome.runtime.lastError) {
+				console.log(chrome.runtime.lastError.message);
+				return;
+			}
+			refreshFromLocal();
+		});
+	});
 };
 
 function showIntroduction() {
 	chrome.tabs.create({url: chrome.extension.getURL('views/options.html')})
 }
 
-// https://developer.chrome.com/extensions/examples/extensions/catifier/event_page.js
-// This function is also called when the extension has been updated.  Because
-// registered rules are persisted beyond browser restarts, we remove
+// Because registered rules are persisted beyond browser restarts, we remove
 // previously registered rules before registering new ones.
 function setup() {
 
@@ -259,10 +231,11 @@ function setup() {
 	listenForAlarms();
 
 	// Badge managment
+	chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"});
 	browserActionDisabler();
-	browserActionUpdater();
+	listenForBrowserActionUpdates();
 
-	// Display introduction from browser_action
+	// Display options page
 	showIntroduction();
 };
 
@@ -411,7 +384,7 @@ function refreshFromLocal() {
 			if (chrome.runtime.lastError) {
 				console.error('Error clearing rules: ' + chrome.runtime.lastError);
 			} else {
-				storage.getAllLocalInfo().then(function(data){
+				getAllLocalInfo(function(data){
 					registerRules(data);
 				});
 				chrome.declarativeWebRequest.onRequest.getRules(
