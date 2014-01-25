@@ -3,6 +3,10 @@ var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
 
+
+// Messages are sent to extension every time user navigates to a url in the db.
+// We only need a listener that resets the badge if user navigates away from the current url on one tab.
+
 function tabUrlContains( array, tab_url ) {
 	if (Object.prototype.toString.call( array ) !== '[object Array]') {
 		console.error('tabUrlContains expects an array as the 1st parameter, but received a ' + typeof array);
@@ -38,6 +42,7 @@ function listenForBrowserActionUpdates() {
 	chrome.declarativeWebRequest.onMessage.addListener(function (details) {
 		var domain_info = JSON.parse(details.message);
 		var requestId = details.requestId;
+		console.log(domain_info);
 		if (domain_info.type === 'update_badge'
 			&& requestId !== old_request) {
 			old_request = requestId;
@@ -314,10 +319,11 @@ var registerRules = function( data ) {
 	var check_for_redirects = [];
 	var entries = data.entries;
 	var rule;
+	var message = {};
 	for ( var i = 0; i < entries.length; i++) {
 		// If period is in use, alert event_page to update badge
 		if (entries[i].periodBeingUsed) {
-			var message = {
+			message = {
 				'type' : 'update_badge',
 				'domain' : entries[i].domain,
 				'periodEnd' : entries[i].periodEnd
@@ -338,7 +344,13 @@ var registerRules = function( data ) {
 				]
 			};
 		}
+		// If period is not being used, redirect
 		else {
+			message = {
+				'type' : 'disable_badge',
+				'domain' : entries[i].domain
+			};
+			message = JSON.stringify(message);
 			rule = {
 				conditions: [
 					new RequestMatcher({
@@ -351,7 +363,10 @@ var registerRules = function( data ) {
 					new RedirectByRegEx({
 						from: '(.*)',
 						to: ([config.redirectUrl] + '?' + 'domain=' + entries[i].domain + '&original=' + '$1')
-					})
+					}),
+
+					new SendMessageToExtension({message : message})
+
 				]
 			};
 		}
