@@ -7,6 +7,61 @@ var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension
 // Messages are sent to extension every time user navigates to a url in the db.
 // We only need a listener that resets the badge if user navigates away from the current url on one tab.
 
+// If update badge ->
+
+function listenForBrowserActionUpdates() {
+	var old_request;
+
+	chrome.declarativeWebRequest.onMessage.addListener(function (details) {
+		var domain_info = JSON.parse(details.message);
+		var requestId = details.requestId;
+		if (domain_info.type === 'update_badge'
+			&& requestId !== old_request) {
+			old_request = requestId;
+			manageBrowserActionForPeriod( domain_info.domain , details.tabId );
+
+		}
+	});
+}
+
+function manageBrowserActionForPeriod( domain , tab ) {
+
+	// Set popup for badge
+	// Make sure the rule is still true (case where user removes domain from options page during a session)
+	getAllLocalInfo(function(localData) {
+		var domain_exists_in_local = localDomainInfo( domain, localData, 'object' );
+		if (domain_exists_in_local) {
+			setBrowserActionToPeriod(tab);
+		}
+		else {
+			resetBrowserAction(tabid);
+		}
+	});
+
+	// If it's the current tab && url is updated to something other than current domain ->
+	chrome.tabs.onUpdated.addListener(function resetPopup(tabId, changeInfo, tab) {
+		if (changeInfo.status === "complete" && !tabUrlContains([domain], tab.url)) {
+			resetBrowserAction( tabId );
+			// Remove this listener
+			chrome.tabs.onUpdated.removeListener(resetPopup);
+		}
+	});
+
+	// If entry is removed on options page, reset the browser action and popup
+	// chrome.runtime.onMessage.addListener(function entryRemoved ( request, sender, sendReponse ) {
+	// 	if (request.type === "entry_removed" && request.domain === domain ) {
+	// 		resetBrowserAction( period_tab );
+	// 		alert('period is over for', domain)
+	// 		// Clear the old listener that updates the popup
+	// 		chrome.tabs.onUpdated.removeListener(setPopup);
+	// 		// Clear this listener.
+	// 		chrome.runtime.onMessage.removeListener(entryRemoved);
+	// 	}
+	// });
+}
+
+// If disable_badge
+
 function tabUrlContains( array, tab_url ) {
 	if (Object.prototype.toString.call( array ) !== '[object Array]') {
 		console.error('tabUrlContains expects an array as the 1st parameter, but received a ' + typeof array);
@@ -36,70 +91,15 @@ function browserActionDisabler() {
 	});
 };
 
-function listenForBrowserActionUpdates() {
-	var old_request;
-
-	chrome.declarativeWebRequest.onMessage.addListener(function (details) {
-		var domain_info = JSON.parse(details.message);
-		var requestId = details.requestId;
-		console.log(domain_info);
-		if (domain_info.type === 'update_badge'
-			&& requestId !== old_request) {
-			old_request = requestId;
-			chrome.tabs.onUpdated.addListener(function setPopup(tabId, changeInfo, tab) {
-				if (changeInfo.status === "complete") {
-					// Check that this is not the redirect page, which can contain the url of the domain
-					if (tabUrlContains([domain_info.domain], tab.url) && !tabUrlContains(['chrome-extension://'], tab.url)) {
-
-						// Make sure the rule is still true (case where user removes domain from options page during a session)
-						getAllLocalInfo(function(localData) {
-							var domain_exists_in_local = localDomainInfo( domain_info.domain, localData, 'object' );
-							if (domain_exists_in_local) {
-
-								chrome.browserAction.setBadgeText({
-									text: 'check',
-									tabId: tabId
-								});
-								// Set browser popup
-								chrome.browserAction.setPopup({
-									tabId: details.tabId,
-									popup: '/views/popup/period-info.html'
-								});
-
-							}
-							else {
-								resetBrowserAction(tabid);
-							}
-						});
-					}
-					// If user moves to open URL
-					else {
-						resetBrowserAction( tabId );
-					}
-				}
-
-				// Start the timer
-				listenForPeriodEnd( details.tabId, domain_info.domain, domain_info.periodEnd, setPopup );
-			});
-		}
+function setBrowserActionToPeriod( tab ) {
+	chrome.browserAction.setBadgeText({
+		text: 'check',
+		tabId: tab
 	});
-}
-
-
-// This function is given the tabId for a tab that is on a periodBeingUsed domain
-function listenForPeriodEnd( tabId, domain, periodEnd, listener_to_clear ) {
-	var period_tab = tabId;
-
-	// If entry is removed on options page, reset the browser action and popup
-	chrome.runtime.onMessage.addListener(function entryRemoved ( request, sender, sendReponse ) {
-		if (request.type === "entry_removed" && request.domain === domain ) {
-			resetBrowserAction( period_tab );
-			alert('period is over for', domain)
-			// Clear the old listener that updates the popup
-			chrome.tabs.onUpdated.removeListener(setPopup);
-			// Clear this listener.
-			chrome.runtime.onMessage.removeListener(entryRemoved);
-		}
+	// Set info popup
+	chrome.browserAction.setPopup({
+		popup: '/views/popup/period-info.html',
+		tabId: tab
 	});
 }
 
