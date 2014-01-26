@@ -110,10 +110,11 @@ angular.module('checkless.factories', [])
 		var check_for_redirects = [];
 		var entries = data.entries;
 		var rule;
+		var message = {};
 		for ( var i = 0; i < entries.length; i++) {
 			// If period is in use, alert event_page to update badge
 			if (entries[i].periodBeingUsed) {
-				var message = {
+				message = {
 					'type' : 'update_badge',
 					'domain' : entries[i].domain,
 					'periodEnd' : entries[i].periodEnd
@@ -134,6 +135,7 @@ angular.module('checkless.factories', [])
 					]
 				};
 			}
+			// If period is not being used, redirect
 			else {
 				rule = {
 					conditions: [

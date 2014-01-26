@@ -3,11 +3,8 @@ var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
 
-
-// Messages are sent to extension every time user navigates to a url in the db.
-// We only need a listener that resets the badge if user navigates away from the current url on one tab.
-
-// If update badge ->
+/* 	Browser action functions
+	------------------------------------------------------- */
 
 function listenForBrowserActionUpdates() {
 	var old_request;
@@ -18,6 +15,7 @@ function listenForBrowserActionUpdates() {
 		if (domain_info.type === 'update_badge'
 			&& requestId !== old_request) {
 			old_request = requestId;
+			alert('bang');
 			manageBrowserActionForPeriod( domain_info.domain , details.tabId );
 
 		}
@@ -47,21 +45,17 @@ function manageBrowserActionForPeriod( domain , tab ) {
 		}
 	});
 
-	// If entry is removed on options page, reset the browser action and popup
-	// chrome.runtime.onMessage.addListener(function entryRemoved ( request, sender, sendReponse ) {
-	// 	if (request.type === "entry_removed" && request.domain === domain ) {
-	// 		resetBrowserAction( period_tab );
-	// 		alert('period is over for', domain)
-	// 		// Clear the old listener that updates the popup
-	// 		chrome.tabs.onUpdated.removeListener(setPopup);
-	// 		// Clear this listener.
-	// 		chrome.runtime.onMessage.removeListener(entryRemoved);
-	// 	}
-	// });
+	//If entry is removed on options page, reset the browser action and popup
+	chrome.runtime.onMessage.addListener(function entryRemoved ( request, sender, sendReponse ) {
+		if (request.type === "entry_removed" && request.domain === domain ) {
+			resetBrowserAction( tab );
+			// Clear this listener.
+			chrome.runtime.onMessage.removeListener(entryRemoved);
+		}
+	});
 }
 
-// If disable_badge
-
+// Disable browser action for specified urls
 function tabUrlContains( array, tab_url ) {
 	if (Object.prototype.toString.call( array ) !== '[object Array]') {
 		console.error('tabUrlContains expects an array as the 1st parameter, but received a ' + typeof array);
@@ -75,6 +69,7 @@ function tabUrlContains( array, tab_url ) {
 	return false;
 }
 
+// Disable browser action action for urls it should never be used for
 function browserActionDisabler() {
 	// Disable the badge in these conditions
 	var disable_urls = ['chrome-extension://', 'chrome://', 'newtab'];
@@ -115,7 +110,8 @@ function resetBrowserAction( tab ) {
 	});
 }
 
-// Alarm functions
+/* 	Alarm functions
+	------------------------------------------------------- */
 
 var listenForAlarms = function() {
 	chrome.alarms.onAlarm.addListener(function(alarm){
@@ -346,11 +342,6 @@ var registerRules = function( data ) {
 		}
 		// If period is not being used, redirect
 		else {
-			message = {
-				'type' : 'disable_badge',
-				'domain' : entries[i].domain
-			};
-			message = JSON.stringify(message);
 			rule = {
 				conditions: [
 					new RequestMatcher({
@@ -363,10 +354,7 @@ var registerRules = function( data ) {
 					new RedirectByRegEx({
 						from: '(.*)',
 						to: ([config.redirectUrl] + '?' + 'domain=' + entries[i].domain + '&original=' + '$1')
-					}),
-
-					new SendMessageToExtension({message : message})
-
+					})
 				]
 			};
 		}
