@@ -20,6 +20,11 @@
 	@include size-5;
 }
 
+.opt-field--periods, .opt-field--periods-length {
+	@extend .tutorial;
+	background-color: $gray-dd;
+}
+
 .action-save {
 	width: 100%;
 	color: $white;

@@ -271,7 +271,7 @@ button:disabled {
 }
 
 /* line 224, ../../scss/_base.scss */
-.helper, .tutorial {
+.helper, .tutorial, .opt-field--periods, .opt-field--periods-length {
   color: #aac3d0;
 }
 
@@ -284,7 +284,7 @@ button:disabled {
 }
 
 /* line 235, ../../scss/_base.scss */
-.tutorial {
+.tutorial, .opt-field--periods, .opt-field--periods-length {
   background-color: #416388;
   text-align: left;
   padding: 12px 36px;
@@ -293,7 +293,7 @@ button:disabled {
   box-shadow: 0 0 4px #3A3A3A inset;
 }
 /* line 242, ../../scss/_base.scss */
-.tutorial ul {
+.tutorial ul, .opt-field--periods ul, .opt-field--periods-length ul {
   list-style-type: circle;
 }
 
@@ -343,6 +343,11 @@ button:disabled {
 }
 
 /* line 23, ../../scss/popup-add.scss */
+.opt-field--periods, .opt-field--periods-length {
+  background-color: #416388;
+}
+
+/* line 28, ../../scss/popup-add.scss */
 .action-save {
   width: 100%;
   color: #fefefe;
@@ -351,25 +356,25 @@ button:disabled {
   font-size: 20px;
   line-height: 30px;
 }
-/* line 29, ../../scss/popup-add.scss */
+/* line 34, ../../scss/popup-add.scss */
 .action-save:hover {
   background-color: #5fff99;
 }
 
-/* line 34, ../../scss/popup-add.scss */
+/* line 39, ../../scss/popup-add.scss */
 .options-success {
   font-size: 16px;
   line-height: 24px;
 }
 
-/* line 38, ../../scss/popup-add.scss */
+/* line 43, ../../scss/popup-add.scss */
 .saved-domain {
   display: block;
   padding: 16px 0;
   color: #5fff99;
 }
 
-/* line 44, ../../scss/popup-add.scss */
+/* line 49, ../../scss/popup-add.scss */
 .help-manage {
   color: #aac3d0;
   padding-bottom: 16px;

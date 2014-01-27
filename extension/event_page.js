@@ -15,37 +15,34 @@ function listenForBrowserActionUpdates() {
 		if (domain_info.type === 'update_badge'
 			&& requestId !== old_request) {
 			old_request = requestId;
-			alert('bang');
 			manageBrowserActionForPeriod( domain_info.domain , details.tabId );
-
 		}
 	});
 }
 
 function manageBrowserActionForPeriod( domain , tab ) {
-
 	// Set popup for badge
 	// Make sure the rule is still true (case where user removes domain from options page during a session)
 	getAllLocalInfo(function(localData) {
-		var domain_exists_in_local = localDomainInfo( domain, localData, 'object' );
-		if (domain_exists_in_local) {
+		var domain_exists = localDomainInfo( domain, localData, 'object' );
+		if (domain_exists) {
 			setBrowserActionToPeriod(tab);
 		}
 		else {
-			resetBrowserAction(tabid);
+			resetBrowserAction(tab);
 		}
 	});
 
 	// If it's the current tab && url is updated to something other than current domain ->
 	chrome.tabs.onUpdated.addListener(function resetPopup(tabId, changeInfo, tab) {
-		if (changeInfo.status === "complete" && !tabUrlContains([domain], tab.url)) {
+		if (tabId === tab && changeInfo.status === "complete" && !tabUrlContains([domain], tab.url)) {
 			resetBrowserAction( tabId );
 			// Remove this listener
 			chrome.tabs.onUpdated.removeListener(resetPopup);
 		}
 	});
 
-	//If entry is removed on options page, reset the browser action and popup
+	// If entry is removed on options page, reset the browser action and popup
 	chrome.runtime.onMessage.addListener(function entryRemoved ( request, sender, sendReponse ) {
 		if (request.type === "entry_removed" && request.domain === domain ) {
 			resetBrowserAction( tab );
@@ -87,10 +84,12 @@ function browserActionDisabler() {
 };
 
 function setBrowserActionToPeriod( tab ) {
+	alert('info');
 	chrome.browserAction.setBadgeText({
-		text: 'check',
+		text: ' ',
 		tabId: tab
 	});
+
 	// Set info popup
 	chrome.browserAction.setPopup({
 		popup: '/views/popup/period-info.html',
@@ -99,6 +98,7 @@ function setBrowserActionToPeriod( tab ) {
 }
 
 function resetBrowserAction( tab ) {
+	alert('default');
 	chrome.browserAction.setBadgeText({
 		text: '',
 		tabId: tab
@@ -232,7 +232,7 @@ function setup() {
 	listenForAlarms();
 
 	// Badge managment
-	chrome.browserAction.setBadgeBackgroundColor({color: "#6c8ea0"});
+	chrome.browserAction.setBadgeBackgroundColor({color: "#5fff99"});
 	browserActionDisabler();
 	listenForBrowserActionUpdates();
 

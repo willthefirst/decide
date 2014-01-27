@@ -107,71 +107,71 @@ angular.module('checkless.factories', [])
 	// Register rules
 	var registerRules = function( data ) {
 		var rules = [];
-		var check_for_redirects = [];
-		var entries = data.entries;
-		var rule;
-		var message = {};
-		for ( var i = 0; i < entries.length; i++) {
-			// If period is in use, alert event_page to update badge
-			if (entries[i].periodBeingUsed) {
-				message = {
-					'type' : 'update_badge',
-					'domain' : entries[i].domain,
-					'periodEnd' : entries[i].periodEnd
-				};
-				message = JSON.stringify(message);
-				rule = {
-					conditions: [
-						new RequestMatcher({
-							url: {
-								hostContains: entries[i].domain
-							},
-							stages: ['onHeadersReceived'],
-							resourceType: ['main_frame']
-						})
-					],
-					actions: [
-						new SendMessageToExtension({message : message})
-					]
-				};
+			var check_for_redirects = [];
+			var entries = data.entries;
+			var rule;
+			var message = {};
+			for ( var i = 0; i < entries.length; i++) {
+				// If period is in use, alert event_page to update badge
+				if (entries[i].periodBeingUsed) {
+					message = {
+						'type' : 'update_badge',
+						'domain' : entries[i].domain,
+						'periodEnd' : entries[i].periodEnd
+					};
+					message = JSON.stringify(message);
+					rule = {
+						conditions: [
+							new RequestMatcher({
+								url: {
+									hostContains: entries[i].domain
+								},
+								stages: ['onHeadersReceived'],
+								resourceType: ['main_frame']
+							})
+						],
+						actions: [
+							new SendMessageToExtension({message : message})
+						]
+					};
+				}
+				// If period is not being used, redirect
+				else {
+					rule = {
+						conditions: [
+							new RequestMatcher({
+								url: {
+									hostContains: entries[i].domain
+								}
+							})
+						],
+						actions: [
+							new RedirectByRegEx({
+								from: '(.*)',
+								to: ([config.redirectUrl] + '?' + 'domain=' + entries[i].domain + '&original=' + '$1')
+							})
+						]
+					};
+				}
+				rules.push(rule);
 			}
-			// If period is not being used, redirect
-			else {
-				rule = {
-					conditions: [
-						new RequestMatcher({
-							url: {
-								hostContains: entries[i].domain
-							}
-						})
-					],
-					actions: [
-						new RedirectByRegEx({
-							from: '(.*)',
-							to: ([config.redirectUrl] + '?' + 'domain=' + entries[i].domain + '&original=' + '$1')
-						})
-					]
-				};
-			}
-			rules.push(rule);
-		}
 
-		// Callback after rules are accepted
-		var callback = function() {
-			if (chrome.runtime.lastError) {
-				console.log('Error adding rules: ');
-				console.dir(chrome.runtime.lastError.message);
-			}
-			// else {
-			// 	chrome.declarativeWebRequest.onRequest.getRules(null,
-			// 		function(rules) {
-			// 			console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
-			// 		}
-			// 	);
-			// }
-		};
+			// Callback after rules are accepted
+			var callback = function() {
+				if (chrome.runtime.lastError) {
+					console.log('Error adding rules: ');
+					console.dir(chrome.runtime.lastError.message);
+				}
+				// else {
+				// 	chrome.declarativeWebRequest.onRequest.getRules(null,
+				// 		function(rules) {
+				// 			console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+				// 		}
+				// 	);
+				// }
+			};
 
-		chrome.declarativeWebRequest.onRequest.addRules(rules, callback);
+			chrome.declarativeWebRequest.onRequest.addRules(rules, callback);
 
 	};
 
