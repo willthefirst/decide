@@ -1,18 +1,27 @@
 @import 'base';
 
-.domain, .period-end {
+.info-top {
+	@include clearfix;
 	margin-bottom: $vert-space;
 }
 
 .domain {
-	text-align: left;
+	float: left;
 }
 
 .period-end {
-	@include size-4;
+	@include size-5;
+	color: $text-secondary;
+	float: right;
 }
 
-.period-end-time {
+.period-left {
+	@include size-4;
+	margin-bottom: $vert-space;
+}
+
+
+.period-left-time {
 	color: $red;
 }
 

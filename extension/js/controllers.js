@@ -10,11 +10,20 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		$scope.current_domain = domain;
 
 		storage.getSingleLocalInfo( 'entries', domain, function(domain_props) {
+			var time = new Date(domain_props.periodEnd);
+
+			// Determine minutes left
+			var left_time = new Date();
+			left_time = Math.floor((time - left_time) / (1000*60));
+
+			$scope.current_period.periodMinutesLeft = left_time;
+			if (left_time !== 1) {
+				$scope.current_period.periodMinutesLeftPlural = "s";
+			}
 
 			// Determine time that period ends
-			var time = new Date(domain_props.periodEnd);
-			time = time.toLocaleTimeString().toLowerCase();
-			$scope.current_period.periodEnd = time;
+			var end_time = time.toLocaleTimeString().toLowerCase();
+			$scope.current_period.periodEnd = end_time;
 
 			// Inform how many periods are left
 			if (domain_props.periodsLeft === 1) {

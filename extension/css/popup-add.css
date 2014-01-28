@@ -126,51 +126,51 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* '' */
-/* line 38, ../../scss/_base.scss */
+/* line 39, ../../scss/_base.scss */
 .align-middle {
   text-align: middle;
 }
 
-/* line 42, ../../scss/_base.scss */
+/* line 43, ../../scss/_base.scss */
 .txt-secondary {
   color: #aac3d0;
 }
 
-/* line 46, ../../scss/_base.scss */
+/* line 47, ../../scss/_base.scss */
 .ng-hide {
   display: none !important;
 }
 
-/* line 82, ../../scss/_base.scss */
+/* line 83, ../../scss/_base.scss */
 h1, h2, h3 {
   font-weight: bold;
 }
 
-/* line 86, ../../scss/_base.scss */
+/* line 87, ../../scss/_base.scss */
 h1 {
   font-size: 34px;
   line-height: 51px;
 }
 
-/* line 91, ../../scss/_base.scss */
+/* line 92, ../../scss/_base.scss */
 h2 {
   font-size: 30px;
   line-height: 45px;
 }
 
-/* line 96, ../../scss/_base.scss */
+/* line 97, ../../scss/_base.scss */
 h3 {
   font-size: 24px;
   line-height: 36px;
 }
 
-/* line 101, ../../scss/_base.scss */
+/* line 102, ../../scss/_base.scss */
 strong {
   color: #fefefe;
   font-weight: bold;
 }
 
-/* line 108, ../../scss/_base.scss */
+/* line 109, ../../scss/_base.scss */
 body {
   background-color: #6c8ea0;
   font-family: 'Actor', sans-serif;
@@ -179,7 +179,7 @@ body {
   line-height: 30px;
 }
 
-/* line 115, ../../scss/_base.scss */
+/* line 116, ../../scss/_base.scss */
 .wrapper {
   padding-left: 12px;
   padding-right: 12px;
@@ -187,13 +187,13 @@ body {
   margin: auto;
 }
 
-/* line 122, ../../scss/_base.scss */
+/* line 123, ../../scss/_base.scss */
 input[class*='opt-field'] {
   font-size: inherit;
   text-align: center;
 }
 
-/* line 129, ../../scss/_base.scss */
+/* line 130, ../../scss/_base.scss */
 input[type=text],
 input[type=url],
 input[type=number] {
@@ -207,51 +207,51 @@ input[type=number] {
   display: inline-block;
   color: #ebff08;
 }
-/* line 140, ../../scss/_base.scss */
+/* line 141, ../../scss/_base.scss */
 input[type=text]:focus,
 input[type=url]:focus,
 input[type=number]:focus {
   outline: none;
 }
-/* line 144, ../../scss/_base.scss */
+/* line 145, ../../scss/_base.scss */
 input[type=text].ng-dirty.ng-valid,
 input[type=url].ng-dirty.ng-valid,
 input[type=number].ng-dirty.ng-valid {
   color: #5fff99;
 }
 
-/* line 149, ../../scss/_base.scss */
+/* line 150, ../../scss/_base.scss */
 a {
   text-decoration: none;
   color: #5fff99;
 }
-/* line 153, ../../scss/_base.scss */
+/* line 154, ../../scss/_base.scss */
 a:visited {
   color: #5fff99;
 }
 
 /* 	Transitions  -------------------------------------------- */
 /* 	Buttons  -------------------------------------------- */
-/* line 166, ../../scss/_base.scss */
+/* line 167, ../../scss/_base.scss */
 button {
   background-color: inherit;
   border: none;
   font-size: inherit;
   cursor: pointer;
 }
-/* line 172, ../../scss/_base.scss */
+/* line 173, ../../scss/_base.scss */
 button:disabled {
   color: #aac3d0;
 }
 
-/* line 195, ../../scss/_base.scss */
+/* line 196, ../../scss/_base.scss */
 .input-field {
   display: inline-block;
   vertical-align: top;
   position: relative;
 }
 
-/* line 203, ../../scss/_base.scss */
+/* line 204, ../../scss/_base.scss */
 .input-error {
   border-radius: 2px;
   padding: 4px;
@@ -270,12 +270,12 @@ button:disabled {
   margin-left: -90px;
 }
 
-/* line 224, ../../scss/_base.scss */
+/* line 225, ../../scss/_base.scss */
 .helper, .tutorial {
   color: #aac3d0;
 }
 
-/* line 228, ../../scss/_base.scss */
+/* line 229, ../../scss/_base.scss */
 .heron {
   position: fixed;
   bottom: -20px;
@@ -283,12 +283,12 @@ button:disabled {
   z-index: -1;
 }
 
-/* line 235, ../../scss/_base.scss */
+/* line 236, ../../scss/_base.scss */
 .inset, .tutorial, input.opt-field--periods, input.opt-field--period-length {
   box-shadow: 0 0 4px #3A3A3A inset;
 }
 
-/* line 240, ../../scss/_base.scss */
+/* line 241, ../../scss/_base.scss */
 .tutorial {
   background-color: #416388;
   text-align: left;
@@ -296,18 +296,18 @@ button:disabled {
   font-size: 16px;
   line-height: 24px;
 }
-/* line 247, ../../scss/_base.scss */
+/* line 248, ../../scss/_base.scss */
 .tutorial ul {
   list-style-type: circle;
 }
 
-/* line 252, ../../scss/_base.scss */
+/* line 253, ../../scss/_base.scss */
 .button {
   padding: 8px 16px;
   border-radius: 1px;
 }
 
-/* line 257, ../../scss/_base.scss */
+/* line 258, ../../scss/_base.scss */
 .errors {
   margin-top: 16px;
   font-size: 14px;
@@ -317,7 +317,7 @@ button:disabled {
 
 /* 	Popups
 	------------------------------------------------------- */
-/* line 267, ../../scss/_base.scss */
+/* line 268, ../../scss/_base.scss */
 .wrapper-popup {
   min-width: 280px;
   padding: 16px 16px;

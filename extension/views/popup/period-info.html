@@ -17,9 +17,14 @@
 </head>
 <body>
 	<div class="wrapper-popup" ng-controller="PopupPeriodInfo">
-		<p class='domain txt-secondary'>{{ current_domain }}</p>
-		<p class="period-end">
-			This period ends at <span class="period-end-time">{{ current_period.periodEnd }}</span>
+		<div class="info-top">
+			<p class='domain txt-secondary'>{{ current_domain }}</p>
+			<p class="period-end">
+				ends at {{ current_period.periodEnd }}
+			</p>
+		</div>
+		<p class="period-left">
+			<span class="period-left-time">{{ current_period.periodMinutesLeft }}</span> minute{{current_period.periodMinutesLeftPlural}} left
 		</p>
 		<p class="periods-left txt-secondary">
 			{{ periodsLeftMsg }}

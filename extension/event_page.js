@@ -143,21 +143,21 @@ var listenForAlarms = function() {
 				var title;
 
 				if (periodsLeft > 1) {
-					msg = "You can use it " + periodsLeft + " more times today. Time to get back to life.";
-					title = 'Ok, enough ' + alarm.name;
+					msg = "You can use it " + periodsLeft + " more times today.";
+					title = 'Done checking' + alarm.name;
 				}
 				else if (periodsLeft === 1) {
-					msg = "You can use it one last time today. After that Check Less with block it until midnight.";
-					title = 'Ok, enough ' + alarm.name;
+					msg = "You can use it one last time today.";
+					title = 'Done checking' + alarm.name;
 				}
 				else {
-					msg = "Go read a book or something.";
-					title = "No more " + alarm.name + " today.";
+					msg = "You can check " + alarm.name + " tomorrow.";
+					title = "Finished for today.";
 				}
 
 				// Notify that period is over
 				var notify_period_over = webkitNotifications.createNotification(
-				  'icon.ico', // icon url
+				 'img/heron_48.png', // icon url
 				  title,  // notification title
 				  msg  // notification body text
 				);
@@ -405,11 +405,11 @@ var registerRules = function( data ) {
 			console.dir(chrome.runtime.lastError.message);
 		}
 		// else {
-		// 	chrome.declarativeWebRequest.onRequest.getRules(null,
-		// 		function(rules) {
-		// 			console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
-		// 		}
-		// 	);
+			// chrome.declarativeWebRequest.onRequest.getRules(null,
+			// 	function(rules) {
+			// 		console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+			// 	}
+			// );
 		// }
 	};
 
