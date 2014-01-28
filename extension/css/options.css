@@ -284,28 +284,40 @@ button:disabled {
 }
 
 /* line 235, ../../scss/_base.scss */
+.inset, .tutorial {
+  box-shadow: 0 0 4px #3A3A3A inset;
+}
+
+/* line 240, ../../scss/_base.scss */
 .tutorial {
   background-color: #416388;
   text-align: left;
   padding: 12px 36px;
   font-size: 16px;
   line-height: 24px;
-  box-shadow: 0 0 4px #3A3A3A inset;
 }
-/* line 242, ../../scss/_base.scss */
+/* line 247, ../../scss/_base.scss */
 .tutorial ul {
   list-style-type: circle;
 }
 
-/* line 247, ../../scss/_base.scss */
+/* line 252, ../../scss/_base.scss */
 .button {
   padding: 8px 16px;
   border-radius: 1px;
 }
 
+/* line 257, ../../scss/_base.scss */
+.errors {
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 21px;
+  color: #ffa9a9;
+}
+
 /* 	Popups
 	------------------------------------------------------- */
-/* line 256, ../../scss/_base.scss */
+/* line 267, ../../scss/_base.scss */
 .wrapper-popup {
   min-width: 280px;
   padding: 16px 16px;
@@ -325,7 +337,7 @@ button:disabled {
 /* line 9, ../../scss/options.scss */
 .welcome {
   color: #aac3d0;
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 
 /* line 14, ../../scss/options.scss */

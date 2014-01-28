@@ -98,80 +98,111 @@ angular.module('checkless.factories', [])
 		}
 	};
 }).factory('redirectRules', function ( storage ) {
-
 	// Utility variables
 	var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
 	var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
 	var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
+	var IgnoreRules = chrome.declarativeWebRequest.IgnoreRules;
 
 	// Register rules
 	var registerRules = function( data ) {
+
 		var rules = [];
-			var check_for_redirects = [];
-			var entries = data.entries;
-			var rule;
-			var message = {};
-			for ( var i = 0; i < entries.length; i++) {
-				// If period is in use, alert event_page to update badge
-				if (entries[i].periodBeingUsed) {
-					message = {
-						'type' : 'update_badge',
-						'domain' : entries[i].domain,
-						'periodEnd' : entries[i].periodEnd
-					};
-					message = JSON.stringify(message);
-					rule = {
-						conditions: [
-							new RequestMatcher({
-								url: {
-									hostContains: entries[i].domain
-								},
-								stages: ['onHeadersReceived'],
-								resourceType: ['main_frame']
-							})
-						],
-						actions: [
-							new SendMessageToExtension({message : message})
-						]
-					};
-				}
-				// If period is not being used, redirect
-				else {
-					rule = {
-						conditions: [
-							new RequestMatcher({
-								url: {
-									hostContains: entries[i].domain
-								}
-							})
-						],
-						actions: [
-							new RedirectByRegEx({
-								from: '(.*)',
-								to: ([config.redirectUrl] + '?' + 'domain=' + entries[i].domain + '&original=' + '$1')
-							})
-						]
-					};
-				}
-				rules.push(rule);
+		var check_for_redirects = [];
+		var entries = data.entries;
+		var rule;
+		var message = {};
+		for ( var i = 0; i < entries.length; i++) {
+			// If period is in use, alert event_page to update badge
+			if (entries[i].periodBeingUsed) {
+				message = {
+					'type' : 'update_badge',
+					'domain' : entries[i].domain,
+					'periodEnd' : entries[i].periodEnd
+				};
+				message = JSON.stringify(message);
+				rule = {
+					priority: 500,
+					conditions: [
+						new RequestMatcher({
+							url: {
+								hostContains: entries[i].domain
+							},
+							stages: ['onHeadersReceived'],
+							resourceType: ['main_frame']
+						})
+					],
+					actions: [
+						new IgnoreRules({
+							lowerPriorityThan: 500
+						}),
+						new SendMessageToExtension({message : message})
+					]
+				};
 			}
+			// If period is not being used, redirect
+			else {
+				rule = {
+					priority: 500,
+					conditions: [
+						new RequestMatcher({
+							url: {
+								hostContains: entries[i].domain
+							}
+						})
+					],
+					actions: [
+						new IgnoreRules({
+							lowerPriorityThan: 500
+						}),
+						new RedirectByRegEx({
+							from: '(.*)',
+							to: ([config.redirectUrl] + '?' + 'domain=' + entries[i].domain + '&original=' + '$1')
+						})
+					]
+				};
+			}
+			rules.push(rule);
+		}
 
-			// Callback after rules are accepted
-			var callback = function() {
-				if (chrome.runtime.lastError) {
-					console.log('Error adding rules: ');
-					console.dir(chrome.runtime.lastError.message);
-				}
-				// else {
-				// 	chrome.declarativeWebRequest.onRequest.getRules(null,
-				// 		function(rules) {
-				// 			console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
-				// 		}
-				// 	);
-				// }
-			};
+		var default_message = {
+			type : 'reset_badge'
+		};
+		default_message = JSON.stringify(default_message);
+		var all_urls_rule = {
+			priority: 100,
+			conditions: [
+				new RequestMatcher({
+					url: {
+						schemes: ['http','https']
+					},
+					stages: ['onHeadersReceived'],
+					resourceType: ['main_frame']
+				})
+			],
+			actions: [
+				new SendMessageToExtension({message : default_message})
+			]
+		};
 
-			chrome.declarativeWebRequest.onRequest.addRules(rules, callback);
+		rules.push(all_urls_rule);
+
+		// Callback after rules are accepted
+		var callback = function() {
+			if (chrome.runtime.lastError) {
+				console.log('Error adding rules: ');
+				console.dir(chrome.runtime.lastError.message);
+			}
+			// else {
+			// 	chrome.declarativeWebRequest.onRequest.getRules(null,
+			// 		function(rules) {
+			// 			console.info('Now the following rules are registered: ' + JSON.stringify(rules, null, 2));
+			// 		}
+			// 	);
+			// }
+		};
+
+		chrome.declarativeWebRequest.onRequest.addRules(rules, callback);
 
 	};
 

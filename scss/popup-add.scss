@@ -20,9 +20,13 @@
 	@include size-5;
 }
 
-.opt-field--periods, .opt-field--periods-length {
-	@extend .tutorial;
+input.opt-field--periods, input.opt-field--period-length {
 	background-color: $gray-dd;
+	@extend .inset;
+	padding-top: 2px;
+	padding-bottom: 4px;
+	margin-right: 8px;
+	border-radius: 2px;
 }
 
 .action-save {

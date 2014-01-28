@@ -45,6 +45,16 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		// Update scope entries before updating all local Info
 		storage.getAllLocalInfo().then(function(data){
 			var entries = data.entries || [];
+			console.log(entry.domain);
+
+			// In the unlikely case that user tries to enter something twice, return.
+			for (var i = 0; i < entries.length; i++) {
+				if (entries[i].domain === entry.domain ) {
+					$scope.errors = entry.domain + " has already been saved. To manage it, go to chrome://extension > Check Less > Options";
+					return false;
+				}
+			}
+
 			entry = build.newEntry(entry);
 			entries.push(entry);
 			storage.updateAllLocalInfo('entries', entries, function() {

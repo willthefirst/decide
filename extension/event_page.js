@@ -1,8 +1,3 @@
-// Utility variables
-var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
-var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
-var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
-
 /* 	Browser action functions
 	------------------------------------------------------- */
 
@@ -17,6 +12,9 @@ function listenForBrowserActionUpdates() {
 			old_request = requestId;
 			manageBrowserActionForPeriod( domain_info.domain , details.tabId );
 		}
+		else if (domain_info.type === 'reset_badge') {
+			resetBrowserAction( details.tabId );
+		}
 	});
 }
 
@@ -30,15 +28,6 @@ function manageBrowserActionForPeriod( domain , tab ) {
 		}
 		else {
 			resetBrowserAction(tab);
-		}
-	});
-
-	// If it's the current tab && url is updated to something other than current domain ->
-	chrome.tabs.onUpdated.addListener(function resetPopup(tabId, changeInfo, tab) {
-		if (tabId === tab && changeInfo.status === "complete" && !tabUrlContains([domain], tab.url)) {
-			resetBrowserAction( tabId );
-			// Remove this listener
-			chrome.tabs.onUpdated.removeListener(resetPopup);
 		}
 	});
 
@@ -84,21 +73,29 @@ function browserActionDisabler() {
 };
 
 function setBrowserActionToPeriod( tab ) {
-	alert('info');
-	chrome.browserAction.setBadgeText({
-		text: ' ',
-		tabId: tab
-	});
 
-	// Set info popup
-	chrome.browserAction.setPopup({
-		popup: '/views/popup/period-info.html',
-		tabId: tab
-	});
+	// Add this listener to avoid weird bug of popup getting set then unset (only occurs sometimes)
+	chrome.tabs.onUpdated.addListener(function setPeriod( tabId, changeInfo, tabObject ) {
+
+		if ( tabId === tab ) {
+			chrome.browserAction.setBadgeText({
+				text: ' ',
+				tabId: tab
+			});
+
+			// Set info popup
+			chrome.browserAction.setPopup({
+				popup: '/views/popup/period-info.html',
+				tabId: tab
+			});
+		}
+
+		chrome.tabs.onUpdated.removeListener(setPeriod);
+
+	})
 }
 
 function resetBrowserAction( tab ) {
-	alert('default');
 	chrome.browserAction.setBadgeText({
 		text: '',
 		tabId: tab
@@ -108,6 +105,7 @@ function resetBrowserAction( tab ) {
 		popup: '/views/popup/add.html',
 		tabId: tab
 	});
+
 }
 
 /* 	Alarm functions
@@ -243,10 +241,10 @@ function setup() {
 // This is triggered when the extension is installed or updated.
 chrome.runtime.onInstalled.addListener(setup);
 
-// DUPLICATES FROM FACTORIES.JS
+/* 	########### DUPLICATES FROM FACTORIES.JS ###########
+	------------------------------------------------------- */
 
 // Gets object or index for specified domain (domain) from all entries (localData)
-// NEXT: something must be buggy here, affecting both the callback and the wierdness in updateDomainInfo
 function localDomainInfo( domain, localData, returnType ) {
 	if (!localData.entries) {
 		return;
@@ -309,8 +307,17 @@ function updateDomainInfo( redirectedDomain, propsToUpdate, callback ) {
 	});
 };
 
-// Register rules
+/* 	Redirect Rules
+	------------------------------------------------------- */
+
+// Utility variables
+var RequestMatcher = chrome.declarativeWebRequest.RequestMatcher;
+var RedirectByRegEx = chrome.declarativeWebRequest.RedirectByRegEx;
+var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
+var IgnoreRules = chrome.declarativeWebRequest.IgnoreRules;
+
 var registerRules = function( data ) {
+
 	var rules = [];
 	var check_for_redirects = [];
 	var entries = data.entries;
@@ -326,6 +333,7 @@ var registerRules = function( data ) {
 			};
 			message = JSON.stringify(message);
 			rule = {
+				priority: 500,
 				conditions: [
 					new RequestMatcher({
 						url: {
@@ -336,6 +344,9 @@ var registerRules = function( data ) {
 					})
 				],
 				actions: [
+					new IgnoreRules({
+						lowerPriorityThan: 500
+					}),
 					new SendMessageToExtension({message : message})
 				]
 			};
@@ -343,6 +354,7 @@ var registerRules = function( data ) {
 		// If period is not being used, redirect
 		else {
 			rule = {
+				priority: 500,
 				conditions: [
 					new RequestMatcher({
 						url: {
@@ -351,6 +363,9 @@ var registerRules = function( data ) {
 					})
 				],
 				actions: [
+					new IgnoreRules({
+						lowerPriorityThan: 500
+					}),
 					new RedirectByRegEx({
 						from: '(.*)',
 						to: ([config.redirectUrl] + '?' + 'domain=' + entries[i].domain + '&original=' + '$1')
@@ -360,6 +375,28 @@ var registerRules = function( data ) {
 		}
 		rules.push(rule);
 	}
+
+	var default_message = {
+		type : 'reset_badge'
+	};
+	default_message = JSON.stringify(default_message);
+	var all_urls_rule = {
+		priority: 100,
+		conditions: [
+			new RequestMatcher({
+				url: {
+					schemes: ['http','https']
+				},
+				stages: ['onHeadersReceived'],
+				resourceType: ['main_frame']
+			})
+		],
+		actions: [
+			new SendMessageToExtension({message : default_message})
+		]
+	};
+
+	rules.push(all_urls_rule);
 
 	// Callback after rules are accepted
 	var callback = function() {

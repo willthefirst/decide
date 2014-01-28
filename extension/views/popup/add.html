@@ -20,7 +20,7 @@
 		<form name="saveNew" class="options-add" ng-hide="added">
 			<p class="new-question" >How many times would like to check <span class="new-domain">{{ newEntry.domain }}</span> each day?</p>
 			<div class="period-info">
-				<input type="number" ng-model="newEntry.periods" class="opt-field--periods" min="0" max="99" value="2" required autofocus/>x
+				<input type="number" ng-model="newEntry.periods" class="opt-field--periods" min="0" max="15" value="2" required/>x
 				<input type="number" ng-model="newEntry.periodLength" class="opt-field--period-length" min="1" max="60" value="30" /><span class="opt-field--min">min per day</span>
 			</div>
 			<button class="action-save button" title="Add to Check Less" ng-disabled="!saveNew.$valid" ng-click="saveNewEntry(newEntry)">
@@ -33,6 +33,7 @@
 			<p class="help-manage">To manage your blocked sites, go to chrome://extensions > Check Less > Options
 			</p>
 		</div>
+		<p class="errors">{{ errors }}</p>
 	</div>
 </body>
 </html>
