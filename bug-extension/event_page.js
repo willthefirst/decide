@@ -57,19 +57,23 @@ function tabUrlContains( array, tab_url ) {
 	return false;
 }
 
-// Register listeners at top-level scope for event pages.
-chrome.webNavigation.onCompleted.addListener(disableUrls);
-
-function disableUrls(details) {
+// Disable browser action action for urls it should never be used for
+function browserActionDisabler() {
+	// Disable the badge in these conditions
 	var disable_urls = ['chrome-extension://', 'chrome://', 'newtab'];
 
-	if (tabUrlContains(disable_urls, details.url)) {
-		chrome.browserAction.disable( details.tabId );
-	}
-	else {
-		chrome.browserAction.enable( details.tabId );
-	}
-}
+	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+		if (changeInfo.status === "complete") {
+			if (tabUrlContains(disable_urls, tab.url)) {
+				chrome.browserAction.disable( tabId );
+				alert('disable');
+			}
+			else {
+				chrome.browserAction.enable( tabId );
+			}
+		}
+	});
+};
 
 function setBrowserActionToPeriod( tab ) {
 

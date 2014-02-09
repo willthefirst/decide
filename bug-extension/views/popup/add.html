@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" ng-csp ng-app="checkless">
+<head>
+	<meta charset="UTF-8">
+	<title>Add a site to Check Less</title>
+	<link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
+	<!-- Production (development) -->
+	<script src="../../js/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script src="../../js/shared.js"></script>
+	<script src="../../js/factories.js"></script>
+	<script src="../../js/controllers.js"></script>
+	<script src="../../js/directives.js"></script>
+	<!-- Production (minified) -->
+	<!-- <script src="../js/build/prod-common.min.js"></script>-->
+	<link href="../../css/popup-add.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="wrapper-popup" ng-controller="PopupAdd">
+		<form name="saveNew" class="options-add" ng-hide="added">
+			<p class="new-question" >How many times would like to check <span class="new-domain">{{ newEntry.domain }}</span> each day?</p>
+			<div class="period-info">
+				<input type="number" ng-model="newEntry.periods" class="opt-field--periods" min="0" max="15" value="2" required/>x
+				<input type="number" ng-model="newEntry.periodLength" class="opt-field--period-length" min="1" max="60" value="30" /><span class="opt-field--min">min per day</span>
+			</div>
+			<button class="action-save button" title="Add to Check Less" ng-disabled="!saveNew.$valid" ng-click="saveNewEntry(newEntry)">
+				<i class="icon-save"></i>
+				Add to Check Less
+			</button>
+		</form>
+		<div class="options-success" ng-show="added">
+			<p class="saved-domain">{{newEntry.domain}} added.</p>
+			<p class="help-manage">To manage your blocked sites, go to chrome://extensions > Check Less > Options
+			</p>
+		</div>
+		<p class="errors">{{ errors }}</p>
+	</div>
+</body>
+</html>
