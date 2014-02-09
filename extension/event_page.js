@@ -1,24 +1,21 @@
 /* 	Browser action functions
 	------------------------------------------------------- */
 
-function listenForBrowserActionUpdates() {
+function listenForBrowserActionUpdates(details) {
 	var old_request;
-
-	chrome.declarativeWebRequest.onMessage.addListener(function (details) {
-		alert('it');
-		var domain_info = JSON.parse(details.message);
-		alert(domain_info.type);
-		var requestId = details.requestId;
-		if (domain_info.type === 'update_badge'
-			&& requestId !== old_request) {
-			old_request = requestId;
-			manageBrowserActionForPeriod( domain_info.domain , details.tabId );
-		}
-		else if (domain_info.type === 'reset_badge') {
-			resetBrowserAction( details.tabId );
-		}
-	});
+	var domain_info = JSON.parse(details.message);
+	var requestId = details.requestId;
+	if (domain_info.type === 'update_badge'
+		&& requestId !== old_request) {
+		old_request = requestId;
+		manageBrowserActionForPeriod( domain_info.domain , details.tabId );
+	}
+	else if (domain_info.type === 'reset_badge') {
+		resetBrowserAction( details.tabId );
+	}
 }
+
+chrome.declarativeWebRequest.onMessage.addListener(listenForBrowserActionUpdates);
 
 function manageBrowserActionForPeriod( domain , tab ) {
 	// Set popup for badge
@@ -57,19 +54,17 @@ function tabUrlContains( array, tab_url ) {
 	return false;
 }
 
-// Register listeners at top-level scope for event pages.
-chrome.webNavigation.onCompleted.addListener(disableUrls);
-
-function disableUrls(details) {
-	var disable_urls = ['chrome-extension://', 'chrome://', 'newtab'];
-
-	if (tabUrlContains(disable_urls, details.url)) {
-		chrome.browserAction.disable( details.tabId );
-	}
-	else {
-		chrome.browserAction.enable( details.tabId );
-	}
-}
+// Disable browser action for urls that should never be blocked
+chrome.webNavigation.onDOMContentLoaded.addListener(function(details){
+	console.log(details);
+	chrome.browserAction.disable( details.tabId )
+}, {
+	url: [
+		{ urlContains: '*'},
+	 	{ urlContains: 'chrome://'},
+     	{ urlContains: 'newtab'},
+    ]
+});
 
 function setBrowserActionToPeriod( tab ) {
 
@@ -143,11 +138,11 @@ var listenForAlarms = function() {
 
 				if (periodsLeft > 1) {
 					msg = "You can use it " + periodsLeft + " more times today.";
-					title = 'Done checking' + alarm.name;
+					title = 'Done checking ' + alarm.name;
 				}
 				else if (periodsLeft === 1) {
 					msg = "You can use it one last time today.";
-					title = 'Done checking' + alarm.name;
+					title = 'Done checking ' + alarm.name;
 				}
 				else {
 					msg = "You can check " + alarm.name + " tomorrow.";
@@ -230,8 +225,6 @@ function setup() {
 
 	// Badge managment
 	chrome.browserAction.setBadgeBackgroundColor({color: "#5fff99"});
-	browserActionDisabler();
-	listenForBrowserActionUpdates();
 
 	// Display options page
 	showIntroduction();
