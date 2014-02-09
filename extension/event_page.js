@@ -56,14 +56,21 @@ function tabUrlContains( array, tab_url ) {
 
 // Disable browser action for urls that should never be blocked
 chrome.webNavigation.onDOMContentLoaded.addListener(function(details){
-	console.log(details);
 	chrome.browserAction.disable( details.tabId )
 }, {
 	url: [
-		{ urlContains: '*'},
 	 	{ urlContains: 'chrome://'},
      	{ urlContains: 'newtab'},
     ]
+});
+
+// Disable any chrome-extension:// url
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+	if (changeInfo.status === "complete") {
+		if (tabUrlContains(['chrome-extension://'], tab.url)) {
+			chrome.browserAction.disable( tabId );
+		}
+	}
 });
 
 function setBrowserActionToPeriod( tab ) {
@@ -368,6 +375,7 @@ var registerRules = function( data ) {
 		rules.push(rule);
 	}
 
+	// Reset badge to normal for any url, overrided by redirect rules.
 	var default_message = {
 		type : 'reset_badge'
 	};
