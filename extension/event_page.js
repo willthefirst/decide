@@ -112,71 +112,69 @@ function resetBrowserAction( tab ) {
 /* 	Alarm functions
 	------------------------------------------------------- */
 
-var listenForAlarms = function() {
-	chrome.alarms.onAlarm.addListener(function(alarm){
-		var name = alarm.name;
-		// If alarm is the daily refresh alarm, fill up periodsLeft for all domains
-		if(alarm.name === "daily_refresh") {
-			chrome.alarms.clearAll();
-			resetAllPeriods();
-			// reset alarm
-			setDailyRefresh();
-		}
+function listenForAlarms(alarm) {
+	var name = alarm.name;
+	// If alarm is the daily refresh alarm, fill up periodsLeft for all domains
+	if(alarm.name === "daily_refresh") {
+		chrome.alarms.clearAll();
+		resetAllPeriods();
+		// reset alarm
+		setDailyRefresh();
+	}
 
-		// Else, end period and clear the alarm
-		else {
-			// Close any open tabs matching the domain to the redirect page.
-			chrome.tabs.query({
-				url: '*://*.' + alarm.name + '/*'
-			}, function(array) {
-				if (array.length !== 0) {
-					var tabs_to_close = [];
-					for (var i = 0; i < array.length; i++) {
-						tabs_to_close.push(array[i].id);
-					}
-					chrome.tabs.remove(tabs_to_close);
+	// Else, end period and clear the alarm
+	else {
+		// Close any open tabs matching the domain to the redirect page.
+		chrome.tabs.query({
+			url: '*://*.' + alarm.name + '/*'
+		}, function(array) {
+			if (array.length !== 0) {
+				var tabs_to_close = [];
+				for (var i = 0; i < array.length; i++) {
+					tabs_to_close.push(array[i].id);
 				}
-			});
+				chrome.tabs.remove(tabs_to_close);
+			}
+		});
 
-			getAllLocalInfo(function(localData){
-				var periodsLeft = localDomainInfo( alarm.name, localData, 'object' ).periodsLeft;
-				var msg;
-				var title;
+		getAllLocalInfo(function(localData){
+			var periodsLeft = localDomainInfo( alarm.name, localData, 'object' ).periodsLeft;
+			var msg;
+			var title;
 
-				if (periodsLeft > 1) {
-					msg = "You can use it " + periodsLeft + " more times today.";
-					title = 'Done checking ' + alarm.name;
-				}
-				else if (periodsLeft === 1) {
-					msg = "You can use it one last time today.";
-					title = 'Done checking ' + alarm.name;
-				}
-				else {
-					msg = "You can check " + alarm.name + " tomorrow.";
-					title = "Finished for today.";
-				}
+			if (periodsLeft > 1) {
+				msg = "You can use it " + periodsLeft + " more times today.";
+				title = 'Done checking ' + alarm.name;
+			}
+			else if (periodsLeft === 1) {
+				msg = "You can use it one last time today.";
+				title = 'Done checking ' + alarm.name;
+			}
+			else {
+				msg = "You can check " + alarm.name + " tomorrow.";
+				title = "Finished for today.";
+			}
 
-				// Notify that period is over
-				var notify_period_over = webkitNotifications.createNotification(
-				 'img/heron_48.png', // icon url
-				  title,  // notification title
-				  msg  // notification body text
-				);
+			// Notify that period is over
+			var notify_period_over = webkitNotifications.createNotification(
+			 'img/heron_48.png', // icon url
+			  title,  // notification title
+			  msg  // notification body text
+			);
 
-				notify_period_over.show();
-			});
+			notify_period_over.show();
+		});
 
-			// Update local storage
-			updateDomainInfo(alarm.name, {
-				periodBeingUsed: false
-			}, function() {
-				refreshFromLocal();
-			});
+		// Update local storage
+		updateDomainInfo(alarm.name, {
+			periodBeingUsed: false
+		}, function() {
+			refreshFromLocal();
+		});
 
-			// Remove alarm
-			chrome.alarms.clear(alarm.name);
-		}
-	});
+		// Remove alarm
+		chrome.alarms.clear(alarm.name);
+	}
 };
 
 // Create alarm that refreshes all periodsLeft every day
@@ -228,7 +226,7 @@ function setup() {
 
 	// Set up new listeners.
 	setDailyRefresh();
-	listenForAlarms();
+	chrome.alarms.onAlarm.addListener(listenForAlarms);
 
 	// Badge managment
 	chrome.browserAction.setBadgeBackgroundColor({color: "#5fff99"});
