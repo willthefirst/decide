@@ -104,7 +104,6 @@ angular.module('checkless.factories', [])
 	var SendMessageToExtension = chrome.declarativeWebRequest.SendMessageToExtension;
 	var IgnoreRules = chrome.declarativeWebRequest.IgnoreRules;
 
-	// Register rules
 	var registerRules = function( data ) {
 
 		var rules = [];
@@ -165,6 +164,7 @@ angular.module('checkless.factories', [])
 			rules.push(rule);
 		}
 
+		// Reset badge to normal for any url, overrided by redirect rules.
 		var default_message = {
 			type : 'reset_badge'
 		};
