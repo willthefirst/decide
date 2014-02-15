@@ -14,15 +14,14 @@ function listenForBrowserActionUpdates(details) {
 		resetBrowserAction( details.tabId );
 	}
 }
-
 chrome.declarativeWebRequest.onMessage.addListener(listenForBrowserActionUpdates);
 
 function manageBrowserActionForPeriod( domain , tab ) {
 	// Set popup for badge
 	// Make sure the rule is still true (case where user removes domain from options page during a session)
 	getAllLocalInfo(function(localData) {
-		var domain_exists = localDomainInfo( domain, localData, 'object' );
-		if (domain_exists) {
+		var domain_still_exists = localDomainInfo( domain, localData, 'object' );
+		if (domain_still_exists) {
 			setBrowserActionToPeriod(tab);
 		}
 		else {
@@ -89,7 +88,6 @@ function setBrowserActionToPeriod( tab ) {
 
 	// Add this listener to avoid weird bug of popup getting set then unset (only occurs sometimes)
 	chrome.tabs.onUpdated.addListener(function setPeriod( tabId, changeInfo, tabObject ) {
-
 		if ( tabId === tab ) {
 			chrome.browserAction.setBadgeText({
 				text: ' ',
@@ -102,10 +100,8 @@ function setBrowserActionToPeriod( tab ) {
 				tabId: tab
 			});
 		}
-
 		chrome.tabs.onUpdated.removeListener(setPeriod);
-
-	})
+	});
 }
 
 function resetBrowserAction( tab ) {
