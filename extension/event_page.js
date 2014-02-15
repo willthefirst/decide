@@ -31,13 +31,17 @@ function manageBrowserActionForPeriod( domain , tab ) {
 	});
 
 	// If entry is removed on options page, reset the browser action and popup
-	chrome.runtime.onMessage.addListener(function entryRemoved ( request, sender, sendReponse ) {
+	chrome.runtime.onMessage.addListener(entryRemovedForThisTab(tab));
+}
+
+function entryRemovedForThisTab ( tab ) {
+	return function entryRemoved ( request, sender, sendReponse ) {
 		if (request.type === "entry_removed" && request.domain === domain ) {
 			resetBrowserAction( tab );
 			// Clear this listener.
 			chrome.runtime.onMessage.removeListener(entryRemoved);
 		}
-	});
+	}
 }
 
 // Disable browser action for specified urls
@@ -111,7 +115,6 @@ function resetBrowserAction( tab ) {
 
 /* 	Alarm functions
 	------------------------------------------------------- */
-
 function listenForAlarms(alarm) {
 	var name = alarm.name;
 	// If alarm is the daily refresh alarm, fill up periodsLeft for all domains
@@ -226,7 +229,6 @@ function setup() {
 
 	// Set up new listeners.
 	setDailyRefresh();
-	chrome.alarms.onAlarm.addListener(listenForAlarms);
 
 	// Badge managment
 	chrome.browserAction.setBadgeBackgroundColor({color: "#5fff99"});
@@ -237,6 +239,8 @@ function setup() {
 
 // This is triggered when the extension is installed or updated.
 chrome.runtime.onInstalled.addListener(setup);
+chrome.alarms.onAlarm.addListener(listenForAlarms);
+
 
 /* 	########### DUPLICATES FROM FACTORIES.JS ###########
 	------------------------------------------------------- */
