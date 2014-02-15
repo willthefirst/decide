@@ -29,10 +29,18 @@ function manageBrowserActionForPeriod( domain , tab ) {
 			resetBrowserAction(tab);
 		}
 	});
-
-	// If entry is removed on options page, reset the browser action and popup
-	chrome.runtime.onMessage.addListener(entryRemovedForThisTab(tab));
 }
+
+// If entry is removed on options page, reset the browser action and popup
+chrome.runtime.onMessage.addListener(function ( request, sender, sendReponse ) {
+	if (request.type === "entry_removed" ) {
+		getTabsWithDomain(request.domain, function(tabs){
+			for(var i = 0; i < tabs.length; i++) {
+				resetBrowserAction( tabs[i] );
+			}
+		});
+	}
+});
 
 function entryRemovedForThisTab ( tab ) {
 	return function entryRemoved ( request, sender, sendReponse ) {
@@ -110,7 +118,20 @@ function resetBrowserAction( tab ) {
 		popup: '/views/popup/add.html',
 		tabId: tab
 	});
+}
 
+function getTabsWithDomain( domain , callback ) {
+	chrome.tabs.query({
+		url: '*://*.' + domain + '/*'
+	}, function(array) {
+		if (array.length !== 0) {
+			var tabs_to_close = [];
+			for (var i = 0; i < array.length; i++) {
+				tabs_to_close.push(array[i].id);
+			}
+		}
+		callback(tabs_to_close);
+	});
 }
 
 /* 	Alarm functions
@@ -128,17 +149,9 @@ function listenForAlarms(alarm) {
 	// Else, end period and clear the alarm
 	else {
 		// Close any open tabs matching the domain to the redirect page.
-		chrome.tabs.query({
-			url: '*://*.' + alarm.name + '/*'
-		}, function(array) {
-			if (array.length !== 0) {
-				var tabs_to_close = [];
-				for (var i = 0; i < array.length; i++) {
-					tabs_to_close.push(array[i].id);
-				}
-				chrome.tabs.remove(tabs_to_close);
-			}
-		});
+		getTabsWithDomain(alarm.name, function(tabs){
+			chrome.tabs.remove(tabs);
+		})
 
 		getAllLocalInfo(function(localData){
 			var periodsLeft = localDomainInfo( alarm.name, localData, 'object' ).periodsLeft;
