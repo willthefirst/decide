@@ -1,6 +1,23 @@
-/* 	Browser action functions
+/* 	Add all listeners here, they should be in top scope for event pages.
 	------------------------------------------------------- */
 
+// Browser action listeners
+chrome.declarativeWebRequest.onMessage.addListener(listenForBrowserActionUpdates);
+chrome.runtime.onMessage.addListener(resetTabWhenEntryIsRemoved);
+chrome.webNavigation.onDOMContentLoaded.addListener(disableURLS);
+chrome.tabs.onUpdated.addListener( disableChromeExtensionURL );
+
+// Alarm listeners
+chrome.alarms.onAlarm.addListener(listenForAlarms);
+
+// This is triggered when the extension is installed or updated.
+chrome.runtime.onInstalled.addListener(setup);
+
+
+/* 	Browser action methods
+	------------------------------------------------------- */
+
+// Listens for messages to extension
 function listenForBrowserActionUpdates(details) {
 	var old_request;
 	var domain_info = JSON.parse(details.message);
@@ -14,24 +31,9 @@ function listenForBrowserActionUpdates(details) {
 		resetBrowserAction( details.tabId );
 	}
 }
-chrome.declarativeWebRequest.onMessage.addListener(listenForBrowserActionUpdates);
-
-function manageBrowserActionForPeriod( domain , tab ) {
-	// Set popup for badge
-	// Make sure the rule is still true (case where user removes domain from options page during a session)
-	getAllLocalInfo(function(localData) {
-		var domain_still_exists = localDomainInfo( domain, localData, 'object' );
-		if (domain_still_exists) {
-			setBrowserActionToPeriod(tab);
-		}
-		else {
-			resetBrowserAction(tab);
-		}
-	});
-}
 
 // If entry is removed on options page, reset the browser action and popup
-chrome.runtime.onMessage.addListener(function ( request, sender, sendReponse ) {
+function resetTabWhenEntryIsRemoved( request, sender, sendReponse ) {
 	if (request.type === "entry_removed" ) {
 		getTabsWithDomain(request.domain, function(tabs){
 			for(var i = 0; i < tabs.length; i++) {
@@ -39,53 +41,38 @@ chrome.runtime.onMessage.addListener(function ( request, sender, sendReponse ) {
 			}
 		});
 	}
-});
-
-function entryRemovedForThisTab ( tab ) {
-	return function entryRemoved ( request, sender, sendReponse ) {
-		if (request.type === "entry_removed" && request.domain === domain ) {
-			resetBrowserAction( tab );
-			// Clear this listener.
-			chrome.runtime.onMessage.removeListener(entryRemoved);
-		}
-	}
-}
-
-// Disable browser action for specified urls
-function tabUrlContains( array, tab_url ) {
-	if (Object.prototype.toString.call( array ) !== '[object Array]') {
-		console.error('tabUrlContains expects an array as the 1st parameter, but received a ' + typeof array);
-		return false;
-	}
-	for (var i = 0; i < array.length; i++) {
-		if(tab_url.indexOf(array[i]) !== -1) {
-			return array[i];
-		}
-	}
-	return false;
 }
 
 // Disable browser action for urls that should never be blocked
-chrome.webNavigation.onDOMContentLoaded.addListener(function(details){
-	chrome.browserAction.disable( details.tabId )
-}, {
+function disableURLS() {
+	return (function(details) {
+		chrome.browserAction.disable( details.tabId )
+	}, {
 	url: [
 	 	{ urlContains: 'chrome://'},
      	{ urlContains: 'newtab'},
-    ]
-});
+    ]});
+}
 
-// Disable any chrome-extension:// url
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+// Disable any chrome-extension:// url (necessary since disableURL won't work for this (by Chrome's design))
+function disableChromeExtensionURL (tabId, changeInfo, tab){
 	if (changeInfo.status === "complete") {
 		if (tabUrlContains(['chrome-extension://'], tab.url)) {
 			chrome.browserAction.disable( tabId );
 		}
 	}
-});
+}
+
+// Checks if rule is still true (case where user removes domain from options page during a session)
+function manageBrowserActionForPeriod( domain , tab ) {
+	getAllLocalInfo(function(localData) {
+		var domain_still_exists = localDomainInfo( domain, localData, 'object' );
+		if (domain_still_exists) { setBrowserActionToPeriod(tab); }
+		else { resetBrowserAction(tab); }
+	});
+}
 
 function setBrowserActionToPeriod( tab ) {
-
 	// Add this listener to avoid weird bug of popup getting set then unset (only occurs sometimes)
 	chrome.tabs.onUpdated.addListener(function setPeriod( tabId, changeInfo, tabObject ) {
 		if ( tabId === tab ) {
@@ -116,22 +103,9 @@ function resetBrowserAction( tab ) {
 	});
 }
 
-function getTabsWithDomain( domain , callback ) {
-	chrome.tabs.query({
-		url: '*://*.' + domain + '/*'
-	}, function(array) {
-		if (array.length !== 0) {
-			var tabs_to_close = [];
-			for (var i = 0; i < array.length; i++) {
-				tabs_to_close.push(array[i].id);
-			}
-		}
-		callback(tabs_to_close);
-	});
-}
-
 /* 	Alarm functions
 	------------------------------------------------------- */
+
 function listenForAlarms(alarm) {
 	var name = alarm.name;
 	// If alarm is the daily refresh alarm, fill up periodsLeft for all domains
@@ -202,7 +176,22 @@ function setDailyRefresh() {
 	});
 };
 
-// Initialize functions
+// Things to do on installation
+function setup() {
+
+	// Clear old alarms and period counters
+	chrome.alarms.clearAll();
+	resetAllPeriods();
+
+	// Set up new listeners.
+	setDailyRefresh();
+
+	// Badge managment
+	chrome.browserAction.setBadgeBackgroundColor({color: "#5fff99"});
+
+	// Display options page
+	showIntroduction();
+};
 
 var resetAllPeriods = function() {
 	getAllLocalInfo(function(data) {
@@ -227,29 +216,6 @@ var resetAllPeriods = function() {
 function showIntroduction() {
 	chrome.tabs.create({url: chrome.extension.getURL('views/options.html')})
 }
-
-// Because registered rules are persisted beyond browser restarts, we remove
-// previously registered rules before registering new ones.
-function setup() {
-
-	// Clear old alarms and period counters
-	chrome.alarms.clearAll();
-	resetAllPeriods();
-
-	// Set up new listeners.
-	setDailyRefresh();
-
-	// Badge managment
-	chrome.browserAction.setBadgeBackgroundColor({color: "#5fff99"});
-
-	// Display options page
-	showIntroduction();
-};
-
-// This is triggered when the extension is installed or updated.
-chrome.runtime.onInstalled.addListener(setup);
-chrome.alarms.onAlarm.addListener(listenForAlarms);
-
 
 /* 	########### DUPLICATES FROM FACTORIES.JS ###########
 	------------------------------------------------------- */
@@ -451,6 +417,9 @@ function refreshFromLocal() {
 	);
 };
 
+/* 	Utility
+	------------------------------------------------------- */
+
 function cleanDomainString( string ) {
 	if (!string) {
 		return;
@@ -490,4 +459,32 @@ function cleanDomainString( string ) {
 	};
 
 	return parseUri(string);
+}
+
+// Disable browser action for specified urls
+function tabUrlContains( array, tab_url ) {
+	if (Object.prototype.toString.call( array ) !== '[object Array]') {
+		console.error('tabUrlContains expects an array as the 1st parameter, but received a ' + typeof array);
+		return false;
+	}
+	for (var i = 0; i < array.length; i++) {
+		if(tab_url.indexOf(array[i]) !== -1) {
+			return array[i];
+		}
+	}
+	return false;
+}
+
+function getTabsWithDomain( domain , callback ) {
+	chrome.tabs.query({
+		url: '*://*.' + domain + '/*'
+	}, function(array) {
+		if (array.length !== 0) {
+			var tabs_to_close = [];
+			for (var i = 0; i < array.length; i++) {
+				tabs_to_close.push(array[i].id);
+			}
+		}
+		callback(tabs_to_close);
+	});
 }

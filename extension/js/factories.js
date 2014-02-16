@@ -240,16 +240,16 @@ angular.module('checkless.factories', [])
 
 			// Debug
 
-			var five_sex = new Date();
-			five_sex = five_sex.getTime() + 5000;
-
-			chrome.alarms.create(domain, {
-				when: five_sex
-			});
+			// var short_time = new Date();
+			// short_time = short_time.getTime() + 5000;
 
 			// chrome.alarms.create(domain, {
-			// 	delayInMinutes: periodLength
+			// 	when: short_time
 			// });
+
+			chrome.alarms.create(domain, {
+				delayInMinutes: periodLength
+			});
 
 			chrome.alarms.get(domain, function(alarm){
 				if (!alarm) {
