@@ -4,7 +4,7 @@
 // Browser action listeners
 chrome.declarativeWebRequest.onMessage.addListener(listenForBrowserActionUpdates);
 chrome.runtime.onMessage.addListener(resetTabWhenEntryIsRemoved);
-chrome.webNavigation.onDOMContentLoaded.addListener(disableURLS);
+chrome.webNavigation.onDOMContentLoaded.addListener(disableBrowserAction, disableFilter());
 chrome.tabs.onUpdated.addListener( disableChromeExtensionURL );
 
 // Alarm listeners
@@ -43,15 +43,17 @@ function resetTabWhenEntryIsRemoved( request, sender, sendReponse ) {
 	}
 }
 
-// Disable browser action for urls that should never be blocked
-function disableURLS() {
-	return (function(details) {
-		chrome.browserAction.disable( details.tabId )
-	}, {
-	url: [
-	 	{ urlContains: 'chrome://'},
-     	{ urlContains: 'newtab'},
-    ]});
+function disableBrowserAction(details) {
+	chrome.browserAction.disable( details.tabId );
+}
+
+function disableFilter() {
+	return {
+		url: [
+		 	{ urlContains: 'chrome://'},
+	     	{ urlContains: 'newtab'},
+	    ]
+	}
 }
 
 // Disable any chrome-extension:// url (necessary since disableURL won't work for this (by Chrome's design))
