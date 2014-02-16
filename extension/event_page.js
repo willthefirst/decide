@@ -6,6 +6,7 @@ chrome.declarativeWebRequest.onMessage.addListener(listenForBrowserActionUpdates
 chrome.runtime.onMessage.addListener(resetTabWhenEntryIsRemoved);
 chrome.webNavigation.onDOMContentLoaded.addListener(disableBrowserAction, disableFilter());
 chrome.tabs.onUpdated.addListener( disableChromeExtensionURL );
+chrome.browserAction.setBadgeBackgroundColor({color: "#5fff99"});
 
 // Alarm listeners
 chrome.alarms.onAlarm.addListener(listenForAlarms);
@@ -187,9 +188,6 @@ function setup() {
 
 	// Set up new listeners.
 	setDailyRefresh();
-
-	// Badge managment
-	chrome.browserAction.setBadgeBackgroundColor({color: "#5fff99"});
 
 	// Display options page
 	showIntroduction();
