@@ -479,8 +479,8 @@ function getTabsWithDomain( domain , callback ) {
 	chrome.tabs.query({
 		url: '*://*.' + domain + '/*'
 	}, function(array) {
+		var tabs_to_close = [];
 		if (array.length !== 0) {
-			var tabs_to_close = [];
 			for (var i = 0; i < array.length; i++) {
 				tabs_to_close.push(array[i].id);
 			}
