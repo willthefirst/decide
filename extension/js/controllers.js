@@ -12,8 +12,17 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		storage.getSingleLocalInfo( 'entries', domain, function(domain_props) {
 			var time = new Date(domain_props.periodEnd);
 
-			// Determine minutes left
 			var left_time = new Date();
+
+			// Fallback if Chrome alarms don't work: if past alarm time, smash the period.
+			if (time.getTime() < left_time.getTime()) {
+				chrome.runtime.sendMessage({
+					type: 'kill_period',
+					domain: domain
+				});
+			}
+
+			// Determine minutes left
 			left_time = Math.floor((time - left_time) / (1000*60));
 
 			$scope.current_period.periodMinutesLeft = left_time;

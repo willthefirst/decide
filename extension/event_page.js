@@ -42,6 +42,9 @@ function resetTabWhenEntryIsRemoved( request, sender, sendReponse ) {
 			}
 		});
 	}
+	else if (request.type === 'kill_period') {
+		killPeriod(request.domain);
+	}
 }
 
 function disableBrowserAction(details) {
@@ -122,49 +125,54 @@ function listenForAlarms(alarm) {
 	// Else, end period and clear the alarm
 	else {
 		// Close any open tabs matching the domain to the redirect page.
-		getTabsWithDomain(alarm.name, function(tabs){
-			chrome.tabs.remove(tabs);
-		})
-
-		getAllLocalInfo(function(localData){
-			var periodsLeft = localDomainInfo( alarm.name, localData, 'object' ).periodsLeft;
-			var msg;
-			var title;
-
-			if (periodsLeft > 1) {
-				msg = "You can use it " + periodsLeft + " more times today.";
-				title = 'Done checking ' + alarm.name;
-			}
-			else if (periodsLeft === 1) {
-				msg = "You can use it one last time today.";
-				title = 'Done checking ' + alarm.name;
-			}
-			else {
-				msg = "You can check " + alarm.name + " tomorrow.";
-				title = "Finished for today.";
-			}
-
-			// Notify that period is over
-			var notify_period_over = webkitNotifications.createNotification(
-			 'img/heron_48.png', // icon url
-			  title,  // notification title
-			  msg  // notification body text
-			);
-
-			notify_period_over.show();
-		});
-
-		// Update local storage
-		updateDomainInfo(alarm.name, {
-			periodBeingUsed: false
-		}, function() {
-			refreshFromLocal();
-		});
-
-		// Remove alarm
-		chrome.alarms.clear(alarm.name);
+		killPeriod(alarm.name);
 	}
 };
+
+function killPeriod(domain) {
+	alert('smash!');
+	getTabsWithDomain(domain, function(tabs){
+		chrome.tabs.remove(tabs);
+	})
+
+	getAllLocalInfo(function(localData){
+		var periodsLeft = localDomainInfo( domain, localData, 'object' ).periodsLeft;
+		var msg;
+		var title;
+
+		if (periodsLeft > 1) {
+			msg = "You can use it " + periodsLeft + " more times today.";
+			title = 'Done checking ' + domain;
+		}
+		else if (periodsLeft === 1) {
+			msg = "You can use it one last time today.";
+			title = 'Done checking ' + domain;
+		}
+		else {
+			msg = "You can check " + domain + " tomorrow.";
+			title = "Finished for today.";
+		}
+
+		// Notify that period is over
+		var notify_period_over = webkitNotifications.createNotification(
+		 'img/heron_48.png', // icon url
+		  title,  // notification title
+		  msg  // notification body text
+		);
+
+		notify_period_over.show();
+	});
+
+	// Update local storage
+	updateDomainInfo(domain, {
+		periodBeingUsed: false
+	}, function() {
+		refreshFromLocal();
+	});
+
+	// Remove alarm
+	chrome.alarms.clear(domain);
+}
 
 // Create alarm that refreshes all periodsLeft every day
 function setDailyRefresh() {
