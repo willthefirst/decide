@@ -130,7 +130,6 @@ function listenForAlarms(alarm) {
 };
 
 function killPeriod(domain) {
-	alert('smash!');
 	getTabsWithDomain(domain, function(tabs){
 		chrome.tabs.remove(tabs);
 	})
