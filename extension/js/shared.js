@@ -34,7 +34,7 @@ var debug = {
 			}
 			else {
 				var rings = new Date(alarms.scheduledTime);
-				for (var i = 0; i<alarms.length;i++) {
+				for (var i = 0; i < alarms.length;i++) {
 					rings = new Date(alarms[i].scheduledTime);
 					console.log(alarms[i].name, rings);
 				}

@@ -241,7 +241,7 @@ angular.module('checkless.factories', [])
 			// Debug
 
 			// var short_time = new Date();
-			// short_time = short_time.getTime() + 5000;
+			// short_time = short_time.getTime() + 20000;
 
 			// chrome.alarms.create(domain, {
 			// 	when: short_time

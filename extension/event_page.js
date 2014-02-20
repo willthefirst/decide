@@ -5,6 +5,7 @@
 chrome.declarativeWebRequest.onMessage.addListener(listenForBrowserActionUpdates);
 chrome.runtime.onMessage.addListener(resetTabWhenEntryIsRemoved);
 chrome.webNavigation.onDOMContentLoaded.addListener(disableBrowserAction, disableFilter());
+chrome.webNavigation.onCompleted.addListener( checkIfPeriodEnded );
 chrome.tabs.onUpdated.addListener( disableChromeExtensionURL );
 chrome.browserAction.setBadgeBackgroundColor({color: "#5fff99"});
 
@@ -55,9 +56,21 @@ function disableFilter() {
 	return {
 		url: [
 		 	{ urlContains: 'chrome://'},
-	     	{ urlContains: 'newtab'},
+	     	{ urlContains: 'newtab'}
 	    ]
 	}
+}
+
+// Fail safe when alarms don't do the job to kill periods.
+function checkIfPeriodEnded(details) {
+	var now = new Date();
+	chrome.alarms.getAll(function(alarms){
+		for(var i = 0; i < alarms.length; i++) {
+			if(alarms[i].scheduledTime < now.getTime()) {
+				killPeriod(alarms[i].name);
+			}
+		}
+	});
 }
 
 // Disable any chrome-extension:// url (necessary since disableURL won't work for this (by Chrome's design))
@@ -176,10 +189,12 @@ function killPeriod(domain) {
 // Create alarm that refreshes all periodsLeft every day
 function setDailyRefresh() {
 	var midnight = new Date();
+	// Normal
 	midnight.setHours(24,0,0,0);
+	// Debug
+	// midnight = ((midnight.getTime()) + 1000*10) ;
 
 	midnight = midnight.getTime();
-	// midnight = ((midnight.getTime()) + 1000*60) ;
 
 	chrome.alarms.create('daily_refresh', {
 		when: midnight
