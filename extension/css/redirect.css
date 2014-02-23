@@ -341,13 +341,12 @@ button:disabled {
 /* line 13, ../../scss/redirect.scss */
 .distraction-help {
   width: 80%;
-  max-width: 300px;
   margin: auto;
   text-align: center;
   margin-bottom: 16px;
 }
 
-/* line 21, ../../scss/redirect.scss */
+/* line 20, ../../scss/redirect.scss */
 .allow {
   margin: 100px auto 0;
   text-align: center;
@@ -363,7 +362,7 @@ button:disabled {
   box-shadow: 0px 0px 4px #555;
 }
 
-/* line 36, ../../scss/redirect.scss */
+/* line 35, ../../scss/redirect.scss */
 .allow-type {
   margin-bottom: 32px;
   position: relative;
@@ -372,7 +371,7 @@ button:disabled {
   -webkit-user-select: none;
 }
 
-/* line 44, ../../scss/redirect.scss */
+/* line 43, ../../scss/redirect.scss */
 .allow-sentence {
   width: 100%;
   font-size: 34px;
@@ -381,55 +380,55 @@ button:disabled {
   text-align: center;
   margin: 0 0 32px 0;
 }
-/* line 51, ../../scss/redirect.scss */
+/* line 50, ../../scss/redirect.scss */
 .allow-sentence:focus {
   outline: none;
 }
-/* line 55, ../../scss/redirect.scss */
+/* line 54, ../../scss/redirect.scss */
 .allow-sentence.ng-valid-allow-sentence {
   color: #5fff99;
 }
 
-/* line 60, ../../scss/redirect.scss */
+/* line 59, ../../scss/redirect.scss */
 .allow-button {
   color: #5fff99;
 }
-/* line 63, ../../scss/redirect.scss */
+/* line 62, ../../scss/redirect.scss */
 .allow-button:disabled {
   display: none;
 }
 
-/* line 68, ../../scss/redirect.scss */
+/* line 67, ../../scss/redirect.scss */
 .opt-field--distraction {
   width: 350px;
 }
 
-/* line 72, ../../scss/redirect.scss */
+/* line 71, ../../scss/redirect.scss */
 .done-for-day {
   font-size: 34px;
   line-height: 51px;
   margin-bottom: 32px;
 }
 
-/* line 77, ../../scss/redirect.scss */
+/* line 76, ../../scss/redirect.scss */
 .distraction-list {
   padding-bottom: 180px;
 }
-/* line 79, ../../scss/redirect.scss */
+/* line 78, ../../scss/redirect.scss */
 .distraction-list li {
   margin-bottom: 16px;
 }
 
-/* line 84, ../../scss/redirect.scss */
+/* line 83, ../../scss/redirect.scss */
 .action-save {
   color: #5fff99;
 }
 
-/* line 88, ../../scss/redirect.scss */
+/* line 87, ../../scss/redirect.scss */
 .distraction-saved {
   display: block;
 }
-/* line 91, ../../scss/redirect.scss */
+/* line 90, ../../scss/redirect.scss */
 .distraction-saved .action-delete {
   -webkit-transition: all 0.1s ease-out;
   -moz-transition: all 0.1s ease-out;
@@ -438,7 +437,7 @@ button:disabled {
   opacity: 0;
   color: #5fff99;
 }
-/* line 98, ../../scss/redirect.scss */
+/* line 97, ../../scss/redirect.scss */
 .distraction-saved:hover .action-delete {
   opacity: 1;
 }

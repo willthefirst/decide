@@ -190,11 +190,12 @@ function killPeriod(domain) {
 function setDailyRefresh() {
 	var midnight = new Date();
 	// Normal
-	midnight.setHours(24,0,0,0);
-	// Debug
-	// midnight = ((midnight.getTime()) + 1000*10) ;
+	// midnight.setHours(24,0,0,0);
+	// midnight = midnight.getTime();
 
-	midnight = midnight.getTime();
+	// Debug
+	midnight = ((midnight.getTime()) + 1000*2) ;
+
 
 	chrome.alarms.create('daily_refresh', {
 		when: midnight
