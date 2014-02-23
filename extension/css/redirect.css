@@ -369,66 +369,89 @@ button:disabled {
   cursor: default;
   user-select: none;
   -webkit-user-select: none;
+  font-style: italic;
 }
 
-/* line 43, ../../scss/redirect.scss */
-.allow-sentence {
+/* line 44, ../../scss/redirect.scss */
+.allow-sentence-matcher {
+  position: relative;
   width: 100%;
-  font-size: 34px;
-  line-height: 51px;
-  color: #fefefe;
-  text-align: center;
+  font-size: 24px;
+  line-height: 36px;
   margin: 0 0 32px 0;
 }
-/* line 50, ../../scss/redirect.scss */
-.allow-sentence:focus {
+
+/* line 54, ../../scss/redirect.scss */
+.allow-sentence-attempt {
+  color: #ebff08;
+  position: absolute;
+  left: 0;
+  top: -3px;
+}
+
+/* line 61, ../../scss/redirect.scss */
+.allow-sentence-model {
+  font-style: normal;
+  color: #aac3d0;
+  text-align: center;
+  display: inline;
+  position: relative;
+}
+
+/* line 69, ../../scss/redirect.scss */
+span.allow-sentence {
+  background-color: yellow;
+}
+
+/* line 83, ../../scss/redirect.scss */
+input.allow-sentence:focus {
   outline: none;
 }
-/* line 54, ../../scss/redirect.scss */
-.allow-sentence.ng-valid-allow-sentence {
+/* line 87, ../../scss/redirect.scss */
+input.allow-sentence.ng-valid-allow-sentence {
   color: #5fff99;
 }
 
-/* line 59, ../../scss/redirect.scss */
+/* line 92, ../../scss/redirect.scss */
 .allow-button {
   color: #5fff99;
 }
-/* line 62, ../../scss/redirect.scss */
+/* line 95, ../../scss/redirect.scss */
 .allow-button:disabled {
   display: none;
 }
 
-/* line 67, ../../scss/redirect.scss */
+/* line 100, ../../scss/redirect.scss */
 .opt-field--distraction {
   width: 350px;
 }
 
-/* line 71, ../../scss/redirect.scss */
+/* line 104, ../../scss/redirect.scss */
 .done-for-day {
   font-size: 34px;
   line-height: 51px;
   margin-bottom: 32px;
 }
 
-/* line 76, ../../scss/redirect.scss */
+/* line 109, ../../scss/redirect.scss */
 .distraction-list {
   padding-bottom: 180px;
 }
-/* line 78, ../../scss/redirect.scss */
+/* line 111, ../../scss/redirect.scss */
 .distraction-list li {
   margin-bottom: 16px;
 }
 
-/* line 83, ../../scss/redirect.scss */
+/* line 116, ../../scss/redirect.scss */
 .action-save {
   color: #5fff99;
 }
 
-/* line 87, ../../scss/redirect.scss */
+/* line 120, ../../scss/redirect.scss */
 .distraction-saved {
   display: block;
 }
-/* line 90, ../../scss/redirect.scss */
+/* line 123, ../../scss/redirect.scss */
 .distraction-saved .action-delete {
   -webkit-transition: all 0.1s ease-out;
   -moz-transition: all 0.1s ease-out;
@@ -437,7 +460,7 @@ button:disabled {
   opacity: 0;
   color: #5fff99;
 }
-/* line 97, ../../scss/redirect.scss */
+/* line 130, ../../scss/redirect.scss */
 .distraction-saved:hover .action-delete {
   opacity: 1;
 }

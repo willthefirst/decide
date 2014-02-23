@@ -29,18 +29,32 @@ angular.module('checkless.directives', ['checkless.factories'])
         restrict: 'A',
         require: 'ngModel',
         link: function (scope, element, attr, ctrl) {
+            var show_tip = false;
             ctrl.$parsers.unshift(function(value) {
-                var is_correct_sentence = (value === "I actually, truly, definitely want to use " + scope.redirectedDomain.domain + ".");
+                var last;
+                var correct_sentence = scope.correctSentence;
+                var is_correct_sentence = (value === correct_sentence);
                 ctrl.$setValidity('allow-sentence', is_correct_sentence);
 
                 // If valid, return the value to the model, and initiate usePeriod, otherwise return undefined.
                 if (is_correct_sentence) {
                     scope.usePeriod();
-                    return value;
                 }
+                // If invalid, destroy sentence if typed badly
                 else {
-                    return undefined;
+                    value = value || "";
+                    last = value.slice(-1);
+                    if (last !== correct_sentence.charAt(value.length - 1)) {
+                        value = "";
+                        element[0].value = "";
+                        if (!show_tip) {
+                            // Show tip here
+                            show_tip = true;
+                        }
+                    }
                 }
+                return value;
+
             });
         }
     };

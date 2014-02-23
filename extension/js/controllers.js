@@ -172,6 +172,7 @@ angular.module('checkless.controllers', ['checkless.factories'])
 		redirectedDomain.domain = domain_props.domain;
 		redirectedDomain.periodLength = domain_props.periodLength;
 		redirectedDomain.periodsLeft = domain_props.periodsLeft;
+		$scope.correctSentence = "I actually, truly, definitely want to use " + $scope.redirectedDomain.domain + ".";
 	});
 
 	// Distractions
