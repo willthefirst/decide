@@ -149,15 +149,14 @@ function killPeriod(domain) {
 
 	getAllLocalInfo(function(localData){
 		var periodsLeft = localDomainInfo( domain, localData, 'object' ).periodsLeft;
-		var msg;
-		var title;
+		var msg, title;
 
 		if (periodsLeft > 1) {
-			msg = "You can use it " + periodsLeft + " more times today.";
+			msg = periodsLeft + " checks left today.";
 			title = 'Done checking ' + domain;
 		}
 		else if (periodsLeft === 1) {
-			msg = "You can use it one last time today.";
+			msg = "1 check left today";
 			title = 'Done checking ' + domain;
 		}
 		else {
@@ -165,14 +164,22 @@ function killPeriod(domain) {
 			title = "Finished for today.";
 		}
 
-		// Notify that period is over
-		var notify_period_over = webkitNotifications.createNotification(
-		 'img/heron_48.png', // icon url
-		  title,  // notification title
-		  msg  // notification body text
-		);
+		var notification_id = domain + "_end"
 
-		notify_period_over.show();
+		// Notify that period is over
+		chrome.notifications.create(
+			notification_id
+			, {
+				type: "basic"
+				, iconUrl:'img/heron_48.png'
+				, title: title
+				, message: msg
+			}, function( notification ) {
+				setTimeout(function(){
+					chrome.notifications.clear(notification, function(){});
+				}, 3000);
+			}
+		);
 	});
 
 	// Update local storage
@@ -189,13 +196,13 @@ function killPeriod(domain) {
 // Create alarm that refreshes all periodsLeft every day
 function setDailyRefresh() {
 	var midnight = new Date();
-	// Normal
-	// midnight.setHours(24,0,0,0);
-	// midnight = midnight.getTime();
 
-	// Debug
-	midnight = ((midnight.getTime()) + 1000*2) ;
-
+	if (config.debug_fastDailyRefresh) {
+		midnight = ((midnight.getTime()) + 1000*10) ;
+	} else {
+		midnight.setHours(24,0,0,0);
+		midnight = midnight.getTime();
+	}
 
 	chrome.alarms.create('daily_refresh', {
 		when: midnight

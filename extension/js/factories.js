@@ -238,18 +238,19 @@ angular.module('checkless.factories', [])
 	return {
 		set: function( domain , periodLength ) {
 
-			// Debug
+			if (config.debug_fastAlarms) {
+				var short_time = new Date();
+				short_time = short_time.getTime() + 2000;
 
-			// var short_time = new Date();
-			// short_time = short_time.getTime() + 20000;
-
-			// chrome.alarms.create(domain, {
-			// 	when: short_time
-			// });
-
-			chrome.alarms.create(domain, {
-				delayInMinutes: periodLength
-			});
+				chrome.alarms.create(domain, {
+					when: short_time
+				});
+			}
+			else {
+				chrome.alarms.create(domain, {
+					delayInMinutes: periodLength
+				});
+			}
 
 			chrome.alarms.get(domain, function(alarm){
 				if (!alarm) {
