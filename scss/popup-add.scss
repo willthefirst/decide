@@ -21,8 +21,7 @@
 }
 
 input.opt-field--periods, input.opt-field--period-length {
-	background-color: $gray-dd;
-	@extend .inset;
+	@extend .input-dark;
 	padding-top: 2px;
 	padding-bottom: 4px;
 	margin-right: 8px;

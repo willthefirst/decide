@@ -18,7 +18,25 @@
 <body>
 	<div class="wrapper"  ng-controller="Allow">
 		<p ng-if="redirectedDomain.periodsLeft === 0" class="done-for-day">You're done with {{ redirectedDomain.domain }} for the day.</p>
-		<p for="saveDistraction" class="distraction-help txt-secondary" ng-show="distractions.length === 0">
+		<form ng-if="redirectedDomain.periodsLeft > 0" name="allow" class="allow">
+			<p class="allow-type" ng-hide="allow.$valid">
+				If you really mean it, type:
+			</p>
+			<div class="allow-sentence-matcher">
+				<p class="allow-sentence-model">
+					<label  for="js-allow-sentence">{{ correctSentence }}</label>
+					<span class="allow-sentence-attempt">
+						{{ allowSentence }}
+					</span>
+				</p>
+			</div>
+			<span class="allow-hint" ng-hide="allow.$valid">
+				No deleting, so type it correctly.
+			</span>
+			<input ng-model="allowSentence" type="text" class="allow-sentence" id="js-allow-sentence" name="js-allow-sentence"  ng-hide="allow.$valid" autofocus validate-allow-sentence required />
+			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid && !config.debug" title="click me if your are not redirected">redirecting...</button>
+		</form>
+		<p for="saveDistraction" class="distraction-help" ng-show="distractions.length === 0">
 			Make a list of useful distractions using the form below:
 		</p>
 		<ul class="distraction-list">
@@ -41,23 +59,6 @@
 				</form>
 			</li>
 		</ul>
-		<form ng-if="redirectedDomain.periodsLeft > 0" name="allow" class="allow">
-			<p class="helper allow-type" ng-hide="allow.$valid">
-				If you really mean it, type:
-			</p>
-			<div class="allow-sentence-matcher">
-				<p class="allow-sentence-model">
-					{{ correctSentence }}
-					<span class="allow-sentence-attempt">
-					I actually, truly, definitely want to
-
-						{{ allowSentence }}
-					</span>
-				</p>
-			</div>
-				<input ng-model="allowSentence" type="text" class="allow-sentence" id="js-allow-sentence"  ng-hide="allow.$valid" autofocus validate-allow-sentence required />
-			<button class="allow-button" ng-click="usePeriod()" ng-disabled="!allow.$valid && !config.debug" title="click me if your are not redirected">redirecting...</button>
-		</form>
 		<svg class="heron" width="157px" height="309px" viewBox="0 0 157 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 		    <title>Heron</title>
 		    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>

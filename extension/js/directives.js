@@ -29,7 +29,6 @@ angular.module('checkless.directives', ['checkless.factories'])
         restrict: 'A',
         require: 'ngModel',
         link: function (scope, element, attr, ctrl) {
-            var show_tip = false;
             ctrl.$parsers.unshift(function(value) {
                 var last;
                 var correct_sentence = scope.correctSentence;
@@ -47,10 +46,6 @@ angular.module('checkless.directives', ['checkless.factories'])
                     if (last !== correct_sentence.charAt(value.length - 1)) {
                         value = "";
                         element[0].value = "";
-                        if (!show_tip) {
-                            // Show tip here
-                            show_tip = true;
-                        }
                     }
                 }
                 return value;

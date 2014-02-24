@@ -147,6 +147,14 @@ input[type=number] {
 	}
 }
 
+.input-dark {
+	background-color: $gray-dd;
+	@extend .inset;
+	border-radius: 2px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+}
+
 a {
 	text-decoration: none;
 	color: $green;
