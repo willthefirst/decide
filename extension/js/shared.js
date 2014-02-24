@@ -1,6 +1,6 @@
 var config = {
 	debug: false,
-	debug_fastAlarms: true,
+	debug_fastAlarms: false,
 	debug_fastDailyRefresh: false,
 	redirectUrl: chrome.extension.getURL('views/redirect.html'),
 	optionsUrl: chrome.extension.getURL('views/options.html'),
