@@ -1,6 +1,6 @@
 {
   "name": "Check Less",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "manifest_version": 2,
   "description": "Makes you more efficient by reducing your impulse to check updates, messages, distracting websites, pings, pokes, and the like.",
   "icons" : {

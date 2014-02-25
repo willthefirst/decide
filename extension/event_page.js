@@ -101,8 +101,8 @@ function manageBrowserActionForPeriod( domain , tab ) {
 function setBrowserActionToPeriod( tab ) {
 	// Add this listener to avoid weird bug of popup getting set then unset (only occurs sometimes)
 	chrome.tabs.onUpdated.addListener(function setPeriod( tabId, changeInfo, tabObject ) {
-		console.log(changeInfo);
-		console.log(tabObject);
+		// console.log(changeInfo);
+		// console.log(tabObject);
 		if ( tabId === tab ) {
 			chrome.browserAction.setBadgeText({
 				text: ' ',
