@@ -2,3 +2,4 @@
 extension/js/build
 extension/.sass-cache
 .sass-cache
+.DS_Store

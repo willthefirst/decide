@@ -1,3 +1,7 @@
+var disableBrowserAction = function(details) {
+	chrome.browserAction.disable( details.tabId );
+};
+
 /* 	Add all listeners here, they should be in top scope for event pages.
 	------------------------------------------------------- */
 
@@ -21,7 +25,6 @@ chrome.runtime.onInstalled.addListener(setup);
 
 // Listens for messages to extension
 function listenForBrowserActionUpdates(details) {
-	console.dir(details);
 	var old_request;
 	var domain_info = JSON.parse(details.message);
 	var requestId = details.requestId;
@@ -47,10 +50,6 @@ function resetTabWhenEntryIsRemoved( request, sender, sendReponse ) {
 	else if (request.type === 'kill_period') {
 		killPeriod(request.domain);
 	}
-}
-
-function disableBrowserAction(details) {
-	chrome.browserAction.disable( details.tabId );
 }
 
 function disableFilter() {
@@ -102,6 +101,8 @@ function manageBrowserActionForPeriod( domain , tab ) {
 function setBrowserActionToPeriod( tab ) {
 	// Add this listener to avoid weird bug of popup getting set then unset (only occurs sometimes)
 	chrome.tabs.onUpdated.addListener(function setPeriod( tabId, changeInfo, tabObject ) {
+		console.log(changeInfo);
+		console.log(tabObject);
 		if ( tabId === tab ) {
 			chrome.browserAction.setBadgeText({
 				text: ' ',

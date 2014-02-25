@@ -1,5 +1,5 @@
 var config = {
-	debug: true,
+	debug: false,
 	debug_fastAlarms: false,
 	debug_fastDailyRefresh: false,
 	redirectUrl: chrome.extension.getURL('views/redirect.html'),
