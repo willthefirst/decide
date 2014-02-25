@@ -21,6 +21,7 @@ chrome.runtime.onInstalled.addListener(setup);
 
 // Listens for messages to extension
 function listenForBrowserActionUpdates(details) {
+	console.dir(details);
 	var old_request;
 	var domain_info = JSON.parse(details.message);
 	var requestId = details.requestId;

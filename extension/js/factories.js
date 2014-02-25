@@ -147,7 +147,8 @@ angular.module('checkless.factories', [])
 						new RequestMatcher({
 							url: {
 								hostContains: entries[i].domain
-							}
+							},
+							resourceType: ['main_frame']
 						})
 					],
 					actions: [
