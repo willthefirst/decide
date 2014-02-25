@@ -372,7 +372,8 @@ var registerRules = function( data ) {
 					new RequestMatcher({
 						url: {
 							hostContains: entries[i].domain
-						}
+						},
+						resourceType: ['main_frame']
 					})
 				],
 				actions: [
