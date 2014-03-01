@@ -67,7 +67,14 @@ function checkIfPeriodEnded(details) {
 	chrome.alarms.getAll(function(alarms){
 		for(var i = 0; i < alarms.length; i++) {
 			if(alarms[i].scheduledTime < now.getTime()) {
-				killPeriod(alarms[i].name);
+				if (alarms[i].name !=="daily_refresh" ) {
+					killPeriod(alarms[i].name);
+				} else {
+					chrome.alarms.clearAll();
+					resetAllPeriods();
+					// reset alarm
+					setDailyRefresh();
+				}
 			}
 		}
 	});
